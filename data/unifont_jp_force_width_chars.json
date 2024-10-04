@@ -1,0 +1,24 @@
+[
+    {
+        "__ranges": [
+            "Enclosed CJK Letters and Months",
+            "CJK Compatibility",
+            "CJK Unified Ideographs Extension A",
+            "Yijing Hexagram Symbols",
+            "CJK Unified Ideographs"
+        ],
+        "from": "\u3200",
+        "to": "\u9FFF",
+        "left": 0,
+        "right": 15
+    },
+    {
+        "__ranges": [
+            "CJK Compatibility Ideographs"
+        ],
+        "from": "\uF900",
+        "to": "\uFAFF",
+        "left": 0,
+        "right": 15
+    }
+]
