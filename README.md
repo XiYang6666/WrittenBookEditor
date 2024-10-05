@@ -15,8 +15,8 @@
 
 ## 截图
 
-![MainWindow]("docs/main_window.png")
-![ExportDialog]("docs/export_dialog.png")
+![MainWindow](docs/main_window.png)
+![ExportDialog](docs/export_dialog.png)
 
 ## Roadmap
 
