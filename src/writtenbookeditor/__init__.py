@@ -269,7 +269,7 @@ class App(QApplication):
         while True:
             try:
                 self.content = bytes.decode(encoding)
-            except UnicodeDecodeError as e:
+            except UnicodeDecodeError:
                 encoding_dialog = EncodingDialog(self.main_window)
                 if encoding_dialog.exec() == QDialog.DialogCode.Rejected:
                     return

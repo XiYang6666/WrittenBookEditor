@@ -29,3 +29,4 @@ line-length = 180
 
 [tool.ruff]
 line-length = 180
+exclude = ["src/writtenbookeditor/gui/ui_*.py"]

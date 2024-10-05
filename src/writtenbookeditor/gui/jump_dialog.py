@@ -1,8 +1,4 @@
-from typing import Optional
-
 from PySide6.QtWidgets import QDialog
-from PySide6.QtCore import Signal
-from PySide6.QtGui import Qt
 
 from .ui_jump_form import Ui_JumpForm
 

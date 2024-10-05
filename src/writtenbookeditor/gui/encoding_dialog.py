@@ -1,7 +1,4 @@
-from typing import Optional
-
 from PySide6.QtWidgets import QDialog
-from PySide6.QtGui import Qt, QCloseEvent
 
 from .ui_encoding_form import Ui_EncodingForm
 

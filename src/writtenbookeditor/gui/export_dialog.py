@@ -1,7 +1,7 @@
-from typing import Optional, TypedDict
+from typing import TypedDict
 
 from PySide6.QtWidgets import QDialog
-from PySide6.QtGui import Qt, QCloseEvent
+from PySide6.QtGui import QCloseEvent
 
 from .ui_export_form import Ui_ExportForm
 
