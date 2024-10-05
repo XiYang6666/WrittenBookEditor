@@ -30,14 +30,20 @@ jobs:
       - name: Build executable
         run: pdm run build
 
-      - name: Get Git information
-        id: git_info
+      - name: Get Git information (Linux/macOS)
+        if: "!startsWith(matrix.os, 'windows')"
         run: |
-          echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
-          echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
+          echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+          echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
+      - name: Get Git information (Windows)
+        if: startsWith(matrix.os, 'windows')
+        run: |
+          echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "commit_hash=$(git rev-parse --short HEAD)" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Export artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: WrittenBookEditor-${{ matrix.os }}-${{ steps.git_info.outputs.branch_name }}-${{ steps.git_info.outputs.commit_hash }}
+          name: WrittenBookEditor-${{ matrix.os }}-${{ env.branch_name }}-${{ env.commit_hash }}
           path: dist/written_book_editor/
