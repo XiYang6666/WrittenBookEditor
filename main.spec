@@ -3,9 +3,9 @@
 
 a = Analysis(
     ["main.py"],
-    pathex=[".\\src", ".\\.venv\\Lib\\site-packages"],
+    pathex=["./src", "./.venv/Lib/site-packages"],
     binaries=[],
-    datas=[(".\\data", ".\\data"), (".\\README.md", ".")],
+    datas=[("./data", "./data"), ("./README.md", ".")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
