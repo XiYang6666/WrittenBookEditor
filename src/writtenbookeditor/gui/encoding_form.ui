@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Encoding Form</string>
+   <string>设置编码格式</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>

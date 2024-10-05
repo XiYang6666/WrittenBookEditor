@@ -15,11 +15,7 @@ readme = "README.md"
 license = { text = "MIT" }
 
 [tool.pdm.scripts]
-generate_ui = { shell = """
-pyside6-uic src/writtenbookeditor/gui/mainwindow.ui -o src/writtenbookeditor/gui/ui_mainwindow.py &&\
-pyside6-uic src/writtenbookeditor/gui/jump_form.ui -o src/writtenbookeditor/gui/ui_jump_form.py &&\
-pyside6-uic src/writtenbookeditor/gui/encoding_form.ui -o src/writtenbookeditor/gui/ui_encoding_form.py\
-""" }
+generate_ui = "python scripts/generate_ui.py"
 dev = "python -m src.writtenbookeditor"
 build = "pyinstaller ./main.spec -y "
 

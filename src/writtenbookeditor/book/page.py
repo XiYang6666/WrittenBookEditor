@@ -1,5 +1,8 @@
 from typing import Optional
 from io import StringIO
+import json
+
+import nbtlib
 
 from .util import calc_char_width
 
@@ -9,11 +12,31 @@ PAGE_LINE_HEIGHT = 18
 
 
 class Page:
-    def __init__(self, lines: Optional[list] = None):
+    def __init__(
+        self,
+        lines: Optional[list] = None,
+        *,
+        unicode: bool = False,
+        jp: bool = False,
+        allow_page_split: bool = False,
+        force_no_wrap: bool = False,
+    ):
         self.lines: list[str] = lines or []
+        self.unicode: bool = unicode
+        self.jp: bool = jp
+        self.allow_page_split: bool = allow_page_split
+        self.force_no_wrap: bool = force_no_wrap
 
     @classmethod
-    def from_plaintext_stream(cls, stream: StringIO, unicode: bool = False, jp: bool = False, allow_page_split=False, force_no_wrap=False):
+    def from_plaintext_stream(
+        cls,
+        stream: StringIO,
+        *,
+        unicode: bool = False,
+        jp: bool = False,
+        allow_page_split: bool = False,
+        force_no_wrap: bool = False,
+    ):
         lines: list[str] = []
         line: str = ""
         width: int = 0
@@ -53,7 +76,7 @@ class Page:
                     line = char
                     width = char_width
                     continue
-                # 折行，但允许在最后一行分隔单词或强制不折行
+                # 折行，但(允许书页分隔单词且在最后一行)或者强制不折行
                 if allow_page_split and len(lines) + 1 >= PAGE_LINES or force_no_wrap:
                     lines.append(line)
                     line = char
@@ -69,7 +92,13 @@ class Page:
                 continue
             line += char
             width += char_width
-        return cls(lines)
+        return cls(
+            lines,
+            unicode=unicode,
+            jp=jp,
+            allow_page_split=allow_page_split,
+            force_no_wrap=force_no_wrap,
+        )
 
     def __str__(self):
         return "<Page\n" + "\n".join([line.removesuffix("\n") for line in self.lines]) + "\n>"
@@ -78,7 +107,21 @@ class Page:
         return "".join(self.lines)
 
     def text(self):
-        return self.origin_text().replace("\r\n", "\n")
+        return "".join(self.processed_lines())
 
-    def processed_lines(self):
+    def processed_lines(self):  # 统一使用 LF
         return [line.replace("\r\n", "\n") for line in self.lines]
+
+    def to_nbt(self, *, text_component: bool = True, filter: bool = False) -> nbtlib.Compound | nbtlib.String:
+        if self.force_no_wrap:
+            text = "".join([line.removesuffix("\n") + "\n" for line in self.processed_lines()])
+        else:
+            text = self.text()
+        if text_component:
+            nbt = nbtlib.String(json.dumps({"text": text}, ensure_ascii=False))
+        else:
+            nbt = nbtlib.String(text.replace("\n", "\\n"))  # 并没有什么用, 不用TextComponent换不了行
+        if filter:
+            return nbtlib.Compound({"raw": nbt})
+        else:
+            return nbt

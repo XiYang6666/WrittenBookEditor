@@ -114,7 +114,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QFrame" name="frame_export_options">
+       <widget class="QFrame" name="frame_book_options">
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -127,21 +127,62 @@
          </property>
          <item>
           <widget class="QCheckBox" name="chk_edit_single_page">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>编辑当前页面</string>
+           </property>
            <property name="text">
             <string>编辑单页</string>
            </property>
           </widget>
          </item>
          <item>
+          <widget class="Line" name="line">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QCheckBox" name="chk_allow_page_split">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>允许书页末尾出现的单词被分隔到两页</string>
+           </property>
            <property name="text">
             <string>允许书页分隔单词</string>
            </property>
            <property name="checked">
-            <bool>true</bool>
+            <bool>false</bool>
            </property>
            <property name="tristate">
             <bool>false</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="chk_force_no_wrap">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Maximum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>通过在行尾强制插入换行符来禁止折行</string>
+           </property>
+           <property name="text">
+            <string>强制不折行</string>
            </property>
           </widget>
          </item>
@@ -188,6 +229,9 @@
          </item>
          <item>
           <widget class="QLabel" name="lb_index">
+           <property name="toolTip">
+            <string>点击跳转到指定页面</string>
+           </property>
            <property name="text">
             <string>第0卷 第0/0页 (共0页)</string>
            </property>

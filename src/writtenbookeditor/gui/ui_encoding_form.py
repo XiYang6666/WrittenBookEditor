@@ -73,13 +73,13 @@ class Ui_EncodingForm(object):
     # setupUi
 
     def retranslateUi(self, EncodingForm):
-        EncodingForm.setWindowTitle(QCoreApplication.translate("EncodingForm", u"Encoding Form", None))
+        EncodingForm.setWindowTitle(QCoreApplication.translate("EncodingForm", u"\u8bbe\u7f6e\u7f16\u7801\u683c\u5f0f", None))
         self.label.setText(QCoreApplication.translate("EncodingForm", u"\u65e0\u6cd5\u6253\u5f00\u6587\u4ef6, \u6b63\u786e\u7684\u7f16\u7801\u683c\u5f0f.", None))
         self.label_0.setText(QCoreApplication.translate("EncodingForm", u"\u7f16\u7801\u683c\u5f0f", None))
         self.cmb_encoding.setItemText(0, QCoreApplication.translate("EncodingForm", u"\u81ea\u52a8\u8bc6\u522b", None))
         self.cmb_encoding.setItemText(1, QCoreApplication.translate("EncodingForm", u"UTF-8", None))
         self.cmb_encoding.setItemText(2, QCoreApplication.translate("EncodingForm", u"GBK", None))
-        self.cmb_encoding.setItemText(3, QCoreApplication.translate("EncodingForm", u"GB2312", None))
+        self.cmb_encoding.setItemText(3, QCoreApplication.translate("EncodingForm", u"BIG5", None))
 
         self.pbtn_ok.setText(QCoreApplication.translate("EncodingForm", u"\u786e\u5b9a", None))
         self.pbtn_cancel.setText(QCoreApplication.translate("EncodingForm", u"\u53d6\u6d88", None))
