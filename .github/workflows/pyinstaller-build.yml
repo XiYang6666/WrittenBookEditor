@@ -30,8 +30,14 @@ jobs:
       - name: Build executable
         run: pdm run build
 
+      - name: Get Git information
+        id: git_info
+        run: |
+          echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
+          echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
       - name: Export artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: WrittenBookEditor-${{ matrix.os }}-$(git rev-parse --abbrev-ref HEAD)-$(git rev-list --count HEAD)
+          name: WrittenBookEditor-${{ matrix.os }}-${{ env.branch_name }}-${{ env.commit_hash }}
           path: dist/written_book_editor/*
