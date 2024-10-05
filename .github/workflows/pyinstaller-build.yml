@@ -33,11 +33,11 @@ jobs:
       - name: Get Git information
         id: git_info
         run: |
-          echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
-          echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+          echo "::set-output name=branch_name::$(git rev-parse --abbrev-ref HEAD)"
+          echo "::set-output name=commit_hash::$(git rev-parse --short HEAD)"
 
       - name: Export artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: WrittenBookEditor-${{ matrix.os }}-${{ env.branch_name }}-${{ env.commit_hash }}
-          path: dist/written_book_editor/*
+          name: WrittenBookEditor-${{ matrix.os }}-${{ steps.git_info.outputs.branch_name }}-${{ steps.git_info.outputs.commit_hash }}
+          path: dist/written_book_editor/
