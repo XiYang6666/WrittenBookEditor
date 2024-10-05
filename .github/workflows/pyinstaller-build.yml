@@ -5,10 +5,15 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
+    env:
+      branch_name: ''
+      commit_hash: ''
+
 
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
+    
 
     steps:
       - uses: actions/checkout@v4
@@ -31,7 +36,7 @@ jobs:
         run: pdm run build
 
       - name: Get Git information (Linux/macOS)
-        if: "!startsWith(matrix.os, 'windows')"
+        if: startsWith(matrix.os, 'windows') == false
         run: |
           echo "branch_name=$(git rev-parse --abbrev-ref HEAD)" >> $GITHUB_ENV
           echo "commit_hash=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
