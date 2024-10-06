@@ -192,7 +192,14 @@ class App(QApplication):
         current_volume = self.page_index // 100
         total_pages = min(100, len(self.pages) - current_volume * 100)
         current_page = self.page_index % 100
-        self.main_window.lb_index.setText(f"第{current_volume+1}/{total_volume+1}卷 第{current_page+1}/{max(total_pages,1)}页 共{len(self.pages)}页")
+        # fmt: off
+        label_text = (
+            f"第{current_volume+1}/{total_volume+1}卷 " 
+            f"第{current_page+1}/{max(total_pages,1)}页 " 
+            f"共{len(self.pages)}页"
+        )
+        # fmt: on
+        self.main_window.lb_index.setText(label_text)
 
     def update_text_editor(self):
         state = self.main_window.chk_edit_single_page.isChecked()
@@ -216,13 +223,23 @@ class App(QApplication):
 
     def on_action_new(self):
         if self.not_saved:
-            reply = QMessageBox.question(self.main_window, "新建文件", "文件尚未保存，是否保存？", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
+            reply = QMessageBox.question(
+                self.main_window,
+                "新建文件",
+                "文件尚未保存，是否保存？",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
+            )
             if reply == QMessageBox.StandardButton.Yes:
                 self.on_action_save()
             elif reply == QMessageBox.StandardButton.Cancel:
                 return
         self.not_saved = False
-        file_name, _ = QFileDialog.getSaveFileName(self.main_window, "新建文件", "", "文本文件 (*.txt)")
+        file_name, _ = QFileDialog.getSaveFileName(
+            self.main_window,
+            "新建文件",
+            "",
+            "文本文件 (*.txt)",
+        )
         if file_name == "":
             return
         try:
@@ -248,12 +265,22 @@ class App(QApplication):
 
     def on_action_open_file(self):
         if self.not_saved:
-            reply = QMessageBox.question(self.main_window, "打开文件", "文件尚未保存，是否保存？", QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel)
+            reply = QMessageBox.question(
+                self.main_window,
+                "打开文件",
+                "文件尚未保存，是否保存？",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
+            )
             if reply == QMessageBox.StandardButton.Yes:
                 self.on_action_save()
             elif reply == QMessageBox.StandardButton.Cancel:
                 return
-        file_name, _ = QFileDialog.getOpenFileName(self.main_window, "打开文件", "", "文本文件 (*.txt)")
+        file_name, _ = QFileDialog.getOpenFileName(
+            self.main_window,
+            "打开文件",
+            "",
+            "文本文件 (*.txt)",
+        )
         if file_name == "":
             return
         self.not_saved = False
@@ -292,7 +319,12 @@ class App(QApplication):
     def on_action_save(self):
         self.not_saved = False
         if self.filepath is None:
-            filename, _ = QFileDialog.getSaveFileName(self.main_window, "保存文件", "", "文本文件 (*.txt)")
+            filename, _ = QFileDialog.getSaveFileName(
+                self.main_window,
+                "保存文件",
+                "",
+                "文本文件 (*.txt)",
+            )
             if filename == "":
                 return
             filepath = Path(filename)
@@ -309,7 +341,12 @@ class App(QApplication):
             self.update_title()
 
     def on_action_save_as(self):
-        filename, _ = QFileDialog.getSaveFileName(self.main_window, "另存为", "", "文本文件 (*.txt)")
+        filename, _ = QFileDialog.getSaveFileName(
+            self.main_window,
+            "另存为",
+            "",
+            "文本文件 (*.txt)",
+        )
         if filename == "":
             return
         filepath = Path(filename)
@@ -332,11 +369,26 @@ class App(QApplication):
                 QMessageBox.warning(dialog, "导出", "标题不能为空！")
                 return
             if result["file_type"] == "指令纯文本":
-                filepath = QFileDialog.getExistingDirectory(dialog, "选择导出文件夹", "", QFileDialog.Option.ShowDirsOnly)
+                filepath = QFileDialog.getExistingDirectory(
+                    dialog,
+                    "选择导出文件夹",
+                    "",
+                    QFileDialog.Option.ShowDirsOnly,
+                )
             elif result["file_type"] == "mc 函数文件":
-                filepath, _ = QFileDialog.getSaveFileName(dialog, "选择导出文件", result["title"] + ".mcfunction", "mc 函数文件 (*.mcfunction)")
+                filepath, _ = QFileDialog.getSaveFileName(
+                    dialog,
+                    "选择导出文件",
+                    result["title"] + ".mcfunction",
+                    "mc 函数文件 (*.mcfunction)",
+                )
             elif result["file_type"] == "数据包":
-                filepath, _ = QFileDialog.getSaveFileName(dialog, "选择导出文件", result["title"] + ".zip", "数据包 (*.zip)")
+                filepath, _ = QFileDialog.getSaveFileName(
+                    dialog,
+                    "选择导出文件",
+                    result["title"] + ".zip",
+                    "数据包 (*.zip)",
+                )
             else:
                 QMessageBox.warning(dialog, "导出", "未知导出类型！")
                 return
