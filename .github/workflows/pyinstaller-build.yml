@@ -6,14 +6,12 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     env:
-      branch_name: ''
-      commit_hash: ''
-
+      branch_name: ""
+      commit_hash: ""
 
     strategy:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
-    
 
     steps:
       - uses: actions/checkout@v4
