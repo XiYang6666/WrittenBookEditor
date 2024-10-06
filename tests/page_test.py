@@ -4,7 +4,7 @@ from writtenbookeditor.book.page import Page
 
 
 def test_page():
-    with open("data\\test\\test_txt_1.txt", "r", encoding="utf-8") as f:
+    with open("data/test/test_txt_1.txt", "r", encoding="utf-8") as f:
         txt = f.read()
         stream = StringIO(txt)
 
