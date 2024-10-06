@@ -27,11 +27,11 @@ jobs:
       - name: Setup PDM
         uses: pdm-project/setup-pdm@v4.1
 
-      - name: Install dependencies for PySide6
-        if: startsWith(matrix.os, 'ubuntu')
-        run: |
-          sudo apt-get update
-          sudo apt-get install libegl1
+      # - name: Install dependencies for PySide6
+      #   if: startsWith(matrix.os, 'ubuntu')
+      #   run: |
+      #     sudo apt-get update
+      #     sudo apt-get install libegl1
 
       - name: Install dependencies
         run: pdm install
