@@ -14,9 +14,11 @@ jobs:
         with:
           python-version: "3.11"
 
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4.1
+
+      - name: Install dependencies
+        run: pdm install
+
       - name: Run pytest
-        uses: pavelzw/pytest-action@v2
-        with:
-          emoji: false
-          job-summary: false
-          verbose: false
+        run: pdm run test
