@@ -80,6 +80,7 @@ class Page:
                 if allow_page_split and len(lines) + 1 >= PAGE_LINES or force_no_wrap:
                     lines.append(line)
                     line = char
+                    width = char_width
                     continue
                 #  折行
                 lines.append(line[: pos + 1])
