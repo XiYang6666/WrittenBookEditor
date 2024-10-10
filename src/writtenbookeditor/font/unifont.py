@@ -9,7 +9,7 @@ from .util import calc_bitmap_side
 unifont_map: dict[str, np.ndarray] = {}
 unifont_jp_map: dict[str, np.ndarray] = {}
 
-with open("./data/unifont/unifont_all_no_pua-15.1.05.hex") as f:
+with open("./data/font/unifont/unifont_all_no_pua-15.1.05.hex") as f:
     for line in f.readlines():
         [char_hex, bitmap_hex] = line.split(":")
         char = chr(int(char_hex, 16))
@@ -19,7 +19,7 @@ with open("./data/unifont/unifont_all_no_pua-15.1.05.hex") as f:
         unifont_map[char] = bitmap_array  # type: ignore
 
 
-with open("./data/unifont_jp/unifont_jp_patch-15.1.05.hex") as f:
+with open("./data/font/unifont_jp/unifont_jp_patch-15.1.05.hex") as f:
     unifont_jp_data = f.readlines()
     for line in unifont_jp_data:
         [char_hex, bitmap_hex] = line.split(":")
@@ -29,10 +29,10 @@ with open("./data/unifont_jp/unifont_jp_patch-15.1.05.hex") as f:
         bitmap_array.resize((16, len(bitmap_array) // 16))
         unifont_jp_map[char] = bitmap_array
 
-with open("./data/unifont_force_width_chars.json") as f:
+with open("./data/font/unifont_force_width_chars.json") as f:
     unifont_force_width_chars: list[dict[str, Any]] = json.load(f)
 
-with open("./data/unifont_jp_force_width_chars.json") as f:
+with open("./data/font/unifont_jp_force_width_chars.json") as f:
     unifont_jp_force_width_chars: list[dict[str, Any]] = json.load(f)
 
 

@@ -11,7 +11,7 @@ nonlatin_european_font_img = Image.open("./data/textures/nonlatin_european.png")
 accented_font_img = Image.open("./data/textures/accented.png").convert("RGBA")
 ascii_font_img = Image.open("./data/textures/ascii.png").convert("RGBA")
 
-with open("./data/default_chars.json") as f:
+with open("./data/font/default_chars.json") as f:
     default_chars = json.load(f)
 
 
