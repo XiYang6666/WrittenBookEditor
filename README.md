@@ -2,6 +2,9 @@
 
 一个 Python 编写的基于 Pyside6 的 Minecraft 成书编辑器.
 
+[English](docs/README_en_US.md)
+[简体中文](/README.md)
+
 ## 功能
 
 - 实时编辑并浏览成书内容.
