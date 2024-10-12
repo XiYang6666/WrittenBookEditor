@@ -16,9 +16,10 @@ license = { text = "MIT" }
 
 [tool.pdm.scripts]
 generate_ui = "python scripts/generate_ui.py"
+generate_metadata = "python scripts/generate_metadata.py"
 test = "pytest ."
 dev = "python -m src.writtenbookeditor"
-build = "pyinstaller ./main.spec -y "
+build = "pyinstaller ./main.spec -y"
 
 [tool.pdm.dev-dependencies]
 dev = ["pytest>=8.3.3", "pyinstaller>=6.10.0"]
