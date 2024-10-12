@@ -130,7 +130,7 @@ def export_book(
         pack_meta = {
             "pack": {
                 "pack_format": 4 if command_version == CommandVersion.UPPER_1_13 else 41,
-                "description": "§bWritten Book Editor §a数据包\n§1Github §r:§dhttps://github.com/XiYang6666/WrittenBookGenerator",
+                "description": "§bWritten Book Editor §aData Pack\n§1Github §r:§dhttps://github.com/XiYang6666/WrittenBookGenerator",
             },
         }
         zip_obj.writestr(
