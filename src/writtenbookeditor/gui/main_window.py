@@ -10,6 +10,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super().__init__()
         self.setupUi(self)
         self.setWindowIcon(QIcon("./data/icon/icon.png"))
+        self.adjustSize()
 
     def update_lang(self):
         self.menu_file.setTitle(tr("menu.file"))

@@ -16,8 +16,8 @@ force_no_wrap = "Force No Line Break"
 edit_single_tips = "Edit Current Page"
 allow_page_split_tips = "Allow words at the end of a page to be split across two pages"
 force_no_wrap_tips = "Prevent line breaks by forcibly inserting line breaks at the end of lines"
-last_page = "Previous Page"
-next_page = "Next Page"
+last_page = "Previous"
+next_page = "Next"
 
 [page_label]
 tips = """Click to jump to the specified page
