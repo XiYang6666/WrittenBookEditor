@@ -266,7 +266,9 @@ class Ui_MainWindow(object):
         self.chk_force_no_wrap.setText(QCoreApplication.translate("MainWindow", u"\u5f3a\u5236\u4e0d\u6298\u884c", None))
         self.pbtn_last_page.setText(QCoreApplication.translate("MainWindow", u"\u4e0a\u4e00\u9875", None))
 #if QT_CONFIG(tooltip)
-        self.lb_index.setToolTip(QCoreApplication.translate("MainWindow", u"\u70b9\u51fb\u8df3\u8f6c\u5230\u6307\u5b9a\u9875\u9762", None))
+        self.lb_index.setToolTip(QCoreApplication.translate("MainWindow", u"\u70b9\u51fb\u8df3\u8f6c\u5230\u6307\u5b9a\u9875\u9762\n"
+"\u4e0a\u4e0b\u6eda\u52a8\u6eda\u8f6e\u5207\u6362\u9875\u9762\n"
+"\u6309\u4f4f Shift \u6eda\u52a8\u5feb\u901f\u5207\u6362\u9875\u9762", None))
 #endif // QT_CONFIG(tooltip)
         self.lb_index.setText(QCoreApplication.translate("MainWindow", u"\u7b2c0\u5377 \u7b2c0/0\u9875 (\u51710\u9875)", None))
         self.pbtn_next_page.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u9875", None))

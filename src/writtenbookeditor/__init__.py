@@ -4,7 +4,8 @@ from typing import Optional
 from pathlib import Path
 
 from PySide6.QtWidgets import QApplication, QGraphicsScene, QGraphicsPixmapItem, QDialog, QFileDialog, QMessageBox
-from PySide6.QtGui import QImage, QPixmap, QPainter, QResizeEvent, QMouseEvent, QCloseEvent, QShortcut, QKeySequence
+from PySide6.QtGui import QResizeEvent, QMouseEvent, QCloseEvent, QShortcut, QKeySequence, QDragEnterEvent, QDropEvent, QWheelEvent
+from PySide6.QtGui import QImage, QPixmap, QPainter
 from PySide6.QtCore import Qt
 import chardet
 
@@ -33,6 +34,7 @@ class App(QApplication):
         self.about_dialog: Optional[AboutDialog] = None
 
         self.main_window = MainWindow()
+        self.main_window.setAcceptDrops(True)
         self.main_window.show()
 
         self.setup_graph_view()
@@ -72,6 +74,8 @@ class App(QApplication):
         self.scene.addItem(self.graph_page_item)
 
     def setup_events(self):
+        self.main_window.dragEnterEvent = self.on_drag_enter
+        self.main_window.dropEvent = self.on_drop
         self.main_window.gv_book_view.resizeEvent = self.on_gv_resize
 
         self.main_window.action_new.triggered.connect(self.on_action_new)
@@ -94,6 +98,7 @@ class App(QApplication):
         self.main_window.pbtn_next_page.clicked.connect(self.on_click_next_page)
 
         self.main_window.lb_index.mouseReleaseEvent = self.on_index_label_clicked
+        self.main_window.lb_index.wheelEvent = self.on_index_label_scroll
 
     def setup_shortcuts(self):
         self.shortcut_save = QShortcut(QKeySequence("Ctrl+S"), self.main_window)
@@ -117,6 +122,43 @@ class App(QApplication):
         self.main_window.txe_text.blockSignals(True)
         self.main_window.txe_text.setPlainText(text)
         self.main_window.txe_text.blockSignals(False)
+
+    def set_content_with_unknown_encoding(self, data: bytes) -> Optional[str]:
+        encoding = self.get_encoding() or chardet.detect(data)["encoding"] or "utf-8"
+        while True:
+            try:
+                self.content = data.decode(encoding)
+            except UnicodeDecodeError:
+                encoding_dialog = EncodingDialog(self.main_window)
+                if encoding_dialog.exec() == QDialog.DialogCode.Rejected:
+                    return None
+                encoding = encoding_dialog.get_result()
+                if encoding == "自动识别":
+                    encoding = chardet.detect(data)["encoding"] or "utf-8"
+                continue
+            except Exception as e:
+                QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+            else:
+                return encoding
+
+    def set_filepath(self, filepath: Path):
+        self.filepath = filepath
+        self.main_window.le_filepath.setText(str(self.filepath))
+
+    def confirm_save(self) -> bool:
+        if self.not_saved:
+            reply = QMessageBox.question(
+                self.main_window,
+                "打开文件",
+                "文件尚未保存，是否保存？",
+                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
+            )
+            if reply == QMessageBox.StandardButton.Yes:
+                self.on_action_save()
+            elif reply == QMessageBox.StandardButton.Cancel:
+                return False
+        self.not_saved = False
+        return True
 
     # update
 
@@ -219,24 +261,38 @@ class App(QApplication):
 
     # events
 
+    def on_drag_enter(self, event: QDragEnterEvent):
+        if event.mimeData().hasUrls() and len(event.mimeData().urls()) == 1 and Path(event.mimeData().urls()[0].toLocalFile()).is_file():
+            event.acceptProposedAction()
+        else:
+            event.ignore()
+
+    def on_drop(self, event: QDropEvent):
+        urls = event.mimeData().urls()
+        self.confirm_save()
+        filepath = Path(urls[0].toLocalFile())
+        try:
+            data = filepath.read_bytes()
+        except Exception as e:
+            QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+            return
+        encoding = self.set_content_with_unknown_encoding(data)
+        if encoding is None:
+            return
+        self.set_filepath(filepath)
+        self.update_pages()
+        self.update_view_page()
+        self.update_text_editor()
+        self.update_title()
+        self.set_encoding(encoding)
+
     def on_gv_resize(self, event: QResizeEvent):
         self.update_graph()
 
     # action events
 
     def on_action_new(self):
-        if self.not_saved:
-            reply = QMessageBox.question(
-                self.main_window,
-                "新建文件",
-                "文件尚未保存，是否保存？",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
-            )
-            if reply == QMessageBox.StandardButton.Yes:
-                self.on_action_save()
-            elif reply == QMessageBox.StandardButton.Cancel:
-                return
-        self.not_saved = False
+        self.confirm_save()
         file_name, _ = QFileDialog.getSaveFileName(
             self.main_window,
             "新建文件",
@@ -258,7 +314,7 @@ class App(QApplication):
             QMessageBox.warning(self.main_window, "新建文件", f"创建文件失败: {e}")
             return
         else:
-            self.filepath = filepath
+            self.set_filepath(filepath)
             self.content = ""
             self.on_action_save()
             self.update_title()
@@ -267,17 +323,7 @@ class App(QApplication):
             self.update_text_editor()
 
     def on_action_open_file(self):
-        if self.not_saved:
-            reply = QMessageBox.question(
-                self.main_window,
-                "打开文件",
-                "文件尚未保存，是否保存？",
-                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
-            )
-            if reply == QMessageBox.StandardButton.Yes:
-                self.on_action_save()
-            elif reply == QMessageBox.StandardButton.Cancel:
-                return
+        self.confirm_save()
         file_name, _ = QFileDialog.getOpenFileName(
             self.main_window,
             "打开文件",
@@ -294,25 +340,15 @@ class App(QApplication):
         if not filepath.is_file():
             QMessageBox.warning(self.main_window, "打开文件", "不是文件！")
             return
-        bytes = filepath.read_bytes()
-        encoding = self.get_encoding() or chardet.detect(bytes)["encoding"] or "utf-8"
-        while True:
-            try:
-                self.content = bytes.decode(encoding)
-            except UnicodeDecodeError:
-                encoding_dialog = EncodingDialog(self.main_window)
-                if encoding_dialog.exec() == QDialog.DialogCode.Rejected:
-                    return
-                encoding = encoding_dialog.get_result()
-                if encoding == "自动识别":
-                    encoding = chardet.detect(bytes)["encoding"] or "utf-8"
-                continue
-            except Exception as e:
-                QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
-            else:
-                break
-        self.filepath = filepath
-        self.main_window.le_filepath.setText(str(self.filepath))
+        try:
+            data = filepath.read_bytes()
+        except Exception as e:
+            QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+            return
+        encoding = self.set_content_with_unknown_encoding(data)
+        if encoding is None:
+            return
+        self.set_filepath(filepath)
         self.update_pages()
         self.update_view_page()
         self.update_text_editor()
@@ -339,8 +375,7 @@ class App(QApplication):
         except Exception as e:
             QMessageBox.warning(self.main_window, "保存文件", f"写入文件失败: {e}")
         else:
-            self.filepath = filepath
-            self.main_window.le_filepath.setText(str(self.filepath))
+            self.set_filepath(filepath)
             self.update_title()
 
     def on_action_save_as(self):
@@ -359,8 +394,7 @@ class App(QApplication):
         except Exception as e:
             QMessageBox.warning(self.main_window, "另存为", f"写入文件失败: {e}")
         else:
-            self.filepath = filepath
-            self.main_window.le_filepath.setText(str(self.filepath))
+            self.set_filepath(filepath)
             self.update_title()
 
     def on_action_export(self):
@@ -511,7 +545,7 @@ class App(QApplication):
         self.update_buttons_and_label()
 
     def on_click_next_page(self):
-        self.page_index = min(len(self.pages) - 1, self.page_index + 1)
+        self.page_index = min(max(0, len(self.pages) - 1), self.page_index + 1)
         self.update_view_page()
         self.update_text_editor()
         self.update_buttons_and_label()
@@ -527,3 +561,14 @@ class App(QApplication):
             self.update_view_page()
             self.update_text_editor()
             self.update_buttons_and_label()
+
+    def on_index_label_scroll(self, event: QWheelEvent):
+        delta = event.angleDelta().y()
+        shift = event.modifiers() & Qt.KeyboardModifier.ShiftModifier
+        if delta > 0:
+            self.page_index = max(0, self.page_index - (10 if shift else 1))
+        elif delta < 0:
+            self.page_index = min(max(0, len(self.pages) - 1), self.page_index + (10 if shift else 1))
+        self.update_view_page()
+        self.update_text_editor()
+        self.update_buttons_and_label()

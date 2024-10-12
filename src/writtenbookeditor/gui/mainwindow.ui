@@ -230,7 +230,9 @@
          <item>
           <widget class="QLabel" name="lb_index">
            <property name="toolTip">
-            <string>点击跳转到指定页面</string>
+            <string>点击跳转到指定页面
+上下滚动滚轮切换页面
+按住 Shift 滚动快速切换页面</string>
            </property>
            <property name="text">
             <string>第0卷 第0/0页 (共0页)</string>
