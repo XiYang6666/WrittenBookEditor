@@ -50,7 +50,10 @@ class App(QApplication):
 
     def setup_graph_view(self):
         self.main_window.gv_book_view.scale(1 / self.dpi, 1 / self.dpi)
-        self.main_window.gv_book_view.resize(int(self.main_window.gv_book_view.width() * self.dpi), int(self.main_window.gv_book_view.height() * self.dpi))
+        self.main_window.gv_book_view.resize(
+            int(self.main_window.gv_book_view.width() * self.dpi),
+            int(self.main_window.gv_book_view.height() * self.dpi),
+        )
         self.main_window.gv_book_view.setRenderHint(QPainter.RenderHint.TextAntialiasing, True)
 
     def setup_graph_scene(self):
