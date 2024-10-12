@@ -116,6 +116,7 @@ class Ui_AboutForm(object):
         self.lb_bilibili_link = QLabel(self.gb_author)
         self.lb_bilibili_link.setObjectName(u"lb_bilibili_link")
         self.lb_bilibili_link.setMouseTracking(True)
+        self.lb_bilibili_link.setOpenExternalLinks(True)
 
         self.gridLayout.addWidget(self.lb_bilibili_link, 3, 1, 1, 1)
 
@@ -133,7 +134,7 @@ class Ui_AboutForm(object):
 
         self.retranslateUi(AboutForm)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(AboutForm)
