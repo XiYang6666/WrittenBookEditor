@@ -290,7 +290,8 @@ class App(QApplication):
 
     def on_drop(self, event: QDropEvent):
         urls = event.mimeData().urls()
-        self.confirm_save()
+        if not self.confirm_save():
+            return
         filepath = Path(urls[0].toLocalFile())
         try:
             data = filepath.read_bytes()
@@ -317,7 +318,8 @@ class App(QApplication):
     # action events
 
     def on_action_new(self):
-        self.confirm_save()
+        if not self.confirm_save():
+            return
         file_name, _ = QFileDialog.getSaveFileName(
             self.main_window,
             tr("file_dialog.new_file"),  # "新建文件"
@@ -360,7 +362,8 @@ class App(QApplication):
             self.update_text_editor()
 
     def on_action_open_file(self):
-        self.confirm_save()
+        if not self.confirm_save():
+            return
         file_name, _ = QFileDialog.getOpenFileName(
             self.main_window,
             tr("file_dialog.open_file"),  # "打开文件"
