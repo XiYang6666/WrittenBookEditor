@@ -47,7 +47,7 @@
        <item row="0" column="0">
         <widget class="QLabel" name="lb_about">
          <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;基于 Pyside6 的 Minecraft 成书编辑器&lt;br/&gt;&lt;/p&gt;&lt;table border=&quot;0&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;&quot; cellspacing=&quot;2&quot; cellpadding=&quot;0&quot;&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;主页&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/XiYang6666/WrittenBookEditor&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://github.com/XiYang6666/WrittenBookEditor&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;报告问题&lt;/p&gt;&lt;/td&gt;&lt;td&gt;&lt;p&gt;&lt;a href=&quot;https://github.com/XiYang6666/WrittenBookEditor/issues&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#007af4;&quot;&gt;https://github.com/XiYang6666/WrittenBookEditor/issues&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>芝士简介</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
