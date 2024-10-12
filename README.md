@@ -20,6 +20,6 @@
 
 ## Roadmap
 
-- [ ] i18n
+- [x] i18n
 - [ ] Minecraft 多版本支持
 - [ ] 超文本支持
