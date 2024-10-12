@@ -50,7 +50,7 @@ jobs:
 
       - name: Build executable
         run: |
-          pdm run generate_metadata "-DEV-${{ matrix.os }}-${{ env.branch_name }}-${{ env.commit_hash }}"
+          pdm run generate_metadata "-DEV-${{ env.branch_name }}-${{ env.commit_hash }}"
           pdm run build
 
       - name: Export artifacts
