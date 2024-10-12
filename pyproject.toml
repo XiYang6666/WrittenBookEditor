@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "Default template for PDM package"
 authors = [{ name = "XiYang6666", email = "1782356858@qq.com" }]
 dependencies = [
-    "PySide6>=6.7.3",
+    "PySide6==6.7.3",
     "pillow>=10.4.0",
     "numpy>=2.1.1",
     "nbtlib>=2.0.4",
