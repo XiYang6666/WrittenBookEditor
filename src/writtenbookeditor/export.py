@@ -113,14 +113,12 @@ def export_book(
             if item_type == ExportItemType.WRITTEN_BOOK:
                 file_path = export_path.joinpath(f"{title_format.format_map({'volume': i+1})}_volume-{i+1}.txt")
             else:
-                # fmt: off
                 file_name = (
                     f"{title_format.format_map({'volume': i*27+1})}-"
                     f"{title_format.format_map({'volume': min(i*27+27,len(book_meta_list))})}_"
                     f"volume-{i*27+1}-"
                     f"{min(i*27+27,len(book_meta_list))}.txt"
                 )
-                # fmt: on
                 file_path = export_path.joinpath(file_name)
             file_path.touch()
             file_path.write_text("/" + command, encoding="utf-8")
