@@ -1,6 +1,6 @@
 # WrittenBookEditor
 
-一个 Python 编写的 Minecraft 成书编辑器。
+一个 Python 编写的基于 Pyside6 的 Minecraft 成书编辑器.
 
 ## 功能
 
@@ -9,7 +9,7 @@
 
 ## 注意事项
 
-以 1.21.0 的字体系统为准，其他版本的 Minecraft 可能出现轻微错位问题.
+以 1.21.0 的字体系统为准, 其他版本的 Minecraft 可能出现轻微错位问题.
 
 在 Minecraft 中开启“强制使用 Unicode 字体”. 并在该软件中开启同样的设置可以解决大部分错位问题.
 
