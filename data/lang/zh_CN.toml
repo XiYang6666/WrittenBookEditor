@@ -1,0 +1,113 @@
+[general]
+txt_file = "文本文件"
+ok = "确定"
+cancel = "取消"
+
+[app]
+current_file = "当前文件"
+did_not_open_file = "还没有打开任何文件呢~"
+encoding = "编码格式"
+edit_single_page = "编辑单页"
+allow_page_split = "允许书页分隔单词"
+force_no_wrap = "强制不折行"
+edit_single_tips = "编辑当前页面"
+allow_page_split_tips = "允许书页末尾出现的单词被分隔到两页"
+force_no_wrap_tips = "通过在行尾强制插入换行符来禁止折行"
+last_page = "上一页"
+next_page = "下一页"
+
+[page_label]
+tips = """点击跳转到指定页面
+上下滚动滚轮切换页面
+按住 Shift 滚动快速切换页面"""
+volume_index = "第{index}/{total}卷"
+page_index = "第{index}/{total}页"
+total_pages = "共{total}页"
+
+[menu]
+file = "文件"
+settings = "设置"
+language = "语言"
+help = "帮助"
+
+[action]
+new = "新建"
+open_file = "打开文件"
+save = "保存"
+save_as = "另存为..."
+export = "导出"
+force_unicode_font = "强制使用Unicode字体"
+jp_glyph_variant = "日文字形变体"
+about = "关于"
+
+[encoding]
+auto_detect = "自动识别"
+
+[file_dialog]
+new_file = "新建文件"
+open_file = "打开文件"
+save_file = "保存文件"
+save_as = "另存为"
+failed_to_create_file = "创建文件失败: {exception}"
+failed_to_read_file = "读取文件失败: {exception}"
+failed_to_write_file = "写入文件失败: {exception}"
+file_not_saved = "文件尚未保存，是否保存？"
+no_such_file = "文件不存在"
+not_a_file = "不是文件"
+
+[encoding_dialog]
+title = "设置编码格式"
+message = "无法打开文件，请选择正确的编码格式。"
+encoding = "编码格式"
+
+[export_dialog]
+window_title = "导出"
+book_options = "书籍信息"
+export_options = "导出选项"
+extra_options = "额外选项"
+author = "作者"
+title = "标题"
+item_type = "物品类型"
+file_type = "文件类型"
+command_version = "指令版本"
+use_text_component = "使用文本组件"
+use_filter = "使用过滤"
+export = "导出"
+
+[export_dialog_message]
+export = "导出"
+title_must_not_be_empty = "标题不能为空"
+unknown_export_type = "未知导出类型"
+unknown_command_version = "未知指令版本"
+select_export_folder = "选择导出文件夹"
+select_export_file = "选择导出文件"
+successfully_exported = "导出成功"
+failed_to_export = "导出失败: {exception}"
+
+[item_type]
+written_book = "成书"
+shulker_box = "潜影盒"
+
+[file_type]
+command_text = "指令纯文本"
+function_text = "mc 函数文件"
+data_pack = "数据包"
+
+[command_version]
+upper_1_13 = ">=1.13 <1.20.5"
+upper_1_20_5 = ">=1.20.5"
+
+[jump_dialog]
+title = "跳转到..."
+message = "跳转到"
+volume = "卷"
+page = "页"
+
+[about_dialog]
+title = "关于"
+about = "关于"
+author = "作者"
+mainpage = "主页"
+github = "GitHub"
+bilibili = "BiliBili"
+email = "电子邮件"

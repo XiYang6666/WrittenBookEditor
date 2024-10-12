@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import QDialog
 
 from .ui_jump_form import Ui_JumpForm
+from ..i18n import translate as tr
 
 
 class JumpDialog(QDialog, Ui_JumpForm):
@@ -21,6 +22,15 @@ class JumpDialog(QDialog, Ui_JumpForm):
 
         self.sb_volume.setValue(self.current_page // 100 + 1)
         self.sb_page.setValue(self.current_page % 100 + 1)
+
+        self.setWindowTitle(tr("jump_dialog.title"))
+        self.lb_message.setText(tr("jump_dialog.message"))
+        self.lb_volume.setText(tr("jump_dialog.volume"))
+        self.lb_page.setText(tr("jump_dialog.page"))
+        self.pbtn_ok.setText(tr("general.ok"))
+        self.pbtn_cancel.setText(tr("general.cancel"))
+
+        self.adjustSize()
 
     def get_result(self) -> int:
         return (self.sb_volume.value() - 1) * 100 + self.sb_page.value() - 1

@@ -72,10 +72,10 @@ class Ui_MainWindow(object):
         self.formLayout_2 = QFormLayout(self.frame_file_options)
         self.formLayout_2.setObjectName(u"formLayout_2")
         self.formLayout_2.setHorizontalSpacing(6)
-        self.label_0 = QLabel(self.frame_file_options)
-        self.label_0.setObjectName(u"label_0")
+        self.lb_current_file = QLabel(self.frame_file_options)
+        self.lb_current_file.setObjectName(u"lb_current_file")
 
-        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.label_0)
+        self.formLayout_2.setWidget(0, QFormLayout.LabelRole, self.lb_current_file)
 
         self.le_filepath = QLineEdit(self.frame_file_options)
         self.le_filepath.setObjectName(u"le_filepath")
@@ -84,10 +84,10 @@ class Ui_MainWindow(object):
 
         self.formLayout_2.setWidget(0, QFormLayout.FieldRole, self.le_filepath)
 
-        self.label_1 = QLabel(self.frame_file_options)
-        self.label_1.setObjectName(u"label_1")
+        self.lb_encoding = QLabel(self.frame_file_options)
+        self.lb_encoding.setObjectName(u"lb_encoding")
 
-        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.label_1)
+        self.formLayout_2.setWidget(1, QFormLayout.LabelRole, self.lb_encoding)
 
         self.cmb_encoding = QComboBox(self.frame_file_options)
         self.cmb_encoding.addItem("")
@@ -201,14 +201,14 @@ class Ui_MainWindow(object):
         self.menu_help = QMenu(self.menuBar)
         self.menu_help.setObjectName(u"menu_help")
         self.menu_help.setToolTipsVisible(False)
-        self.menu = QMenu(self.menuBar)
-        self.menu.setObjectName(u"menu")
+        self.menu_settings = QMenu(self.menuBar)
+        self.menu_settings.setObjectName(u"menu_settings")
         self.menu_lang = QMenu(self.menuBar)
         self.menu_lang.setObjectName(u"menu_lang")
         MainWindow.setMenuBar(self.menuBar)
 
         self.menuBar.addAction(self.menu_file.menuAction())
-        self.menuBar.addAction(self.menu.menuAction())
+        self.menuBar.addAction(self.menu_settings.menuAction())
         self.menuBar.addAction(self.menu_lang.menuAction())
         self.menuBar.addAction(self.menu_help.menuAction())
         self.menu_file.addAction(self.action_new)
@@ -220,8 +220,8 @@ class Ui_MainWindow(object):
         self.menu_file.addSeparator()
         self.menu_file.addAction(self.action_export)
         self.menu_help.addAction(self.action_about)
-        self.menu.addAction(self.action_force_unicode)
-        self.menu.addAction(self.action_jp_font)
+        self.menu_settings.addAction(self.action_force_unicode)
+        self.menu_settings.addAction(self.action_jp_font)
         self.menu_lang.addAction(self.action_chinese)
         self.menu_lang.addAction(self.action_english)
 
@@ -244,9 +244,9 @@ class Ui_MainWindow(object):
         self.action_export.setText(QCoreApplication.translate("MainWindow", u"\u5bfc\u51fa", None))
         self.action_chinese.setText(QCoreApplication.translate("MainWindow", u"\u7b80\u4f53\u4e2d\u6587", None))
         self.action_english.setText(QCoreApplication.translate("MainWindow", u"English", None))
-        self.label_0.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u6587\u4ef6", None))
-        self.le_filepath.setText(QCoreApplication.translate("MainWindow", u"\u8fd8\u6ca1\u6709\u6253\u5f00\u4efb\u4f55\u6587\u4ef6\u5462~", None))
-        self.label_1.setText(QCoreApplication.translate("MainWindow", u"\u7f16\u7801\u683c\u5f0f", None))
+        self.lb_current_file.setText(QCoreApplication.translate("MainWindow", u"\u5f53\u524d\u6587\u4ef6", None))
+        self.le_filepath.setText("")
+        self.lb_encoding.setText(QCoreApplication.translate("MainWindow", u"\u7f16\u7801\u683c\u5f0f", None))
         self.cmb_encoding.setItemText(0, QCoreApplication.translate("MainWindow", u"\u81ea\u52a8\u8bc6\u522b", None))
         self.cmb_encoding.setItemText(1, QCoreApplication.translate("MainWindow", u"UTF-8", None))
         self.cmb_encoding.setItemText(2, QCoreApplication.translate("MainWindow", u"GBK", None))
@@ -274,7 +274,7 @@ class Ui_MainWindow(object):
         self.pbtn_next_page.setText(QCoreApplication.translate("MainWindow", u"\u4e0b\u4e00\u9875", None))
         self.menu_file.setTitle(QCoreApplication.translate("MainWindow", u"\u6587\u4ef6", None))
         self.menu_help.setTitle(QCoreApplication.translate("MainWindow", u"\u5e2e\u52a9", None))
-        self.menu.setTitle(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e", None))
+        self.menu_settings.setTitle(QCoreApplication.translate("MainWindow", u"\u8bbe\u7f6e", None))
         self.menu_lang.setTitle(QCoreApplication.translate("MainWindow", u"\u8bed\u8a00", None))
     # retranslateUi
 

@@ -26,23 +26,23 @@ class Ui_JumpForm(object):
         JumpForm.resize(200, 102)
         self.verticalLayout = QVBoxLayout(JumpForm)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(JumpForm)
-        self.label.setObjectName(u"label")
-        self.label.setAlignment(Qt.AlignCenter)
+        self.lb_message = QLabel(JumpForm)
+        self.lb_message.setObjectName(u"lb_message")
+        self.lb_message.setAlignment(Qt.AlignCenter)
 
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.lb_message)
 
         self.formLayout = QFormLayout()
         self.formLayout.setObjectName(u"formLayout")
-        self.label_2 = QLabel(JumpForm)
-        self.label_2.setObjectName(u"label_2")
+        self.lb_volume = QLabel(JumpForm)
+        self.lb_volume.setObjectName(u"lb_volume")
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_2)
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.lb_volume)
 
-        self.label_3 = QLabel(JumpForm)
-        self.label_3.setObjectName(u"label_3")
+        self.lb_page = QLabel(JumpForm)
+        self.lb_page.setObjectName(u"lb_page")
 
-        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.label_3)
+        self.formLayout.setWidget(1, QFormLayout.LabelRole, self.lb_page)
 
         self.sb_volume = QSpinBox(JumpForm)
         self.sb_volume.setObjectName(u"sb_volume")
@@ -84,9 +84,9 @@ class Ui_JumpForm(object):
 
     def retranslateUi(self, JumpForm):
         JumpForm.setWindowTitle(QCoreApplication.translate("JumpForm", u"\u8df3\u8f6c\u5230...", None))
-        self.label.setText(QCoreApplication.translate("JumpForm", u"\u8df3\u8f6c\u5230", None))
-        self.label_2.setText(QCoreApplication.translate("JumpForm", u"\u5377", None))
-        self.label_3.setText(QCoreApplication.translate("JumpForm", u"\u9875", None))
+        self.lb_message.setText(QCoreApplication.translate("JumpForm", u"\u8df3\u8f6c\u5230", None))
+        self.lb_volume.setText(QCoreApplication.translate("JumpForm", u"\u5377", None))
+        self.lb_page.setText(QCoreApplication.translate("JumpForm", u"\u9875", None))
         self.pbtn_ok.setText(QCoreApplication.translate("JumpForm", u"\u786e\u5b9a", None))
         self.pbtn_cancel.setText(QCoreApplication.translate("JumpForm", u"\u53d6\u6d88", None))
     # retranslateUi

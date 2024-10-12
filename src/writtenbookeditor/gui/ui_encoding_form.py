@@ -23,20 +23,21 @@ class Ui_EncodingForm(object):
     def setupUi(self, EncodingForm):
         if not EncodingForm.objectName():
             EncodingForm.setObjectName(u"EncodingForm")
-        EncodingForm.resize(200, 100)
+        EncodingForm.resize(250, 100)
+        EncodingForm.setMinimumSize(QSize(250, 100))
         self.verticalLayout = QVBoxLayout(EncodingForm)
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label = QLabel(EncodingForm)
-        self.label.setObjectName(u"label")
+        self.lb_message = QLabel(EncodingForm)
+        self.lb_message.setObjectName(u"lb_message")
 
-        self.verticalLayout.addWidget(self.label)
+        self.verticalLayout.addWidget(self.lb_message)
 
         self.formLayout = QFormLayout()
         self.formLayout.setObjectName(u"formLayout")
-        self.label_0 = QLabel(EncodingForm)
-        self.label_0.setObjectName(u"label_0")
+        self.lb_encoding = QLabel(EncodingForm)
+        self.lb_encoding.setObjectName(u"lb_encoding")
 
-        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.label_0)
+        self.formLayout.setWidget(0, QFormLayout.LabelRole, self.lb_encoding)
 
         self.cmb_encoding = QComboBox(EncodingForm)
         self.cmb_encoding.addItem("")
@@ -74,8 +75,8 @@ class Ui_EncodingForm(object):
 
     def retranslateUi(self, EncodingForm):
         EncodingForm.setWindowTitle(QCoreApplication.translate("EncodingForm", u"\u8bbe\u7f6e\u7f16\u7801\u683c\u5f0f", None))
-        self.label.setText(QCoreApplication.translate("EncodingForm", u"\u65e0\u6cd5\u6253\u5f00\u6587\u4ef6, \u6b63\u786e\u7684\u7f16\u7801\u683c\u5f0f.", None))
-        self.label_0.setText(QCoreApplication.translate("EncodingForm", u"\u7f16\u7801\u683c\u5f0f", None))
+        self.lb_message.setText(QCoreApplication.translate("EncodingForm", u"\u65e0\u6cd5\u6253\u5f00\u6587\u4ef6, \u8bf7\u9009\u62e9\u6b63\u786e\u7684\u7f16\u7801\u683c\u5f0f.", None))
+        self.lb_encoding.setText(QCoreApplication.translate("EncodingForm", u"\u7f16\u7801\u683c\u5f0f", None))
         self.cmb_encoding.setItemText(0, QCoreApplication.translate("EncodingForm", u"\u81ea\u52a8\u8bc6\u522b", None))
         self.cmb_encoding.setItemText(1, QCoreApplication.translate("EncodingForm", u"UTF-8", None))
         self.cmb_encoding.setItemText(2, QCoreApplication.translate("EncodingForm", u"GBK", None))

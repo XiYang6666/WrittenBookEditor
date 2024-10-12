@@ -29,14 +29,14 @@ class Ui_AboutForm(object):
         self.verticalLayout_2.setContentsMargins(-1, 3, -1, -1)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
-        self.label_title = QLabel(AboutForm)
-        self.label_title.setObjectName(u"label_title")
+        self.lb_title = QLabel(AboutForm)
+        self.lb_title.setObjectName(u"lb_title")
         font = QFont()
         font.setPointSize(12)
         font.setBold(True)
-        self.label_title.setFont(font)
+        self.lb_title.setFont(font)
 
-        self.verticalLayout.addWidget(self.label_title)
+        self.verticalLayout.addWidget(self.lb_title)
 
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
@@ -47,80 +47,80 @@ class Ui_AboutForm(object):
         self.tab_about.setObjectName(u"tab_about")
         self.gridLayout_2 = QGridLayout(self.tab_about)
         self.gridLayout_2.setObjectName(u"gridLayout_2")
-        self.label_9 = QLabel(self.tab_about)
-        self.label_9.setObjectName(u"label_9")
-        self.label_9.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
-        self.label_9.setOpenExternalLinks(True)
+        self.lb_about = QLabel(self.tab_about)
+        self.lb_about.setObjectName(u"lb_about")
+        self.lb_about.setAlignment(Qt.AlignLeading|Qt.AlignLeft|Qt.AlignTop)
+        self.lb_about.setOpenExternalLinks(True)
 
-        self.gridLayout_2.addWidget(self.label_9, 0, 0, 1, 1)
+        self.gridLayout_2.addWidget(self.lb_about, 0, 0, 1, 1)
 
         self.tabWidget.addTab(self.tab_about, "")
         self.tab_author = QWidget()
         self.tab_author.setObjectName(u"tab_author")
         self.verticalLayout_3 = QVBoxLayout(self.tab_author)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.groupBox = QGroupBox(self.tab_author)
-        self.groupBox.setObjectName(u"groupBox")
-        self.gridLayout = QGridLayout(self.groupBox)
+        self.gb_author = QGroupBox(self.tab_author)
+        self.gb_author.setObjectName(u"gb_author")
+        self.gridLayout = QGridLayout(self.gb_author)
         self.gridLayout.setObjectName(u"gridLayout")
-        self.label_5 = QLabel(self.groupBox)
-        self.label_5.setObjectName(u"label_5")
+        self.lb_github = QLabel(self.gb_author)
+        self.lb_github.setObjectName(u"lb_github")
 
-        self.gridLayout.addWidget(self.label_5, 2, 0, 1, 1)
+        self.gridLayout.addWidget(self.lb_github, 2, 0, 1, 1)
 
-        self.label_3 = QLabel(self.groupBox)
-        self.label_3.setObjectName(u"label_3")
+        self.lb_email = QLabel(self.gb_author)
+        self.lb_email.setObjectName(u"lb_email")
 
-        self.gridLayout.addWidget(self.label_3, 4, 0, 1, 1)
+        self.gridLayout.addWidget(self.lb_email, 4, 0, 1, 1)
 
-        self.label_4 = QLabel(self.groupBox)
-        self.label_4.setObjectName(u"label_4")
-        self.label_4.setOpenExternalLinks(True)
+        self.lb_email_link = QLabel(self.gb_author)
+        self.lb_email_link.setObjectName(u"lb_email_link")
+        self.lb_email_link.setOpenExternalLinks(True)
 
-        self.gridLayout.addWidget(self.label_4, 4, 1, 1, 1)
+        self.gridLayout.addWidget(self.lb_email_link, 4, 1, 1, 1)
 
-        self.label_2 = QLabel(self.groupBox)
-        self.label_2.setObjectName(u"label_2")
+        self.lb_author_name = QLabel(self.gb_author)
+        self.lb_author_name.setObjectName(u"lb_author_name")
         font1 = QFont()
         font1.setPointSize(10)
-        self.label_2.setFont(font1)
+        self.lb_author_name.setFont(font1)
 
-        self.gridLayout.addWidget(self.label_2, 0, 0, 1, 3)
+        self.gridLayout.addWidget(self.lb_author_name, 0, 0, 1, 3)
 
         self.horizontalSpacer = QSpacerItem(40, 10, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
         self.gridLayout.addItem(self.horizontalSpacer, 4, 2, 1, 1)
 
-        self.label_6 = QLabel(self.groupBox)
-        self.label_6.setObjectName(u"label_6")
-        self.label_6.setOpenExternalLinks(True)
+        self.lb_github_link = QLabel(self.gb_author)
+        self.lb_github_link.setObjectName(u"lb_github_link")
+        self.lb_github_link.setOpenExternalLinks(True)
 
-        self.gridLayout.addWidget(self.label_6, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.lb_github_link, 2, 1, 1, 1)
 
-        self.label_7 = QLabel(self.groupBox)
-        self.label_7.setObjectName(u"label_7")
+        self.lb_mainpage = QLabel(self.gb_author)
+        self.lb_mainpage.setObjectName(u"lb_mainpage")
 
-        self.gridLayout.addWidget(self.label_7, 1, 0, 1, 1)
+        self.gridLayout.addWidget(self.lb_mainpage, 1, 0, 1, 1)
 
-        self.label_8 = QLabel(self.groupBox)
-        self.label_8.setObjectName(u"label_8")
-        self.label_8.setOpenExternalLinks(True)
+        self.lb_mainpage_link = QLabel(self.gb_author)
+        self.lb_mainpage_link.setObjectName(u"lb_mainpage_link")
+        self.lb_mainpage_link.setOpenExternalLinks(True)
 
-        self.gridLayout.addWidget(self.label_8, 1, 1, 1, 1)
+        self.gridLayout.addWidget(self.lb_mainpage_link, 1, 1, 1, 1)
 
-        self.label_10 = QLabel(self.groupBox)
-        self.label_10.setObjectName(u"label_10")
+        self.lb_bilibili = QLabel(self.gb_author)
+        self.lb_bilibili.setObjectName(u"lb_bilibili")
 
-        self.gridLayout.addWidget(self.label_10, 3, 0, 1, 1)
+        self.gridLayout.addWidget(self.lb_bilibili, 3, 0, 1, 1)
 
-        self.label_11 = QLabel(self.groupBox)
-        self.label_11.setObjectName(u"label_11")
-        self.label_11.setMouseTracking(True)
+        self.lb_bilibili_link = QLabel(self.gb_author)
+        self.lb_bilibili_link.setObjectName(u"lb_bilibili_link")
+        self.lb_bilibili_link.setMouseTracking(True)
 
-        self.gridLayout.addWidget(self.label_11, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.lb_bilibili_link, 3, 1, 1, 1)
 
 
-        self.verticalLayout_3.addWidget(self.groupBox)
+        self.verticalLayout_3.addWidget(self.gb_author)
 
         self.verticalSpacer = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
@@ -141,19 +141,19 @@ class Ui_AboutForm(object):
 
     def retranslateUi(self, AboutForm):
         AboutForm.setWindowTitle(QCoreApplication.translate("AboutForm", u"\u5173\u4e8e", None))
-        self.label_title.setText(QCoreApplication.translate("AboutForm", u"WrittenBookEditor v0.1.0", None))
-        self.label_9.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p>\u57fa\u4e8e Pyside6 \u7684 Minecraft \u6210\u4e66\u7f16\u8f91\u5668<br/></p><table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" cellspacing=\"2\" cellpadding=\"0\"><tr><td><p>\u4e3b\u9875</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor</span></a></p></td></tr><tr><td><p>\u62a5\u544a\u95ee\u9898</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor/issues\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor/issues</span></a></p></td></tr></table></body></html>", None))
+        self.lb_title.setText(QCoreApplication.translate("AboutForm", u"WrittenBookEditor v0.1.0", None))
+        self.lb_about.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p>\u57fa\u4e8e Pyside6 \u7684 Minecraft \u6210\u4e66\u7f16\u8f91\u5668<br/></p><table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" cellspacing=\"2\" cellpadding=\"0\"><tr><td><p>\u4e3b\u9875</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor</span></a></p></td></tr><tr><td><p>\u62a5\u544a\u95ee\u9898</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor/issues\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor/issues</span></a></p></td></tr></table></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_about), QCoreApplication.translate("AboutForm", u"\u5173\u4e8e", None))
-        self.groupBox.setTitle(QCoreApplication.translate("AboutForm", u"\u4f5c\u8005", None))
-        self.label_5.setText(QCoreApplication.translate("AboutForm", u"Github", None))
-        self.label_3.setText(QCoreApplication.translate("AboutForm", u"\u7535\u5b50\u90ae\u4ef6", None))
-        self.label_4.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"mailto:1782356858@qq.com\"><span style=\" text-decoration: underline; color:#007af4;\">1782356858@qq.com</span></a></p></body></html>", None))
-        self.label_2.setText(QCoreApplication.translate("AboutForm", u"XiYang6666", None))
-        self.label_6.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://github.com/XiYang6666\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666</span></a></p></body></html>", None))
-        self.label_7.setText(QCoreApplication.translate("AboutForm", u"\u4e3b\u9875", None))
-        self.label_8.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://xiyang6666.top/\"><span style=\" text-decoration: underline; color:#007af4;\">https://xiyang6666.top/</span></a></p></body></html>", None))
-        self.label_10.setText(QCoreApplication.translate("AboutForm", u"BiliBili", None))
-        self.label_11.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://space.bilibili.com/1088981781\"><span style=\" text-decoration: underline; color:#007af4;\">https://space.bilibili.com/1088981781</span></a></p></body></html>", None))
+        self.gb_author.setTitle(QCoreApplication.translate("AboutForm", u"\u4f5c\u8005", None))
+        self.lb_github.setText(QCoreApplication.translate("AboutForm", u"Github", None))
+        self.lb_email.setText(QCoreApplication.translate("AboutForm", u"\u7535\u5b50\u90ae\u4ef6", None))
+        self.lb_email_link.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"mailto:1782356858@qq.com\"><span style=\" text-decoration: underline; color:#007af4;\">1782356858@qq.com</span></a></p></body></html>", None))
+        self.lb_author_name.setText(QCoreApplication.translate("AboutForm", u"XiYang6666", None))
+        self.lb_github_link.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://github.com/XiYang6666\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666</span></a></p></body></html>", None))
+        self.lb_mainpage.setText(QCoreApplication.translate("AboutForm", u"\u4e3b\u9875", None))
+        self.lb_mainpage_link.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://xiyang6666.top/\"><span style=\" text-decoration: underline; color:#007af4;\">https://xiyang6666.top/</span></a></p></body></html>", None))
+        self.lb_bilibili.setText(QCoreApplication.translate("AboutForm", u"BiliBili", None))
+        self.lb_bilibili_link.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p><a href=\"https://space.bilibili.com/1088981781\"><span style=\" text-decoration: underline; color:#007af4;\">https://space.bilibili.com/1088981781</span></a></p></body></html>", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_author), QCoreApplication.translate("AboutForm", u"\u4f5c\u8005", None))
     # retranslateUi
 

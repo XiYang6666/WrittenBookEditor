@@ -6,25 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
+    <width>250</width>
     <height>100</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>250</width>
+    <height>100</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>设置编码格式</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="lb_message">
      <property name="text">
-      <string>无法打开文件, 正确的编码格式.</string>
+      <string>无法打开文件, 请选择正确的编码格式.</string>
      </property>
     </widget>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout">
      <item row="0" column="0">
-      <widget class="QLabel" name="label_0">
+      <widget class="QLabel" name="lb_encoding">
        <property name="text">
         <string>编码格式</string>
        </property>

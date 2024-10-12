@@ -1,0 +1,116 @@
+# This file is translated by ChatGPT.
+# The content may not be accurate or complete.
+
+[general]
+txt_file = "Text File"
+ok = "OK"
+cancel = "Cancel"
+
+[app]
+current_file = "Current File"
+did_not_open_file = "No file has been opened yet~"
+encoding = "Encoding Format"
+edit_single_page = "Edit Single Page"
+allow_page_split = "Allow Page to Split Words"
+force_no_wrap = "Force No Line Break"
+edit_single_tips = "Edit Current Page"
+allow_page_split_tips = "Allow words at the end of a page to be split across two pages"
+force_no_wrap_tips = "Prevent line breaks by forcibly inserting line breaks at the end of lines"
+last_page = "Previous Page"
+next_page = "Next Page"
+
+[page_label]
+tips = """Click to jump to the specified page
+Scroll up and down to switch pages
+Hold Shift to quickly switch pages"""
+volume_index = "Volume {index}/{total}"
+page_index = "Page {index}/{total}"
+total_pages = "Total {total} pages"
+
+[menu]
+file = "File"
+settings = "Settings"
+language = "Language"
+help = "Help"
+
+[action]
+new = "New"
+open_file = "Open File"
+save = "Save"
+save_as = "Save As..."
+export = "Export"
+force_unicode_font = "Force Unicode Font"
+jp_glyph_variant = "Japanese Glyph Variant"
+about = "About"
+
+[encoding]
+auto_detect = "Auto Detect"
+
+[file_dialog]
+new_file = "New File"
+open_file = "Open File"
+save_file = "Save File"
+save_as = "Save As"
+failed_to_create_file = "Failed to create file: {exception}"
+failed_to_read_file = "Failed to read file: {exception}"
+failed_to_write_file = "Failed to write file: {exception}"
+file_not_saved = "File not saved yet, do you want to save it?"
+no_such_file = "File does not exist"
+not_a_file = "Not a file"
+
+[encoding_dialog]
+title = "Set Encoding Format"
+message = "Cannot open the file, please choose the correct encoding format."
+encoding = "Encoding Format"
+
+[export_dialog]
+window_title = "Export"
+book_options = "Book Information"
+export_options = "Export Options"
+extra_options = "Extra Options"
+author = "Author"
+title = "Title"
+item_type = "Item Type"
+file_type = "File Type"
+command_version = "Command Version"
+use_text_component = "Use Text Component"
+use_filter = "Use Filter"
+export = "Export"
+
+[export_dialog_message]
+export = "Export"
+title_must_not_be_empty = "Title cannot be empty"
+unknown_export_type = "Unknown Export Type"
+unknown_command_version = "Unknown Command Version"
+select_export_folder = "Select Export Folder"
+select_export_file = "Select Export File"
+successfully_exported = "Export Successful"
+failed_to_export = "Export Failed: {exception}"
+
+[item_type]
+written_book = "Written Book"
+shulker_box = "Shulker Box"
+
+[file_type]
+command_text = "Command Plain Text"
+function_text = "MC Function File"
+data_pack = "Data Pack"
+
+[command_version]
+upper_1_13 = ">=1.13 <1.20.5"
+upper_1_20_5 = ">=1.20.5"
+
+[jump_dialog]
+title = "Jump to..."
+message = "Jump to"
+volume = "Volume"
+page = "Page"
+
+[about_dialog]
+title = "About"
+about = "About"
+author = "Author"
+mainpage = "Homepage"
+github = "GitHub"
+bilibili = "BiliBili"
+email = "Email"

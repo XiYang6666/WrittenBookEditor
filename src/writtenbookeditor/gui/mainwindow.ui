@@ -51,7 +51,7 @@
           <number>6</number>
          </property>
          <item row="0" column="0">
-          <widget class="QLabel" name="label_0">
+          <widget class="QLabel" name="lb_current_file">
            <property name="text">
             <string>当前文件</string>
            </property>
@@ -66,7 +66,7 @@
             </size>
            </property>
            <property name="text">
-            <string>还没有打开任何文件呢~</string>
+            <string/>
            </property>
            <property name="readOnly">
             <bool>true</bool>
@@ -74,7 +74,7 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_1">
+          <widget class="QLabel" name="lb_encoding">
            <property name="text">
             <string>编码格式</string>
            </property>
@@ -296,7 +296,7 @@
     </property>
     <addaction name="action_about"/>
    </widget>
-   <widget class="QMenu" name="menu">
+   <widget class="QMenu" name="menu_settings">
     <property name="title">
      <string>设置</string>
     </property>
@@ -311,7 +311,7 @@
     <addaction name="action_english"/>
    </widget>
    <addaction name="menu_file"/>
-   <addaction name="menu"/>
+   <addaction name="menu_settings"/>
    <addaction name="menu_lang"/>
    <addaction name="menu_help"/>
   </widget>

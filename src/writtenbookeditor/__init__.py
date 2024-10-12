@@ -1,4 +1,5 @@
 import math
+import locale
 from io import StringIO
 from typing import Optional
 from pathlib import Path
@@ -18,6 +19,7 @@ from .book import Page
 from .render import render_page, RENDERED_PAGE_WIDTH, RENDERED_PAGE_HEIGHT
 from .export import export_book, ExportItemType, ExportFileType, CommandVersion
 from .util.open_folder import open_folder
+from .i18n import set_lang, translate as tr
 
 
 class App(QApplication):
@@ -37,6 +39,11 @@ class App(QApplication):
         self.main_window.setAcceptDrops(True)
         self.main_window.show()
 
+        current_locale, _ = locale.getlocale()
+        if current_locale and (current_locale.startswith("zh_") or current_locale.startswith("Chinese")):
+            self.setup_lang("zh_CN")
+        else:
+            self.setup_lang("en_US")
         self.setup_graph_view()
         self.setup_graph_scene()
         self.setup_background()
@@ -49,6 +56,11 @@ class App(QApplication):
         self.setup_shortcuts()
 
     # setup
+
+    def setup_lang(self, lang: str):
+        set_lang(lang)
+        self.main_window.update_lang()
+        self.update_buttons_and_label()
 
     def setup_graph_view(self):
         self.main_window.gv_book_view.scale(1 / self.dpi, 1 / self.dpi)
@@ -85,6 +97,8 @@ class App(QApplication):
         self.main_window.action_export.triggered.connect(self.on_action_export)
         self.main_window.action_force_unicode.triggered.connect(self.on_action_setting_changed)
         self.main_window.action_jp_font.triggered.connect(self.on_action_setting_changed)
+        self.main_window.action_chinese.triggered.connect(self.on_action_chinese)
+        self.main_window.action_english.triggered.connect(self.on_action_english)
         self.main_window.action_about.triggered.connect(self.on_action_about)
 
         self.main_window.txe_text.textChanged.connect(self.on_text_changed)
@@ -108,7 +122,7 @@ class App(QApplication):
 
     def get_encoding(self) -> Optional[str]:
         encoding = self.main_window.cmb_encoding.currentText()
-        if encoding == "自动识别":
+        if encoding == tr("encoding.auto_detect"):  # "自动识别"
             return None
         else:
             return encoding
@@ -133,11 +147,15 @@ class App(QApplication):
                 if encoding_dialog.exec() == QDialog.DialogCode.Rejected:
                     return None
                 encoding = encoding_dialog.get_result()
-                if encoding == "自动识别":
+                if encoding == tr("encoding.auto_detect"):  # "自动识别"
                     encoding = chardet.detect(data)["encoding"] or "utf-8"
                 continue
             except Exception as e:
-                QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+                QMessageBox.warning(
+                    self.main_window,
+                    tr("file_dialog.open_file"),  # "打开文件"
+                    tr("file_dialog.failed_to_read_file").format(exception=e),  # f"读取文件失败: {e}"
+                )
             else:
                 return encoding
 
@@ -149,8 +167,8 @@ class App(QApplication):
         if self.not_saved:
             reply = QMessageBox.question(
                 self.main_window,
-                "打开文件",
-                "文件尚未保存，是否保存？",
+                tr("file_dialog.open_file"),  # "打开文件"
+                tr("file_dialog.file_not_saved"),  # "文件尚未保存，是否保存？",
                 QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No | QMessageBox.StandardButton.Cancel,
             )
             if reply == QMessageBox.StandardButton.Yes:
@@ -237,13 +255,16 @@ class App(QApplication):
         current_volume = self.page_index // 100
         total_pages = min(100, len(self.pages) - current_volume * 100)
         current_page = self.page_index % 100
-        # fmt: off
         label_text = (
-            f"第{current_volume+1}/{total_volume+1}卷 " 
-            f"第{current_page+1}/{max(total_pages,1)}页 " 
-            f"共{len(self.pages)}页"
+            tr("page_label.volume_index").format(index=current_volume + 1, total=total_volume + 1)
+            + " "
+            + tr("page_label.page_index").format(index=current_page + 1, total=max(total_pages, 1))
+            + " "
+            + tr("page_label.total_pages").format(total=len(self.pages))
         )
-        # fmt: on
+        # f"第{current_volume+1}/{total_volume+1}卷 "
+        # f"第{current_page+1}/{max(total_pages,1)}页 "
+        # f"共{len(self.pages)}页"
         self.main_window.lb_index.setText(label_text)
 
     def update_text_editor(self):
@@ -274,7 +295,11 @@ class App(QApplication):
         try:
             data = filepath.read_bytes()
         except Exception as e:
-            QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.open_file"),  # "打开文件"
+                tr("file_dialog.failed_to_read_file").format(exception=e),  # f"读取文件失败: {e}"
+            )
             return
         encoding = self.set_content_with_unknown_encoding(data)
         if encoding is None:
@@ -295,9 +320,9 @@ class App(QApplication):
         self.confirm_save()
         file_name, _ = QFileDialog.getSaveFileName(
             self.main_window,
-            "新建文件",
+            tr("file_dialog.new_file"),  # "新建文件"
             "",
-            "文本文件 (*.txt)",
+            f"{tr('general.txt_file')} (*.txt)",  # "文本文件 (*.txt)",
         )
         if file_name == "":
             return
@@ -305,13 +330,25 @@ class App(QApplication):
             filepath = Path(file_name)
             filepath.touch()
             if not filepath.exists():
-                QMessageBox.warning(self.main_window, "新建文件", "文件不存在！")
+                QMessageBox.warning(
+                    self.main_window,
+                    tr("file_dialog.new_file"),  # "新建文件"
+                    tr("file_dialog.no_such_file"),  # "文件不存在！"
+                )
                 return
             if not filepath.is_file():
-                QMessageBox.warning(self.main_window, "新建文件", "不是文件！")
+                QMessageBox.warning(
+                    self.main_window,
+                    tr("file_dialog.new_file"),  # "新建文件"
+                    tr("file_dialog.not_a_file"),  # "不是文件！"
+                )
                 return
         except Exception as e:
-            QMessageBox.warning(self.main_window, "新建文件", f"创建文件失败: {e}")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.new_file"),  # "新建文件"
+                tr("file_dialog.failed_to_create_file").format(exception=e),  # f"创建文件失败: {e}"
+            )
             return
         else:
             self.set_filepath(filepath)
@@ -326,24 +363,36 @@ class App(QApplication):
         self.confirm_save()
         file_name, _ = QFileDialog.getOpenFileName(
             self.main_window,
-            "打开文件",
+            tr("file_dialog.open_file"),  # "打开文件"
             "",
-            "文本文件 (*.txt)",
+            f"{tr('general.txt_file')} (*.txt)",  # "文本文件 (*.txt)",
         )
         if file_name == "":
             return
         self.not_saved = False
         filepath = Path(file_name)
         if not filepath.exists():
-            QMessageBox.warning(self.main_window, "打开文件", "文件不存在！")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.open_file"),  # "打开文件"
+                tr("file_dialog.no_such_file"),  # "文件不存在！"
+            )
             return
         if not filepath.is_file():
-            QMessageBox.warning(self.main_window, "打开文件", "不是文件！")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.open_file"),  # "打开文件"
+                tr("file_dialog.not_a_file"),  # "不是文件！"
+            )
             return
         try:
             data = filepath.read_bytes()
         except Exception as e:
-            QMessageBox.warning(self.main_window, "打开文件", f"读取文件失败: {e}")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.open_file"),  # "打开文件"
+                tr("file_dialog.failed_to_read_file").format(exception=e),  # f"读取文件失败: {e}"
+            )
             return
         encoding = self.set_content_with_unknown_encoding(data)
         if encoding is None:
@@ -360,9 +409,9 @@ class App(QApplication):
         if self.filepath is None:
             filename, _ = QFileDialog.getSaveFileName(
                 self.main_window,
-                "保存文件",
+                tr("file_dialog.save_file"),  # "保存文件"
                 "",
-                "文本文件 (*.txt)",
+                f"{tr('general.txt_file')} (*.txt)",  # "文本文件 (*.txt)"
             )
             if filename == "":
                 return
@@ -373,7 +422,11 @@ class App(QApplication):
             filepath.touch()
             filepath.write_text(self.content, encoding=self.get_encoding() or "utf-8", newline="\n")  # 统一使用 LF
         except Exception as e:
-            QMessageBox.warning(self.main_window, "保存文件", f"写入文件失败: {e}")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.save_file"),  # "保存文件"
+                tr("file_dialog.failed_to_write_file").format(exception=e),  # f"写入文件失败: {e}"
+            )
         else:
             self.set_filepath(filepath)
             self.update_title()
@@ -381,9 +434,9 @@ class App(QApplication):
     def on_action_save_as(self):
         filename, _ = QFileDialog.getSaveFileName(
             self.main_window,
-            "另存为",
+            tr("file_dialog.save_as"),  # "另存为"
             "",
-            "文本文件 (*.txt)",
+            f"{tr('general.txt_file')} (*.txt)",  # "文本文件 (*.txt)"
         )
         if filename == "":
             return
@@ -392,7 +445,11 @@ class App(QApplication):
             filepath.touch()
             filepath.write_text(self.content, encoding=self.get_encoding() or "utf-8")
         except Exception as e:
-            QMessageBox.warning(self.main_window, "另存为", f"写入文件失败: {e}")
+            QMessageBox.warning(
+                self.main_window,
+                tr("file_dialog.save_as"),  # "另存为"
+                tr("file_dialog.failed_to_write_file").format(exception=e),  # f"写入文件失败: {e}"
+            )
         else:
             self.set_filepath(filepath)
             self.update_title()
@@ -402,61 +459,71 @@ class App(QApplication):
 
         def on_export():
             result = dialog.get_result()
+            # get export path
             if not result["title"]:
-                QMessageBox.warning(dialog, "导出", "标题不能为空！")
+                QMessageBox.warning(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.title_must_not_be_empty"),  # "标题不能为空！"
+                )
                 return
-            if result["file_type"] == "指令纯文本":
+            if result["file_type"] == tr("file_type.command_text"):  # "指令纯文本"
                 filepath = QFileDialog.getExistingDirectory(
                     dialog,
-                    "选择导出文件夹",
+                    tr("export_dialog_message.select_export_folder"),  # "选择导出文件夹"
                     "",
                     QFileDialog.Option.ShowDirsOnly,
                 )
-            elif result["file_type"] == "mc 函数文件":
+                export_type = ExportFileType.COMMAND_TEXT
+            elif result["file_type"] == tr("file_type.function_text"):  # "mc 函数文件"
                 filepath, _ = QFileDialog.getSaveFileName(
                     dialog,
-                    "选择导出文件",
+                    tr("export_dialog_message.select_export_file"),  # "选择导出文件"
                     result["title"] + ".mcfunction",
-                    "mc 函数文件 (*.mcfunction)",
+                    f"{tr('file_type.function_text')} (*.mcfunction)",
                 )
-            elif result["file_type"] == "数据包":
+                export_type = ExportFileType.FUNCTION_FILE
+            elif result["file_type"] == tr("file_type.data_pack"):  # "数据包"
                 filepath, _ = QFileDialog.getSaveFileName(
                     dialog,
-                    "选择导出文件",
+                    tr("export_dialog_message.select_export_file"),  # "选择导出文件"
                     result["title"] + ".zip",
-                    "数据包 (*.zip)",
+                    f"{tr('file_type.data_pack')} (*.zip)",  # "数据包 (*.zip)"
                 )
+                export_type = ExportFileType.DATA_PACK
             else:
-                QMessageBox.warning(dialog, "导出", "未知导出类型！")
+                QMessageBox.warning(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.unknown_export_type"),  # "未知导出类型！"
+                )
                 return
             if filepath == "":
                 return
-            match result["item_type"]:
-                case "成书":
-                    item_type = ExportItemType.WRITTEN_BOOK
-                case "潜影盒":
-                    item_type = ExportItemType.SHULKER_BOX
-                case _:
-                    QMessageBox.warning(dialog, "导出", "未知导出项目！")
-                    return
-            match result["file_type"]:
-                case "指令纯文本":
-                    export_type = ExportFileType.COMMAND_TEXT
-                case "mc 函数文件":
-                    export_type = ExportFileType.FUNCTION_FILE
-                case "数据包":
-                    export_type = ExportFileType.DATA_PACK
-                case _:
-                    QMessageBox.warning(dialog, "导出", "未知导出类型！")
-                    return
-            match result["command_version"]:
-                case ">=1.13 <1.20.5":
-                    command_version = CommandVersion.UPPER_1_13
-                case ">=1.20.5":
-                    command_version = CommandVersion.UPPER_1_20_5
-                case _:
-                    QMessageBox.warning(dialog, "导出", "未知指令版本！")
-                    return
+            # get item options
+            if result["item_type"] == tr("item_type.written_book"):  # "成书"
+                item_type = ExportItemType.WRITTEN_BOOK
+            elif result["item_type"] == tr("item_type.shulker_box"):  # "潜影盒"
+                item_type = ExportItemType.SHULKER_BOX
+            else:
+                QMessageBox.warning(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.unknown_export_type"),  # "未知导出类型！"
+                )
+                return
+            # get command version
+            if result["command_version"] == tr("command_version.upper_1_13"):  # ">=1.13 <1.20.5"
+                command_version = CommandVersion.UPPER_1_13
+            elif result["command_version"] == tr("command_version.upper_1_20_5"):  # ">=1.20.5"
+                command_version = CommandVersion.UPPER_1_20_5
+            else:
+                QMessageBox.warning(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.unknown_command_version"),  # "未知指令版本！"
+                )
+                return
             try:
                 export_book(
                     self.pages,
@@ -470,14 +537,28 @@ class App(QApplication):
                     filter=result["filter"],
                 )
             except Exception as e:
-                QMessageBox.warning(dialog, "导出", f"导出失败: {e}")
+                QMessageBox.warning(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.failed_to_export").format(exception=e),  # f"导出失败: {e}"
+                )
                 return
             else:
-                QMessageBox.information(dialog, "导出", "导出成功！")
+                QMessageBox.information(
+                    dialog,
+                    tr("export_dialog_message.export"),  # "导出"
+                    tr("export_dialog_message.successfully_exported"),  # "导出成功！"
+                )
                 open_folder(filepath)
 
         dialog.pbtn_export.clicked.connect(on_export)
         dialog.exec()
+
+    def on_action_chinese(self):
+        self.setup_lang("zh_CN")
+
+    def on_action_english(self):
+        self.setup_lang("en_US")
 
     def on_action_about(self):
         if self.about_dialog is not None:

@@ -163,3 +163,4 @@ cython_debug/
 
 /.vscode/
 /data/metadata.json
+/**/*.autosave
