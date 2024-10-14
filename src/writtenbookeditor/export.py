@@ -138,5 +138,5 @@ def export_book(
             json.dumps(pack_meta),
         )
         mcfunction_content = "\n".join(command_strings)
-        zip_obj.writestr("data/written_book_editor/functions/load.mcfunction", mcfunction_content)
+        zip_obj.writestr("data/written_book_editor/function/load.mcfunction", mcfunction_content)
         zip_obj.close()
