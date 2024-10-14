@@ -111,3 +111,7 @@ mainpage = "主页"
 github = "GitHub"
 bilibili = "BiliBili"
 email = "电子邮件"
+
+[exception_dialog]
+title = "错误"
+message = "发生错误: {exception}"

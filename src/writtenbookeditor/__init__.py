@@ -1,8 +1,9 @@
 import math
 import locale
 from io import StringIO
-from typing import Optional
 from pathlib import Path
+from typing import Optional
+from types import TracebackType
 
 from PySide6.QtWidgets import QApplication, QGraphicsScene, QGraphicsPixmapItem, QDialog, QFileDialog, QMessageBox
 from PySide6.QtGui import QResizeEvent, QMouseEvent, QCloseEvent, QShortcut, QKeySequence, QDragEnterEvent, QDropEvent, QWheelEvent
@@ -656,3 +657,15 @@ class App(QApplication):
         self.update_view_page()
         self.update_text_editor()
         self.update_buttons_and_label()
+
+    # exception events
+
+    def on_exception(self, exc_type: type[BaseException], exc_value: BaseException, exc_traceback: TracebackType | None):
+        if exc_type is KeyboardInterrupt:
+            self.exit()
+        message = tr("exception_dialog.message").format(exception=f"{exc_type.__name__}: {exc_value}")
+        QMessageBox.warning(
+            self.main_window,
+            tr("exception_dialog.title"),
+            message,
+        )

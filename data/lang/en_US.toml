@@ -114,3 +114,7 @@ mainpage = "Homepage"
 github = "GitHub"
 bilibili = "BiliBili"
 email = "Email"
+
+[exception_dialog]
+title = "Error"
+message = "An error occurred: {exception}"
