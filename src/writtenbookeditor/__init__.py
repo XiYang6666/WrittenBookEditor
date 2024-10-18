@@ -18,7 +18,7 @@ from .gui.about_dialog import AboutDialog
 from .gui.export_dialog import ExportDialog
 from .book import Page
 from .render import render_page, RENDERED_PAGE_WIDTH, RENDERED_PAGE_HEIGHT
-from .export import export_book, ExportItemType, ExportFileType, CommandVersion
+from .export import export_book, ExportItemType, ExportFileType, MinecraftVersion
 from .util.open_folder import open_folder
 from .i18n import set_lang, translate as tr
 
@@ -516,16 +516,18 @@ class App(QApplication):
                     tr("export_dialog_message.unknown_export_type"),  # "未知导出类型！"
                 )
                 return
-            # get command version
-            if result["command_version"] == tr("command_version.upper_1_13"):  # ">=1.13 <1.20.5"
-                command_version = CommandVersion.UPPER_1_13
-            elif result["command_version"] == tr("command_version.upper_1_20_5"):  # ">=1.20.5"
-                command_version = CommandVersion.UPPER_1_20_5
+            # get minecraft version
+            if result["minecraft_version"] == tr("minecraft_version.upper_1_13"):  # ">=1.13 <1.20.5"
+                minecraft_version = MinecraftVersion.UPPER_1_13
+            elif result["minecraft_version"] == tr("minecraft_version.upper_1_20_5"):  # ">=1.20.5 <1.21"
+                minecraft_version = MinecraftVersion.UPPER_1_20_5
+            elif result["minecraft_version"] == tr("minecraft_version.upper_1_21"):  # ">=1.21"
+                minecraft_version = MinecraftVersion.UPPER_1_21
             else:
                 QMessageBox.warning(
                     dialog,
                     tr("export_dialog_message.export"),  # "导出"
-                    tr("export_dialog_message.unknown_command_version"),  # "未知指令版本！"
+                    tr("export_dialog_message.unknown_minecraft_version"),  # "未知 Minecraft 版本！"
                 )
                 return
             try:
@@ -536,7 +538,7 @@ class App(QApplication):
                     result["author"],
                     item_type,
                     export_type,
-                    command_version,
+                    minecraft_version,
                     text_component=result["text_component"],
                     filter=result["filter"],
                 )

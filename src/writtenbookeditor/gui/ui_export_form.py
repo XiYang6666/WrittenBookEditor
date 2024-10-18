@@ -83,17 +83,18 @@ class Ui_ExportForm(object):
 
         self.formLayout_3.setWidget(1, QFormLayout.FieldRole, self.cmb_file_type)
 
-        self.lb_command_version = QLabel(self.gb_export_options)
-        self.lb_command_version.setObjectName(u"lb_command_version")
+        self.lb_minecraft_version = QLabel(self.gb_export_options)
+        self.lb_minecraft_version.setObjectName(u"lb_minecraft_version")
 
-        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.lb_command_version)
+        self.formLayout_3.setWidget(2, QFormLayout.LabelRole, self.lb_minecraft_version)
 
-        self.cmb_command_version = QComboBox(self.gb_export_options)
-        self.cmb_command_version.addItem("")
-        self.cmb_command_version.addItem("")
-        self.cmb_command_version.setObjectName(u"cmb_command_version")
+        self.cmb_minecraft_version = QComboBox(self.gb_export_options)
+        self.cmb_minecraft_version.addItem("")
+        self.cmb_minecraft_version.addItem("")
+        self.cmb_minecraft_version.addItem("")
+        self.cmb_minecraft_version.setObjectName(u"cmb_minecraft_version")
 
-        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.cmb_command_version)
+        self.formLayout_3.setWidget(2, QFormLayout.FieldRole, self.cmb_minecraft_version)
 
 
         self.verticalLayout_2.addWidget(self.gb_export_options)
@@ -160,9 +161,10 @@ class Ui_ExportForm(object):
         self.cmb_file_type.setItemText(1, QCoreApplication.translate("ExportForm", u"mc \u51fd\u6570\u6587\u4ef6", None))
         self.cmb_file_type.setItemText(2, QCoreApplication.translate("ExportForm", u"\u6570\u636e\u5305", None))
 
-        self.lb_command_version.setText(QCoreApplication.translate("ExportForm", u"\u6307\u4ee4\u7248\u672c", None))
-        self.cmb_command_version.setItemText(0, QCoreApplication.translate("ExportForm", u">=1.13 <1.20.5", None))
-        self.cmb_command_version.setItemText(1, QCoreApplication.translate("ExportForm", u">=1.20.5", None))
+        self.lb_minecraft_version.setText(QCoreApplication.translate("ExportForm", u"MC \u7248\u672c", None))
+        self.cmb_minecraft_version.setItemText(0, QCoreApplication.translate("ExportForm", u">=1.13 <1.20.5", None))
+        self.cmb_minecraft_version.setItemText(1, QCoreApplication.translate("ExportForm", u">=1.20.5 <1.21", None))
+        self.cmb_minecraft_version.setItemText(2, QCoreApplication.translate("ExportForm", u">=1.21", None))
 
 #if QT_CONFIG(tooltip)
         self.gb_extra_options.setToolTip(QCoreApplication.translate("ExportForm", u"\u5982\u679c\u4f60\u4e0d\u77e5\u9053\u8fd9\u4e9b\u914d\u7f6e\u7684\u542b\u4e49\u8bf7\u4e0d\u8981\u968f\u610f\u4fee\u6539", None))

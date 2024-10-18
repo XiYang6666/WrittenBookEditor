@@ -12,7 +12,7 @@ class Result(TypedDict):
     title: str
     item_type: str
     file_type: str
-    command_version: str
+    minecraft_version: str
     text_component: bool
     filter: bool
 
@@ -31,14 +31,15 @@ class ExportDialog(QDialog, Ui_ExportForm):
         self.lb_title.setText(tr("export_dialog.title"))
         self.lb_item_type.setText(tr("export_dialog.item_type"))
         self.lb_file_type.setText(tr("export_dialog.file_type"))
-        self.lb_command_version.setText(tr("export_dialog.command_version"))
+        self.lb_minecraft_version.setText(tr("export_dialog.minecraft_version"))
         self.cmb_item_type.setItemText(0, tr("item_type.written_book"))
         self.cmb_item_type.setItemText(1, tr("item_type.shulker_box"))
         self.cmb_file_type.setItemText(0, tr("file_type.command_text"))
         self.cmb_file_type.setItemText(1, tr("file_type.function_text"))
         self.cmb_file_type.setItemText(2, tr("file_type.data_pack"))
-        self.cmb_command_version.setItemText(0, tr("command_version.upper_1_13"))
-        self.cmb_command_version.setItemText(1, tr("command_version.upper_1_20_5"))
+        self.cmb_minecraft_version.setItemText(0, tr("minecraft_version.upper_1_13"))
+        self.cmb_minecraft_version.setItemText(1, tr("minecraft_version.upper_1_20_5"))
+        self.cmb_minecraft_version.setItemText(2, tr("minecraft_version.upper_1_21"))
         self.chk_text_component.setText(tr("export_dialog.use_text_component"))
         self.chk_filter.setText(tr("export_dialog.use_filter"))
         self.pbtn_export.setText(tr("export_dialog.export"))
@@ -55,7 +56,7 @@ class ExportDialog(QDialog, Ui_ExportForm):
             "title": self.le_title.text(),
             "item_type": self.cmb_item_type.currentText(),
             "file_type": self.cmb_file_type.currentText(),
-            "command_version": self.cmb_command_version.currentText(),
+            "minecraft_version": self.cmb_minecraft_version.currentText(),
             "text_component": self.chk_text_component.isChecked(),
             "filter": self.chk_filter.isChecked(),
         }

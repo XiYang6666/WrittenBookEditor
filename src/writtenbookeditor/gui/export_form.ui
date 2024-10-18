@@ -108,14 +108,14 @@
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="lb_command_version">
+       <widget class="QLabel" name="lb_minecraft_version">
         <property name="text">
-         <string>指令版本</string>
+         <string>MC 版本</string>
         </property>
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QComboBox" name="cmb_command_version">
+       <widget class="QComboBox" name="cmb_minecraft_version">
         <item>
          <property name="text">
           <string>&gt;=1.13 &lt;1.20.5</string>
@@ -123,7 +123,12 @@
         </item>
         <item>
          <property name="text">
-          <string>&gt;=1.20.5</string>
+          <string>&gt;=1.20.5 &lt;1.21</string>
+         </property>
+        </item>
+        <item>
+         <property name="text">
+          <string>&gt;=1.21</string>
          </property>
         </item>
        </widget>

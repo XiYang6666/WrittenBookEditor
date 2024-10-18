@@ -143,7 +143,7 @@ class Ui_AboutForm(object):
     def retranslateUi(self, AboutForm):
         AboutForm.setWindowTitle(QCoreApplication.translate("AboutForm", u"\u5173\u4e8e", None))
         self.lb_title.setText(QCoreApplication.translate("AboutForm", u"WrittenBookEditor v0.1.0", None))
-        self.lb_about.setText(QCoreApplication.translate("AboutForm", u"<html><head/><body><p>\u57fa\u4e8e Pyside6 \u7684 Minecraft \u6210\u4e66\u7f16\u8f91\u5668<br/></p><table border=\"0\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px;\" cellspacing=\"2\" cellpadding=\"0\"><tr><td><p>\u4e3b\u9875</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor</span></a></p></td></tr><tr><td><p>\u62a5\u544a\u95ee\u9898</p></td><td><p><a href=\"https://github.com/XiYang6666/WrittenBookEditor/issues\"><span style=\" text-decoration: underline; color:#007af4;\">https://github.com/XiYang6666/WrittenBookEditor/issues</span></a></p></td></tr></table></body></html>", None))
+        self.lb_about.setText(QCoreApplication.translate("AboutForm", u"\u829d\u58eb\u7b80\u4ecb", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_about), QCoreApplication.translate("AboutForm", u"\u5173\u4e8e", None))
         self.gb_author.setTitle(QCoreApplication.translate("AboutForm", u"\u4f5c\u8005", None))
         self.lb_github.setText(QCoreApplication.translate("AboutForm", u"Github", None))
