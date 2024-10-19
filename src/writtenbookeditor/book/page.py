@@ -28,7 +28,7 @@ class Page:
         self.force_no_wrap: bool = force_no_wrap
 
     @classmethod
-    def from_plaintext_stream(
+    def from_plaintext_stream(  # TODO: 可能得全部重写了
         cls,
         stream: StringIO,
         *,

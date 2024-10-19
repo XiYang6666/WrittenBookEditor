@@ -1,13 +1,16 @@
+import json
 import tomllib
 from pathlib import Path
 
 translate_dict = {}
+translate_dict_mc = {}
 language = "en_US"
 
 
 def set_lang(lang: str):
     global language
     global translate_dict
+    global translate_dict_mc
     language = lang
 
     lang_file_path = Path(f"./data/lang/{language}.toml")
@@ -15,6 +18,12 @@ def set_lang(lang: str):
         translate_dict = {}
     with lang_file_path.open("rb") as f:
         translate_dict = tomllib.load(f)
+
+    lang_file_path = Path(f"./data/lang/{language.lower()}.json")
+    if not lang_file_path.exists():
+        translate_dict_mc = {}
+    with lang_file_path.open("r", encoding="utf-8") as f:
+        translate_dict_mc = json.load(f)
 
 
 def get_lang() -> str:
@@ -32,3 +41,7 @@ def translate(key: str) -> str:
     if not isinstance(value, str):
         return key
     return value
+
+
+def translate_mc(key: str) -> str:
+    return translate_dict_mc.get(key, key)
