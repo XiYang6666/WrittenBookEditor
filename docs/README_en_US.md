@@ -1,6 +1,6 @@
 # WrittenBookEditor
 
-A Minecraft book editor written in Python using PySide6.
+A Minecraft book editor in Python using PySide6.
 
 [English](docs/README_en_US.md)
 [简体中文](/README.md)
@@ -25,4 +25,4 @@ Enabling "Force Unicode Font" in Minecraft, along with the same setting in this 
 
 - [x] i18n
 - [ ] Support for multiple Minecraft versions
-- [ ] Hypertext support
+- [ ] JSON text support
