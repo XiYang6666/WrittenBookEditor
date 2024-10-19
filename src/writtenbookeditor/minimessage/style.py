@@ -95,9 +95,8 @@ class StyleText:
             result = self._apply_transition()
         else:
             # No color mode, just apply basic style to the whole text
-            component = TextComponent()
+            component = TextComponent(self.text)
             set_component_style(component, self.style)
-            component.text = self.text
             result.append(component)
 
         return result
@@ -152,7 +151,8 @@ class StyleText:
             color_hex = rgb_to_hex(interpolated_color)
 
             component = TextComponent()
-            set_component_style(component, self.style)
+            if i == 0:  # 后续组件会继承第一个组件的样式
+                set_component_style(component, self.style)
             component.text = char
             component.color = color_hex
             result.append(component)

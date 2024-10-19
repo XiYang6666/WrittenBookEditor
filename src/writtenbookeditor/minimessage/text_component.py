@@ -10,7 +10,7 @@ ClickEventActions = Literal["open_url", "open_file", "run_command", "suggest_com
 
 @dataclass
 class ClickEvent:
-    action: ClickEventActions  # 暂时只支持 open_url
+    action: ClickEventActions
     value: str
 
 
@@ -20,8 +20,8 @@ HoverEventActions = Literal["show_text", "show_item", "show_entity"]
 @dataclass
 class HoverEvent:
     action: HoverEventActions
-    # contents: "TextComponentType" # 为支持全部版本，使用已启用的 value 而非较新的 contents
-    value: Union["TextComponent", str]
+    # contents: "TextComponentType" # 为支持全部版本，使用旧版的的 value 而非较新的 contents
+    value: Union["TextComponentType", str]
 
 
 @dataclass
@@ -47,7 +47,7 @@ class TextComponent:
         self.insertion: Optional[str] = None
         self.click_event: Optional[ClickEvent] = None
         self.hover_event: Optional[HoverEvent] = None
-        self.extra: Optional[list] = None
+        self.extra: Optional[list[TextComponentType]] = None
         # text
         self.text: Optional[str] = text
         # translatable
@@ -87,8 +87,15 @@ class TextComponent:
             "strikethrough": self.strikethrough,
             "obfuscated": self.obfuscated,
             "insertion": self.insertion,
-            "click_event": self.click_event,
-            "hover_event": self.hover_event,
+            "click_event": {"action": self.click_event.action, "value": self.click_event.value} if self.click_event is not None else None,
+            "hover_event": (
+                {
+                    "action": self.hover_event.action,
+                    "value": text_component_type_to_json(self.hover_event.value),
+                }
+                if self.hover_event is not None
+                else None
+            ),
             "extra": self.extra,
         }
         if self.type == "text":
@@ -154,3 +161,25 @@ class TextComponent:
             raise ValueError(f"unknown type: {self.type}")
         result = {k: v for k, v in value.items() if v is not None}
         return result
+
+
+def text_component_type_to_text_component(value: TextComponentType) -> TextComponent:
+    if isinstance(value, str):
+        return TextComponent(value)
+    elif isinstance(value, TextComponent):
+        return value
+    elif isinstance(value, list):
+        if len(value) < 1:
+            return TextComponent()
+        result = text_component_type_to_text_component(value[0])
+        result.extra = [text_component_type_to_text_component(v) for v in value[1:]]
+        return result
+
+
+def text_component_type_to_json(value: TextComponentType) -> dict | list | str:
+    if isinstance(value, str):
+        return value
+    elif isinstance(value, TextComponent):
+        return value.to_dict()
+    elif isinstance(value, list):
+        return [text_component_type_to_json(v) for v in value]

@@ -16,7 +16,7 @@ class MiniMessageElement:
 
 def parse_minimessage(message: str) -> list[TextComponent]:
     result, _ = parse_content(message, 0, None, Style())
-    return result
+    return [TextComponent()] + result  # 防止继承样式
 
 
 def parse_content(message: str, pos: int, current_tag: Optional[TagInfo], style: Style) -> tuple[list[TextComponent], int]:
