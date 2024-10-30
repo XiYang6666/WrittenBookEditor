@@ -27,6 +27,32 @@ class Page:
         self.allow_page_split: bool = allow_page_split
         self.force_no_wrap: bool = force_no_wrap
 
+    def __str__(self):
+        return "<Page\n" + "\n".join([line.removesuffix("\n") for line in self.lines]) + "\n>"
+
+    def origin_text(self):
+        return "".join(self.lines)
+
+    def text(self):
+        return "".join(self.processed_lines())
+
+    def processed_lines(self):  # 统一使用 LF
+        return [line.replace("\r\n", "\n") for line in self.lines]
+
+    def to_nbt(self, *, text_component: bool = True, filter: bool = False) -> nbtlib.Compound | nbtlib.String:
+        if self.force_no_wrap:
+            text = "".join([line.removesuffix("\n") + "\n" for line in self.processed_lines()])
+        else:
+            text = self.text()
+        if text_component:
+            nbt = nbtlib.String(json.dumps({"text": text}, ensure_ascii=False))
+        else:
+            nbt = nbtlib.String(text.replace("\n", "\\n"))  # 并没有什么用, 不用TextComponent换不了行
+        if filter:
+            return nbtlib.Compound({"raw": nbt})
+        else:
+            return nbt
+
     @classmethod
     def from_plaintext_stream(  # TODO: 可能得全部重写了
         cls,
@@ -100,29 +126,3 @@ class Page:
             allow_page_split=allow_page_split,
             force_no_wrap=force_no_wrap,
         )
-
-    def __str__(self):
-        return "<Page\n" + "\n".join([line.removesuffix("\n") for line in self.lines]) + "\n>"
-
-    def origin_text(self):
-        return "".join(self.lines)
-
-    def text(self):
-        return "".join(self.processed_lines())
-
-    def processed_lines(self):  # 统一使用 LF
-        return [line.replace("\r\n", "\n") for line in self.lines]
-
-    def to_nbt(self, *, text_component: bool = True, filter: bool = False) -> nbtlib.Compound | nbtlib.String:
-        if self.force_no_wrap:
-            text = "".join([line.removesuffix("\n") + "\n" for line in self.processed_lines()])
-        else:
-            text = self.text()
-        if text_component:
-            nbt = nbtlib.String(json.dumps({"text": text}, ensure_ascii=False))
-        else:
-            nbt = nbtlib.String(text.replace("\n", "\\n"))  # 并没有什么用, 不用TextComponent换不了行
-        if filter:
-            return nbtlib.Compound({"raw": nbt})
-        else:
-            return nbt
