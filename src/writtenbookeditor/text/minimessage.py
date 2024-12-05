@@ -10,7 +10,7 @@ from .segment import TextSegment, TextSegmentSequence
 from .text_component import ClickEvent, HoverEvent, Score, TextComponent, text_component_like_to_json_serializable
 from ..util.color import parse_color, hsl_to_rgb, rgb_to_hex, validate_color, interpolate_colors
 from ..util.json_util import remove_dict_none_value
-from .utils import parse_string, parse_int, parse_float, text_segment_sequence_to_text_components
+from .util import parse_string, parse_int, parse_float, text_segment_sequence_to_text_components
 
 
 def minimessage_to_text_component_json_str(value: str) -> str:

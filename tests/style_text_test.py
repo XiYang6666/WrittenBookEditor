@@ -1,7 +1,6 @@
 import json
 
-from writtenbookeditor.text import text_segment_sequence_to_text_components
-from writtenbookeditor.text.text_component import text_component_like_to_json_serializable
+from writtenbookeditor.text.util import text_segment_sequence_to_text_components, text_component_like_to_json_serializable
 from writtenbookeditor.text.minimessage import parse_minimessage
 
 

@@ -1,8 +1,9 @@
 import re
 from typing import Generator, Optional
 
+from ..util.json_util import JsonSerializable
 from .style import Style
-from .text_component import TextComponent
+from .text_component import TextComponent, TextComponentLike
 from .segment import TextSegmentSequence
 
 
@@ -77,3 +78,12 @@ def text_segment_sequence_to_text_components(original_text: str, text_segment_se
             segment.style.apply_to_component(component)
             text_components.append(component)
     return text_components
+
+
+def text_component_like_to_json_serializable(value: TextComponentLike) -> JsonSerializable:
+    if isinstance(value, str):
+        return value
+    elif isinstance(value, TextComponent):
+        return value.to_json_serializable()
+    elif isinstance(value, list):
+        return [text_component_like_to_json_serializable(v) for v in value]
