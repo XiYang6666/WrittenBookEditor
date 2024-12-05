@@ -3,7 +3,7 @@ from dataclasses import dataclass
 from typing import Union, Optional, Literal, Sequence, Self
 
 from ..util.json_util import JsonSerializable, remove_dict_false_value, remove_dict_none_value
-from .util import text_component_like_to_json_serializable
+
 
 # types
 
@@ -276,3 +276,12 @@ class TextComponent:
         result._entity = entity
         result._storage = storage
         return result
+
+
+def text_component_like_to_json_serializable(value: TextComponentLike) -> JsonSerializable:
+    if isinstance(value, str):
+        return value
+    elif isinstance(value, TextComponent):
+        return value.to_json_serializable()
+    elif isinstance(value, list):
+        return [text_component_like_to_json_serializable(v) for v in value]

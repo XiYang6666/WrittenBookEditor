@@ -80,10 +80,4 @@ def text_segment_sequence_to_text_components(original_text: str, text_segment_se
     return text_components
 
 
-def text_component_like_to_json_serializable(value: TextComponentLike) -> JsonSerializable:
-    if isinstance(value, str):
-        return value
-    elif isinstance(value, TextComponent):
-        return value.to_json_serializable()
-    elif isinstance(value, list):
-        return [text_component_like_to_json_serializable(v) for v in value]
+
