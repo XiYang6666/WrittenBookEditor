@@ -1,4 +1,5 @@
 import re
+import json
 from dataclasses import dataclass
 from typing import Optional, Literal, Callable
 
@@ -6,38 +7,14 @@ import nbtlib
 
 from .style import Style
 from .segment import TextSegment, TextSegmentSequence
-from .text_component import ClickEvent, HoverEvent, Score, TextComponent
+from .text_component import ClickEvent, HoverEvent, Score, TextComponent, text_component_like_to_json_serializable
 from ..util.color import parse_color, hsl_to_rgb, rgb_to_hex, validate_color, interpolate_colors
 from ..util.json_util import remove_dict_none_value
+from .utils import parse_string, parse_int, parse_float, text_segment_sequence_to_text_components
 
 
-# text
-
-
-def unescape_text(text: str) -> str:
-    return text.replace(r"\<", "<")
-
-
-def parse_string(arg: str) -> str:
-    arg = arg.strip()
-    if arg.startswith('"') and arg.endswith('"'):
-        return arg[1:-1].replace('"', '"')
-    elif arg.startswith("'") and arg.endswith("'"):
-        return arg[1:-1].replace("'", "'")
-    else:
-        return arg
-
-
-def parse_int(arg: str) -> Optional[int]:
-    if re.match(r"^[+-]?\d+$", arg):
-        return int(arg)
-    else:
-        return None
-
-
-def parse_float(arg: str) -> Optional[float]:
-    if re.match(r"^[+-]?(\d+(\.\d*)?|\.\d+)$", arg):
-        return float(arg)
+def minimessage_to_text_component_json_str(value: str) -> str:
+    return json.dumps(text_component_like_to_json_serializable(text_segment_sequence_to_text_components(value, parse_minimessage(value))))
 
 
 # tag
@@ -149,19 +126,19 @@ def parse_double_tag(tag_info: TagInfo) -> Optional[Style]:
         if len(tag_info.args) != 2:
             return None
         action, value = tag_info.args
-        value = parse_string(value)  # TODO: 要处理 MiniMessage
+        value = parse_string(value)  # 要处理 MiniMessage # click 处理你妈逼
         if action not in ("open_url", "open_file", "run_command", "change_page", "copy_to_clipboard", "suggest_command"):
             return None
         result.click_event = ClickEvent(action=action, value=value)
     # hover
-    elif tag_info.name == "hover":  # TODO: 有问题 (https://docs.advntr.dev/minimessage/format.html#hover)
+    elif tag_info.name == "hover":  # TODO: 有问题 (https://docs.advntr.dev/minimessage/format.html#hover) # 有就有吧
         if len(tag_info.args) < 2:
             return None
         action = tag_info.args[0]
         if action == "show_text":
             if len(tag_info.args) != 2:
                 return None
-            value: str = parse_string(tag_info.args[1])  # TODO: 要处理 MiniMessage
+            value = minimessage_to_text_component_json_str(parse_string(tag_info.args[1]))
         elif action == "show_item":
             type = tag_info.args[1]
             if len(tag_info.args) > 4:
@@ -180,7 +157,7 @@ def parse_double_tag(tag_info: TagInfo) -> Optional[Style]:
         if action not in ("show_text", "show_item", "show_entity"):
             return None
 
-        value = parse_string(value)  # TODO: 要处理 MiniMessage
+        value = minimessage_to_text_component_json_str(parse_string(value))
         result.hover_event = HoverEvent(action=action, value=value)
     # insertion
     elif tag_info.name == "insertion":
@@ -210,7 +187,7 @@ def parse_single_tag(tag_info: TagInfo) -> Optional[TextComponent]:
             return None
         result.type = "translatable"
         result._translate = tag_info.args[0]
-        with_ = [parse_string(i) for i in tag_info.args[1:]]  # TODO: 要处理 MiniMessage
+        with_ = [minimessage_to_text_component_json_str(parse_string(i)) for i in tag_info.args[1:]]
         if with_:
             result._with = with_
     # newline(single tag)
