@@ -10,7 +10,7 @@ dependencies = [
     "nbtlib>=2.0.4",
     "chardet>=5.2.0",
 ]
-requires-python = "==3.11.*"
+requires-python = "<3.13,>=3.12"
 readme = "README.md"
 license = { text = "MIT" }
 
@@ -27,8 +27,8 @@ dev = ["pytest>=8.3.3", "pyinstaller>=6.10.0"]
 distribution = false
 
 [tool.black]
-line-length = 150
+line-length = 130
 
 [tool.ruff]
-line-length = 150
+line-length = 130
 exclude = ["src/writtenbookeditor/gui/ui_*.py"]

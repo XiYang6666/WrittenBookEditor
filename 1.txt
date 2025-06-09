@@ -1,0 +1,348 @@
+[<CommonPage>
+<CommonTextSegment style={}>﻿The </CommonTextSegment><br>
+<MarkTextSegment style={}>P</MarkTextSegment><MarkTextSegment style={}>roje</MarkTextSegment><br>
+<MarkTextSegment style={}>ct </MarkTextSegment><br>
+<MarkTextSegment style={}>Gut</MarkTextSegment><MarkTextSegment style={}>en</MarkTextSegment><br>
+<MarkTextSegment style={}>berg </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>e</CommonTextSegment><MarkTextSegment style={}>Book</MarkTextSegment><br>
+<MarkTextSegment style={}> of </MarkTextSegment><br>
+<MarkTextSegment style={}>Ro</MarkTextSegment><MarkTextSegment style={}>meo</MarkTextSegment><br>
+<MarkTextSegment style={}> and </MarkTextSegment><br>
+<MarkTextSegment style={}>J</MarkTextSegment><MarkTextSegment style={}>ulie</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>t
+</CommonTextSegment><br>
+<MarkTextSegment style={}>    
+</MarkTextSegment><br>
+<MarkTextSegment style={}>This </MarkTextSegment><br>
+<MarkTextSegment style={}>e</MarkTextSegment><MarkTextSegment style={}>book</MarkTextSegment><br>
+<MarkTextSegment style={}> is </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>fo</CommonTextSegment><MarkTextSegment style={}>r </MarkTextSegment><br>
+<MarkTextSegment style={}>th</MarkTextSegment><MarkTextSegment style={}>e </MarkTextSegment><br>
+<MarkTextSegment style={}>us</MarkTextSegment><MarkTextSegment style={}>e </MarkTextSegment><br>
+<MarkTextSegment style={}>of</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>any</MarkTextSegment><MarkTextSegment style={}>on</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>e </CommonTextSegment><br>
+<MarkTextSegment style={}>anyw</MarkTextSegment><MarkTextSegment style={}>h</MarkTextSegment><br>
+<MarkTextSegment style={}>ere </MarkTextSegment><br>
+<MarkTextSegment style={}>in</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>the</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>Un</CommonTextSegment><MarkTextSegment style={}>ite</MarkTextSegment><br>
+<MarkTextSegment style={}>d </MarkTextSegment><br>
+<MarkTextSegment style={}>Stat</MarkTextSegment><MarkTextSegment style={}>e</MarkTextSegment><br>
+<MarkTextSegment style={}>s and
+</MarkTextSegment><br>
+<MarkTextSegment style={}>most </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>o</CommonTextSegment><MarkTextSegment style={}>ther</MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>parts</MarkTextSegment><br>
+<MarkTextSegment style={}> of </MarkTextSegment><br>
+<MarkTextSegment style={}>th</MarkTextSegment><MarkTextSegment style={}>e </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>wo</CommonTextSegment><MarkTextSegment style={}>rld</MarkTextSegment><br>
+<MarkTextSegment style={}> at </MarkTextSegment><br>
+<MarkTextSegment style={}>no</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>cos</MarkTextSegment><MarkTextSegment style={}>t </MarkTextSegment><br>
+<MarkTextSegment style={}>a</MarkTextSegment><MarkTextSegment style={}>nd </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>wi</CommonTextSegment><MarkTextSegment style={}>th </MarkTextSegment><br>
+<MarkTextSegment style={}>a</MarkTextSegment><MarkTextSegment style={}>lmos</MarkTextSegment><br>
+<MarkTextSegment style={}>t no </MarkTextSegment><br>
+<MarkTextSegment style={}>r</MarkTextSegment><MarkTextSegment style={}>estr</MarkTextSegment><br>
+<MarkTextSegment style={}>ictio</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ns
+</CommonTextSegment><br>
+<MarkTextSegment style={}>whats</MarkTextSegment><br>
+<MarkTextSegment style={}>oever</MarkTextSegment><br>
+<MarkTextSegment style={}>. </MarkTextSegment><br>
+<MarkTextSegment style={}>You </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}></CommonTextSegment><MarkTextSegment style={}>may </MarkTextSegment><br>
+<MarkTextSegment style={}>co</MarkTextSegment><MarkTextSegment style={}>py </MarkTextSegment><br>
+<MarkTextSegment style={}>i</MarkTextSegment><MarkTextSegment style={}>t, </MarkTextSegment><br>
+<MarkTextSegment style={}>gi</MarkTextSegment><MarkTextSegment style={}>ve </MarkTextSegment><br>
+<MarkTextSegment style={}>i</MarkTextSegment><MarkTextSegment style={}>t </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>awa</CommonTextSegment><MarkTextSegment style={}>y </MarkTextSegment><br>
+<MarkTextSegment style={}>o</MarkTextSegment><MarkTextSegment style={}>r </MarkTextSegment><br>
+<MarkTextSegment style={}>re-</MarkTextSegment><MarkTextSegment style={}>us</MarkTextSegment><br>
+<MarkTextSegment style={}>e it </MarkTextSegment><br>
+<MarkTextSegment style={}>u</MarkTextSegment><MarkTextSegment style={}>nder</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> the </CommonTextSegment><br>
+<MarkTextSegment style={}>t</MarkTextSegment><MarkTextSegment style={}>erms
+</MarkTextSegment><br>
+<MarkTextSegment style={}>of </MarkTextSegment><br>
+<MarkTextSegment style={}>the</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>Pr</MarkTextSegment><MarkTextSegment style={}>oje</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ct </CommonTextSegment><br>
+<MarkTextSegment style={}>Gut</MarkTextSegment><MarkTextSegment style={}>en</MarkTextSegment><br>
+<MarkTextSegment style={}>berg </MarkTextSegment><br>
+<MarkTextSegment style={}>L</MarkTextSegment><MarkTextSegment style={}>icen</MarkTextSegment><br>
+<MarkTextSegment style={}>se </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>inc</CommonTextSegment><MarkTextSegment style={}>lu</MarkTextSegment><br>
+<MarkTextSegment style={}>ded </MarkTextSegment><br>
+<MarkTextSegment style={}>wi</MarkTextSegment><MarkTextSegment style={}>th </MarkTextSegment><br>
+<MarkTextSegment style={}>t</MarkTextSegment><MarkTextSegment style={}>his </MarkTextSegment><br>
+<MarkTextSegment style={}>e</MarkTextSegment><MarkTextSegment style={}>book</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> or </CommonTextSegment><br>
+<MarkTextSegment style={}>on</MarkTextSegment><MarkTextSegment style={}>lin</MarkTextSegment><br>
+<MarkTextSegment style={}>e
+</MarkTextSegment><br>
+<MarkTextSegment style={}>at </MarkTextSegment><br>
+<MarkTextSegment style={}>www</MarkTextSegment><MarkTextSegment style={}>.g</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>utenb</CommonTextSegment><br>
+<MarkTextSegment style={}>erg.o</MarkTextSegment><br>
+<MarkTextSegment style={}>rg. </MarkTextSegment><br>
+<MarkTextSegment style={}>If</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>you</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ar</CommonTextSegment><MarkTextSegment style={}>e </MarkTextSegment><br>
+<MarkTextSegment style={}>no</MarkTextSegment><MarkTextSegment style={}>t </MarkTextSegment><br>
+<MarkTextSegment style={}>lo</MarkTextSegment><MarkTextSegment style={}>cat</MarkTextSegment><br>
+<MarkTextSegment style={}>ed </MarkTextSegment><br>
+<MarkTextSegment style={}>in </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}></CommonTextSegment><MarkTextSegment style={}>the </MarkTextSegment><br>
+<MarkTextSegment style={}>Un</MarkTextSegment><MarkTextSegment style={}>ite</MarkTextSegment><br>
+<MarkTextSegment style={}>d </MarkTextSegment><br>
+<MarkTextSegment style={}>Stat</MarkTextSegment><MarkTextSegment style={}>e</MarkTextSegment><br>
+<MarkTextSegment style={}>s,
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>you </CommonTextSegment><br>
+<MarkTextSegment style={}>wi</MarkTextSegment><MarkTextSegment style={}>ll </MarkTextSegment><br>
+<MarkTextSegment style={}>h</MarkTextSegment><MarkTextSegment style={}>ave </MarkTextSegment><br>
+<MarkTextSegment style={}>t</MarkTextSegment><MarkTextSegment style={}>o </MarkTextSegment><br>
+<MarkTextSegment style={}>che</MarkTextSegment><MarkTextSegment style={}>ck</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> the </CommonTextSegment><br>
+<MarkTextSegment style={}>l</MarkTextSegment><MarkTextSegment style={}>aws </MarkTextSegment><br>
+<MarkTextSegment style={}>o</MarkTextSegment><MarkTextSegment style={}>f </MarkTextSegment><br>
+<MarkTextSegment style={}>the</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>co</MarkTextSegment><MarkTextSegment style={}>unt</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ry </CommonTextSegment><br>
+<MarkTextSegment style={}>whe</MarkTextSegment><MarkTextSegment style={}>re</MarkTextSegment><br>
+<MarkTextSegment style={}> you </MarkTextSegment><br>
+<MarkTextSegment style={}>a</MarkTextSegment><MarkTextSegment style={}>re </MarkTextSegment><br>
+<MarkTextSegment style={}>lo</MarkTextSegment><MarkTextSegment style={}>cat</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ed
+</CommonTextSegment><br>
+<MarkTextSegment style={}>befor</MarkTextSegment><br>
+<MarkTextSegment style={}>e </MarkTextSegment><br>
+<MarkTextSegment style={}>usin</MarkTextSegment><MarkTextSegment style={}>g</MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>this </CommonTextSegment><br>
+<MarkTextSegment style={}></MarkTextSegment><MarkTextSegment style={}>eBook</MarkTextSegment><br>
+<MarkTextSegment style={}>.
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Title</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>: </CommonTextSegment><br>
+<MarkTextSegment style={}>Rome</MarkTextSegment><MarkTextSegment style={}>o</MarkTextSegment><br>
+<MarkTextSegment style={}> and </MarkTextSegment><br>
+<MarkTextSegment style={}>J</MarkTextSegment><MarkTextSegment style={}>ulie</MarkTextSegment><br>
+<MarkTextSegment style={}>t
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>
+</CommonTextSegment><br>
+<MarkTextSegment style={}>Autho</MarkTextSegment><br>
+<MarkTextSegment style={}>r: </MarkTextSegment><br>
+<MarkTextSegment style={}>Wil</MarkTextSegment><MarkTextSegment style={}>li</MarkTextSegment><br>
+<MarkTextSegment style={}>am </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>Sha</CommonTextSegment><MarkTextSegment style={}>ke</MarkTextSegment><br>
+<MarkTextSegment style={}>spear</MarkTextSegment><br>
+<MarkTextSegment style={}>e
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Relea</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>se </CommonTextSegment><br>
+<MarkTextSegment style={}>dat</MarkTextSegment><MarkTextSegment style={}>e:</MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>Novem</MarkTextSegment><br>
+<MarkTextSegment style={}>ber </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>1,</CommonTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>199</MarkTextSegment><MarkTextSegment style={}>8 </MarkTextSegment><br>
+<MarkTextSegment style={}>[</MarkTextSegment><MarkTextSegment style={}>eBoo</MarkTextSegment><br>
+<MarkTextSegment style={}>k </MarkTextSegment><br>
+<MarkTextSegment style={}>#151</MarkTextSegment><MarkTextSegment style={}>3</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>]
+</CommonTextSegment><br>
+<MarkTextSegment style={}>     </MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><MarkTextSegment style={}>    </MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><MarkTextSegment style={}>    </MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}></CommonTextSegment><MarkTextSegment style={}>M</MarkTextSegment><br>
+<MarkTextSegment style={}>ost r</MarkTextSegment><MarkTextSegment style={}>ecen</MarkTextSegment><br>
+<MarkTextSegment style={}>tly </MarkTextSegment><br>
+<MarkTextSegment style={}>up</MarkTextSegment><MarkTextSegment style={}>dat</MarkTextSegment><br>
+<MarkTextSegment style={}>ed: </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>Ju</CommonTextSegment><MarkTextSegment style={}>ne </MarkTextSegment><br>
+<MarkTextSegment style={}>1</MarkTextSegment><MarkTextSegment style={}>9, </MarkTextSegment><br>
+<MarkTextSegment style={}>20</MarkTextSegment><MarkTextSegment style={}>24
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Langu</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>age: </CommonTextSegment><br>
+<MarkTextSegment style={}>E</MarkTextSegment><MarkTextSegment style={}>ngli</MarkTextSegment><br>
+<MarkTextSegment style={}>sh
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Credi</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ts: </CommonTextSegment><br>
+<MarkTextSegment style={}>th</MarkTextSegment><MarkTextSegment style={}>e </MarkTextSegment><br>
+<MarkTextSegment style={}>PG</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>Sha</MarkTextSegment><MarkTextSegment style={}>ke</MarkTextSegment><br>
+<MarkTextSegment style={}>spear</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>e </CommonTextSegment><br>
+<MarkTextSegment style={}>Team</MarkTextSegment><MarkTextSegment style={}>,</MarkTextSegment><br>
+<MarkTextSegment style={}> a </MarkTextSegment><br>
+<MarkTextSegment style={}>tea</MarkTextSegment><MarkTextSegment style={}>m </MarkTextSegment><br>
+<MarkTextSegment style={}>o</MarkTextSegment><MarkTextSegment style={}>f </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>abo</CommonTextSegment><MarkTextSegment style={}>ut</MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>twent</MarkTextSegment><br>
+<MarkTextSegment style={}>y </MarkTextSegment><br>
+<MarkTextSegment style={}>Proj</MarkTextSegment><MarkTextSegment style={}>e</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>ct </CommonTextSegment><br>
+<MarkTextSegment style={}>Gut</MarkTextSegment><MarkTextSegment style={}>en</MarkTextSegment><br>
+<MarkTextSegment style={}>berg </MarkTextSegment><br>
+<MarkTextSegment style={}>v</MarkTextSegment><MarkTextSegment style={}>olun</MarkTextSegment><br>
+<MarkTextSegment style={}>teers
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>
+</CommonTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>*** </MarkTextSegment><br>
+<MarkTextSegment style={}>ST</MarkTextSegment><MarkTextSegment style={}>ART</MarkTextSegment><br>
+<MarkTextSegment style={}> OF </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>TH</CommonTextSegment><MarkTextSegment style={}>E </MarkTextSegment><br>
+<MarkTextSegment style={}>PR</MarkTextSegment><MarkTextSegment style={}>OJE</MarkTextSegment><br>
+<MarkTextSegment style={}>CT </MarkTextSegment><br>
+<MarkTextSegment style={}>GUT</MarkTextSegment><MarkTextSegment style={}>EN</MarkTextSegment><br>
+<MarkTextSegment style={}>BERG </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>E</CommonTextSegment><MarkTextSegment style={}>BOOK</MarkTextSegment><br>
+<MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>ROMEO</MarkTextSegment><br>
+<MarkTextSegment style={}> AND </MarkTextSegment><br>
+<MarkTextSegment style={}>J</MarkTextSegment><MarkTextSegment style={}>ULIE</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>T ***
+</CommonTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>THE </CommonTextSegment><br>
+<MarkTextSegment style={}>TR</MarkTextSegment><MarkTextSegment style={}>AGE</MarkTextSegment><br>
+<MarkTextSegment style={}>DY </MarkTextSegment><br>
+<MarkTextSegment style={}>OF </MarkTextSegment><br>
+<MarkTextSegment style={}></MarkTextSegment><MarkTextSegment style={}>ROMEO</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> AND </CommonTextSegment><br>
+<MarkTextSegment style={}>J</MarkTextSegment><MarkTextSegment style={}>ULIE</MarkTextSegment><br>
+<MarkTextSegment style={}>T
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>by </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>Wil</CommonTextSegment><MarkTextSegment style={}>li</MarkTextSegment><br>
+<MarkTextSegment style={}>am </MarkTextSegment><br>
+<MarkTextSegment style={}>Sha</MarkTextSegment><MarkTextSegment style={}>ke</MarkTextSegment><br>
+<MarkTextSegment style={}>spear</MarkTextSegment><br>
+<MarkTextSegment style={}>e
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>
+</CommonTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Conte</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>nts
+</CommonTextSegment><br>
+<MarkTextSegment style={}>
+</MarkTextSegment><br>
+<MarkTextSegment style={}>THE </MarkTextSegment><br>
+<MarkTextSegment style={}>PR</MarkTextSegment><MarkTextSegment style={}>OLO</MarkTextSegment><br>
+<MarkTextSegment style={}>GUE.
+</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>
+</CommonTextSegment><br>
+<MarkTextSegment style={}>ACT I
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Scene</MarkTextSegment><br>
+<MarkTextSegment style={}> I. </MarkTextSegment><br>
+<MarkTextSegment style={}>A </MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}></CommonTextSegment><MarkTextSegment style={}>publi</MarkTextSegment><br>
+<MarkTextSegment style={}>c </MarkTextSegment><br>
+<MarkTextSegment style={}>plac</MarkTextSegment><MarkTextSegment style={}>e</MarkTextSegment><br>
+<MarkTextSegment style={}>.
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Scene</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> II. </CommonTextSegment><br>
+<MarkTextSegment style={}>A</MarkTextSegment><MarkTextSegment style={}> </MarkTextSegment><br>
+<MarkTextSegment style={}>Stre</MarkTextSegment><MarkTextSegment style={}>e</MarkTextSegment><br>
+<MarkTextSegment style={}>t.
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Scene</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}> </CommonTextSegment><br>
+<MarkTextSegment style={}>III. </MarkTextSegment><br>
+<MarkTextSegment style={}></MarkTextSegment><MarkTextSegment style={}>Room </MarkTextSegment><br>
+<MarkTextSegment style={}>i</MarkTextSegment><MarkTextSegment style={}>n </MarkTextSegment><br>
+<MarkTextSegment style={}>Cap</MarkTextSegment><MarkTextSegment style={}>ul</MarkTextSegment><br>
+</CommonPage>, <CommonPage>
+<CommonTextSegment style={}>et’s </CommonTextSegment><br>
+<MarkTextSegment style={}>H</MarkTextSegment><MarkTextSegment style={}>ouse</MarkTextSegment><br>
+<MarkTextSegment style={}>.
+</MarkTextSegment><br>
+<MarkTextSegment style={}>Scen</MarkTextSegment><br>
+</CommonPage>]
