@@ -42,7 +42,7 @@ def register_adapter[T: Adapter](
     """
 
     def decorator(cls: Type[T]):
-        option_meta = get_option_meta(cls)
+        option_meta = get_option_meta(cls, name)
 
         def creater(config: Mapping[str, Any]):
             instance = cls()
@@ -64,7 +64,7 @@ def register_formatter[T: Formatter](
     """
 
     def decorator(cls: Type[T]):
-        option_meta = get_option_meta(cls)
+        option_meta = get_option_meta(cls, name)
 
         def creater(config: Mapping[str, Any]):
             instance = cls()

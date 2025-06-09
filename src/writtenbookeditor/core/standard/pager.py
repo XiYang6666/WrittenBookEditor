@@ -11,7 +11,7 @@ from typing import Callable, Optional
 from writtenbookeditor.core.utils.debug import assert_while_debugging
 
 from ..interface.text import TextSegment, SegmentSequence, Page, PageSequence
-from .text import StandardTextSegment, CommonPage, TagTextSegment
+from .text import StandardTextSegment, CommonPage, TagTextSegment, UnrelatedTextSegment
 
 
 def standard_pager(
@@ -21,7 +21,7 @@ def standard_pager(
     page_line: int,
     page_width: int,
     allow_space_wrap_line: bool = True,
-    space_wrap_optimize: bool = False,  # 仅在 width_getter 开销较大时效果明显(都带缓存了哪来的开销)
+    unrelated_segment_force_warp: bool = True,  # 强制不相关段落根据空格换行
 ) -> PageSequence:
     if not segment_sequence:
         return []
@@ -33,7 +33,6 @@ def standard_pager(
 
     # 保存上一个空格的状态
     # segment 序号(相对于 line), char 序号, 空格后宽度
-    # 如果为开启空格折行功能, 该变量始终为 None
     last_space_status: Optional[tuple[int, int, int]] = None
 
     def new_line(preset_line: Optional[list[TextSegment]] = None):
@@ -130,17 +129,17 @@ def standard_pager(
                 break
             elif line_width + char_width > page_width:
                 # 满行导致的换行
-                # 如果没有空格则在字符前分割
-                # 有空格则在空格后分割(刚好适配了连续空格)
-                if last_space_status is None:
-                    # 无空格或未开启空格折行功能, 空格前分割
+                is_force_use_warp = unrelated_segment_force_warp and isinstance(current_segment, UnrelatedTextSegment)
+                should_warp = allow_space_wrap_line or is_force_use_warp
+                if last_space_status is None or not should_warp:
+                    # 无空格或未开启空格折行功能, 当前字符前分割
                     is_cross_page = len(page_lines) + 1 >= page_line
                     former_seg, latter_seg = current_segment.half(i, is_cross_page)
                     add_segment(former_seg)
                     save_line()
                     current_segment = latter_seg
                     break
-                # 有空格, 空格后分割
+                # 有空格且开启空格折行功能, 空格后分割
                 segment_pos, char_pos, pre_space_width = last_space_status
                 latter_width = line_width - pre_space_width
                 if segment_pos == len(line):
@@ -149,25 +148,26 @@ def standard_pager(
                     # 空格就在当前segment内
                     space_segment = current_segment
                     is_cross_page = len(page_lines) + 1 >= page_line
-                    if space_wrap_optimize:
-                        # 空格折行优化
-                        # 在当前segment处理的字符后分割一次以方便下一轮处理使用宽度信息.
-                        # 避免了直接 break 导致的宽度信息丢失, 重复计算宽度.
-                        # 但这样是非换行导致的分割, 更考验 Segment 实现的正确性.
+                    # if space_wrap_optimize:
+                    #     # 空格折行优化
+                    #     # 在当前segment处理的字符后分割一次以方便下一轮处理使用宽度信息.
+                    #     # 避免了直接 break 回溯导致的宽度信息丢失, 重复计算宽度.
+                    #     # 但这样是非换行导致的分割, 更考验 Segment 实现的正确性.
 
-                        # TIP: 优化你麻痹, 写了一天跑完 benchmark 比优化前还慢了 0.几秒
-                        former_seg, mid_and_latter_seg = current_segment.half(char_pos + 1, is_cross_page)
-                        add_segment(former_seg)
-                        save_line()
-                        assert mid_and_latter_seg is not None
-                        # pos 实际是 (i + 1) - (char_pos + 1) 的化简
-                        mid_seg, latter_seg = mid_and_latter_seg.half(i - char_pos, False)
-                        add_segment(mid_seg)
-                        current_segment = latter_seg
-                        line_width = latter_width + char_width
-                        if char == " ":
-                            last_space_status = (0, i - char_pos - 1, line_width)
-                        break
+                    #     # TIP: 优化你麻痹, 写了一天跑完 benchmark 比优化前还慢了 0.几秒
+                    #     # 两次 half 的开销已经远大于回溯的开销了.
+                    #     former_seg, mid_and_latter_seg = current_segment.half(char_pos + 1, is_cross_page)
+                    #     add_segment(former_seg)
+                    #     save_line()
+                    #     assert mid_and_latter_seg is not None
+                    #     # pos 实际是 (i + 1) - (char_pos + 1) 的化简
+                    #     mid_seg, latter_seg = mid_and_latter_seg.half(i - char_pos, False)
+                    #     add_segment(mid_seg)
+                    #     current_segment = latter_seg
+                    #     line_width = latter_width + char_width
+                    #     if char == " ":
+                    #         last_space_status = (0, i - char_pos - 1, line_width)
+                    #     break
 
                     # 未开启空格折行优化, break 后会重新计算当前 segment.
                     # 如果强行不 break 继续处理, i 指向的位置会错位.
@@ -196,9 +196,9 @@ def standard_pager(
                         last_space_status = (len(line), 0, line_width)
                     continue
             else:
-                # 正常字符, 直接添加到当前行
                 line_width += char_width
-                if char == " " and allow_space_wrap_line:
+                if char == " ":
+                    # 变量段落无法控制
                     last_space_status = (len(line), i, line_width)
         else:
             # 遍历完一个 Segment 了, 开始处理下一个 Segment.
@@ -207,11 +207,13 @@ def standard_pager(
 
     # 处理最后一页
     if line:
+        # 保存最后一行
         save_line()
     if line:
-        # 跨页并且有开标签, line 不为空
+        # 跨页并且行尾有开标签时, 保存当前页后 line 不为空
         save_line()
     if page_lines:
+        # 保存最后一页
         pages.append(CommonPage(page_lines))
 
     return pages

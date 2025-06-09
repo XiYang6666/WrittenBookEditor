@@ -1,6 +1,3 @@
 """
-格式器模块
+格式器
 """
-
-
-def load_formatters(): ...

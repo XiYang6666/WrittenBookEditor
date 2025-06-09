@@ -1,5 +1,5 @@
 """
-包装核心接口, 实现具体的文本段落类
+标准段落和页面实现
 """
 
 from abc import abstractmethod
@@ -11,13 +11,16 @@ from ..interface.text import Stylesheet, Escaper, TextSegment, SegmentSequence, 
 from ..utils.text import escape_text, map_escaped_pos_to_bare
 
 __all__ = [
-    "StandardTextSegment",
     "CorrespondingTextSegment",
+    "StandardTextSegment",
     "UnrelatedTextSegment",
     "CommonTextSegment",
+    "MarkTextSegment",
     "PlaceholderTextSegment",
     "VariableTextSegment",
+    "BasePage",
     "CommonPage",
+    "merge_segments",
 ]
 
 
@@ -158,7 +161,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @cache
     def text(self) -> str:
         """
-        **注意: 该方法会转义所有文本, 引起性能严重下降, 不应在非调试时调用**
+        **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
         """
         bare_text = self._origin[self._position[0] : self._position[1]]
         return escape_text(bare_text, self._escaper)
@@ -203,8 +206,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
     def __iter__(self) -> Iterator[str]:
         """优化迭代器"""
         bare_text = self._origin[self._position[0] : self._position[1]]
-        for t in self._escaper(bare_text):
-            yield t[1]
+        yield from (e for o, e in self._escaper(bare_text))
 
     @override
     def __eq__(self, other) -> bool:
@@ -241,7 +243,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @cache
     def text(self) -> str:
         """
-        **注意: 该方法会转义所有文本, 引起性能严重下降, 不应在非调试时调用**
+        **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
         """
         bare_text = self._origin[self._position[0] : self._position[1]]
         return escape_text(bare_text, self._escaper)
@@ -286,8 +288,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
     def __iter__(self) -> Iterator[str]:
         """优化迭代器"""
         bare_text = self._origin[self._position[0] : self._position[1]]
-        for t in self._escaper(bare_text):
-            yield t[1]
+        yield from (e for o, e in self._escaper(bare_text))
 
     @override
     def __eq__(self, other) -> bool:
@@ -461,28 +462,39 @@ class CommonPage(BasePage):
     @override
     def segments(self) -> SegmentSequence:
         all_segments = [seg for line in self._lines for seg in line]
-        result = []
-
-        for seg in all_segments:
-            if seg.position is None:
-                # 占位符, 跳过
-                continue
-            elif isinstance(seg, MarkTextSegment) and result and isinstance(result[-1], CommonTextSegment):
-                # 合并 MarkTextSegment 到前一个 CommonTextSegment
-                start_pos = result[-1].position[0]
-                end_pos = seg.position[1]
-                result[-1] = CommonTextSegment(seg.style, seg._origin, start_pos, end_pos, seg._escaper)
-                continue
-            elif isinstance(seg, MarkTextSegment):
-                # 错误的段落序列
-                assert False, "Invalid segment sequence. MarkTextSegment not followed by RichTextSegment."
-            else:
-                # 正常段落
-                result.append(seg)
-        return result
+        return merge_segments(all_segments)
 
     def __eq__(self, other) -> bool:
         """
         仅判断处理后的 segment 是否等价, 不保证每行的 segment 均相同.
         """
         return type(other) is self.__class__ and self.segments == other.segments
+
+
+# ---------- Utils ----------
+
+
+def merge_segments(segments: list[TextSegment]) -> list[TextSegment]:
+    """
+    合并段落
+
+    恢复经过分页器后产生的占位段落.
+    """
+    result = []
+    for seg in segments:
+        if seg.position is None:
+            # 占位符, 跳过
+            continue
+        elif isinstance(seg, MarkTextSegment) and result and isinstance(result[-1], CommonTextSegment):
+            # 合并 MarkTextSegment 到前一个 CommonTextSegment
+            start_pos = result[-1].position[0]
+            end_pos = seg.position[1]
+            result[-1] = CommonTextSegment(seg.style, seg._origin, start_pos, end_pos, seg._escaper)
+            continue
+        elif isinstance(seg, MarkTextSegment):
+            # 错误的段落序列
+            assert False, "Invalid segment sequence. MarkTextSegment not followed by CommonTextSegment."
+        else:
+            # 正常段落
+            result.append(seg)
+    return result
