@@ -4,216 +4,338 @@
 适用于标准段落实现的分页器
 """
 
-from itertools import takewhile
-from typing import Callable, Optional
+from typing import Callable, Iterator, Optional
+from dataclasses import dataclass
 
 
-from writtenbookeditor.core.utils.debug import assert_while_debugging
-
-from ..interface.text import TextSegment, SegmentSequence, Page, PageSequence
-from .text import StandardTextSegment, CommonPage, TagTextSegment, UnrelatedTextSegment
+from ..interface.text import TextSegment, SegmentSequence, PageSequence
+from .text import StandardTextSegment, CommonPage, TagTextSegment
 
 
-def standard_pager(
-    segment_sequence: SegmentSequence,
-    width_getter: Callable[[str], int],
-    *,
-    page_line: int,
-    page_width: int,
-    allow_space_wrap_line: bool = True,
-    unrelated_segment_force_warp: bool = True,  # 强制不相关段落根据空格换行
-) -> PageSequence:
-    if not segment_sequence:
-        return []
+@dataclass
+class PagerContext:
+    origin: SegmentSequence
+    width_getter: Callable[[str], int]
+    page_line_count: int
+    page_width: int
 
-    pages: list[Page] = []
-    page_lines: list[SegmentSequence] = []
-    line: list[TextSegment] = []
-    line_width: int = 0
+    def __post_init__(self):
+        self._current_segment_idx: int = -1
+        self._current_segment: Optional[TextSegment] = None
+        self._pages: list[list[list[TextSegment]]] = []
+        self._current_page_lines: list[list[TextSegment]] = []
+        self._current_line: list[TextSegment] = []
+        self._current_line_width: int = 0
+        self._last_space_status: Optional[tuple[int, int, int]] = None
 
-    # 保存上一个空格的状态
-    # segment 序号(相对于 line), char 序号, 空格后宽度
-    last_space_status: Optional[tuple[int, int, int]] = None
+    def next_segment(self) -> Optional[TextSegment]:
+        self._current_segment_idx += 1
+        if self._current_segment_idx >= len(self.origin):
+            return None
+        self._current_segment = self.origin[self._current_segment_idx]
+        return self._current_segment
 
-    def new_line(preset_line: Optional[list[TextSegment]] = None):
+    # current_segment
+
+    @property
+    def current_segment(self):
+        assert self._current_segment is not None, "current segment is None, you should call next_segment() first"
+        return self._current_segment
+
+    @current_segment.setter
+    def current_segment(self, value: Optional[TextSegment]):
+        self._current_segment = value
+
+    def clear_current_segment(self):
         """
-        新建一行
-
-        预设行必须 0 宽度
+        清除当前段落
         """
-        nonlocal line, line_width, last_space_status
-        # 验证预设行是否 0 宽度
-        assert_while_debugging(
-            lambda: all(s.is_empty() for s in preset_line or [] if isinstance(s, StandardTextSegment)),
-            "present line must be 0 width",
-        )
+        self._current_segment = None
 
-        line = preset_line or []
-        line_width = 0
-        last_space_status = None
+    def has_current_segment(self) -> bool:
+        """
+        测试是否有当前段落
+        """
+        return self._current_segment is not None
 
-    def save_page():
+    def iter_current_segment(self) -> Iterator[tuple[str, int, int]]:
         """
-        新建一页
-        """
-        nonlocal pages, page_lines, line, line_width, last_space_status
-        # 提取开头标签
-        header_line = list(
-            takewhile(
-                lambda seg: isinstance(seg, TagTextSegment) and seg.is_prefer_header(),
-                reversed(line),
-            )
-        )
-        header_line.reverse()
-        # 保存当前页
-        pages.append(CommonPage(page_lines))
-        # 新建一页
-        page_lines = []
-        # 新建一行, 保存开头
-        new_line(header_line)
+        遍历当前段落内字符
 
-    def save_line():
+        返回 (char, width, char_idx)
         """
-        保存当前行
-        """
-        nonlocal pages, page_lines, line, line_width, last_space_status
-        # 保存当前行
-        page_lines.append(line)
-        if len(page_lines) >= page_line:
-            # 超过一页的行数, 保存当前页
-            return save_page()
-        # 新建一行
-        new_line()
+        assert isinstance(self.current_segment, StandardTextSegment), "current segment must be StandardTextSegment"
+        for i, char in enumerate(self.current_segment.__iter__()):
+            yield char, self.width_getter(char), i
 
-    def add_segment(segment: Optional[TextSegment]):
+    # current_line
+
+    @property
+    def current_line(self) -> SegmentSequence:  # 注: 返回 Sequence 以保证不在外部被修改
+        return self._current_line
+
+    def update_current_line(
+        self,
+        line: SegmentSequence,
+        width: int = 0,
+        last_space_status: Optional[tuple[int, int, int]] = None,
+    ):
+        """
+        更新当前行
+
+        **注意**: 请自行检查 line 是否有效
+        """
+        self._current_line = list(line)
+        self._current_line_width = width
+        self._last_space_status = last_space_status
+
+    # current_line_width
+
+    @property
+    def current_line_width(self) -> int:
+        return self._current_line_width
+
+    def add_width(self, width: int):
+        """
+        增加宽度到当前行
+        """
+        self._current_line_width += width
+
+    # last_space_status
+
+    @property
+    def last_space_status(self) -> tuple[int, int, int]:
+        assert self._last_space_status is not None, "last space status is None, you should set it first"
+        return self._last_space_status
+
+    @last_space_status.setter
+    def last_space_status(self, value: tuple[int, int, int]):
+        self._last_space_status = value
+
+    def clear_last_space_status(self):
+        """
+        清除上一个空格状态
+        """
+        self._last_space_status = None
+
+    def has_last_space_status(self) -> bool:
+        """
+        测试是否有上一个空格状态
+        """
+        return self._last_space_status is not None
+
+    # utils
+    def is_cross_page(self) -> bool:
+        """
+        测试要换行的情况下是否跨页
+        """
+        return len(self._current_page_lines) + 1 >= self.page_line_count
+
+    def test_full_line(self, width: int) -> bool:
+        """
+        测试是否满行
+        """
+        return self._current_line_width + width > self.page_width
+
+    # operations
+
+    def add_segment(self, segment: TextSegment):
         """
         添加段落到当前行
         """
-        nonlocal line, line_width, last_space_status
-        if segment is None:
-            return
-        if isinstance(segment, StandardTextSegment) and segment.is_empty():
-            return
-        line.append(segment)
+        self._current_line.append(segment)
 
-    segment_pos = -1
-    current_segment: Optional[StandardTextSegment] = None
+    def add_current_segment(self):
+        """
+        添加当前段落到当前行, 并清空当前段落
+        """
+        self.add_segment(self.current_segment)
+        self.clear_current_segment()
 
-    # 遍历所有 Segment
-    while True:
-        if current_segment is None or current_segment.is_empty():  # 处理完一个 Segment 了, 开始处理下一个 Segment.
-            segment_pos += 1
-            if segment_pos >= len(segment_sequence):
-                # 处理完所有 Segment 了
-                break
-            segment = segment_sequence[segment_pos]
-            if not isinstance(segment, StandardTextSegment):
-                # 非标准段落, 无法获取宽度, 认为 0 宽, 直接添加
-                add_segment(segment)
+    def clear_line(self):
+        """
+        清空当前行
+        """
+        self._current_line = []
+        self._current_line_width = 0
+        self.clear_last_space_status()
+
+    def new_line(self):
+        """
+        新建一行
+        """
+        # 为保证通用性, 暂时不处理页尾标签, 处理完所有页后统一处理
+        self._current_page_lines.append(self._current_line)
+        assert len(self._current_page_lines) <= self.page_line_count, "line too long"
+        if len(self._current_page_lines) == self.page_line_count:
+            self._pages.append(self._current_page_lines)
+            self._current_page_lines = []
+            self.clear_line()
+        self.clear_line()
+
+    def add_line(self, line: SegmentSequence):
+        """
+        添加一行到当前页
+
+        **注意**: 请自行检查 line 是否有效
+        """
+        self._current_page_lines.append(list(line))
+        assert len(line) <= self.page_line_count, "line too long"
+        if len(self._current_page_lines) == self.page_line_count:
+            # 页满, 保存当前页
+            self._pages.append(self._current_page_lines)
+            self._current_page_lines = []
+
+    def new_page(self):
+        """
+        新建一页
+        """
+        if self.is_cross_page():
+            # 新建一行会跨页, 直接新建一行就行了
+            self.new_line()
+        else:
+            # 保存当前行
+            self.new_line()
+            # 保存当前页
+            self._pages.append(self._current_page_lines)
+            # 新建一页
+            self._current_page_lines = []
+
+    # end process
+
+    def save_last(self):
+        """
+        保存最后一行和最后一页
+        """
+        if self._current_line:
+            # 保存最后一行
+            self.new_line()
+        if self._current_page_lines:
+            # 保存最后一页
+            self._pages.append(self._current_page_lines)
+
+    def process_tags(self):
+        """
+        处理页尾标签
+        """
+        result_pages = []
+        carry_tags = []  # 携带到下一页的标签
+        for page in self._pages:
+            lines = page.copy()
+            if not lines:
+                if carry_tags:
+                    result_pages.append(CommonPage([carry_tags]))
+                    carry_tags = []
+                else:
+                    result_pages.append(CommonPage([]))
                 continue
 
-            # 当前段落, 如果遍历获取到的 Segment 被分割过则会被更新为分割后半段
-            # 注: 按当前逻辑每当 current_segment 被更新都应 break
-            current_segment = segment
+            if carry_tags:
+                lines[0] = carry_tags + lines[0]
+                carry_tags = []
 
-        # 段落内遍历字符
-        for i, char in enumerate(current_segment):
-            char_width = width_getter(char)
-            if char == "\n":
-                is_cross_page = len(page_lines) + 1 >= page_line
-                # 换行符导致的换行, 在换行符后分割段落
-                former_seg, latter_seg = current_segment.half(i + 1, is_cross_page)
-                add_segment(former_seg)
-                save_line()
-                current_segment = latter_seg
-                break
-            elif line_width + char_width > page_width:
-                # 满行导致的换行
-                is_force_use_warp = unrelated_segment_force_warp and isinstance(current_segment, UnrelatedTextSegment)
-                should_warp = allow_space_wrap_line or is_force_use_warp
-                if last_space_status is None or not should_warp:
-                    # 无空格或未开启空格折行功能, 当前字符前分割
-                    is_cross_page = len(page_lines) + 1 >= page_line
-                    former_seg, latter_seg = current_segment.half(i, is_cross_page)
-                    add_segment(former_seg)
-                    save_line()
-                    current_segment = latter_seg
+            last_line = lines[-1]
+            collected = []
+            for seg in reversed(last_line):
+                if isinstance(seg, TagTextSegment) and seg.is_prefer_header():
+                    collected.insert(0, seg)
+                else:
                     break
-                # 有空格且开启空格折行功能, 空格后分割
-                segment_pos, char_pos, pre_space_width = last_space_status
-                latter_width = line_width - pre_space_width
-                if segment_pos == len(line):
-                    # if current_segment.text.startswith("Yo"):
-                    #
-                    # 空格就在当前segment内
-                    space_segment = current_segment
-                    is_cross_page = len(page_lines) + 1 >= page_line
-                    # if space_wrap_optimize:
-                    #     # 空格折行优化
-                    #     # 在当前segment处理的字符后分割一次以方便下一轮处理使用宽度信息.
-                    #     # 避免了直接 break 回溯导致的宽度信息丢失, 重复计算宽度.
-                    #     # 但这样是非换行导致的分割, 更考验 Segment 实现的正确性.
+            if collected:
+                lines[-1] = last_line[: -len(collected)]
+                carry_tags = collected + carry_tags
 
-                    #     # TIP: 优化你麻痹, 写了一天跑完 benchmark 比优化前还慢了 0.几秒
-                    #     # 两次 half 的开销已经远大于回溯的开销了.
-                    #     former_seg, mid_and_latter_seg = current_segment.half(char_pos + 1, is_cross_page)
-                    #     add_segment(former_seg)
-                    #     save_line()
-                    #     assert mid_and_latter_seg is not None
-                    #     # pos 实际是 (i + 1) - (char_pos + 1) 的化简
-                    #     mid_seg, latter_seg = mid_and_latter_seg.half(i - char_pos, False)
-                    #     add_segment(mid_seg)
-                    #     current_segment = latter_seg
-                    #     line_width = latter_width + char_width
-                    #     if char == " ":
-                    #         last_space_status = (0, i - char_pos - 1, line_width)
-                    #     break
+            # 清理空行
+            # lines = [line for line in lines if line]
 
-                    # 未开启空格折行优化, break 后会重新计算当前 segment.
-                    # 如果强行不 break 继续处理, i 指向的位置会错位.
-                    # 应该在配置中处理
-                    former_seg, latter_seg = space_segment.half(char_pos + 1, is_cross_page)
-                    add_segment(former_seg)
-                    save_line()
-                    current_segment = latter_seg
+            result_pages.append(lines)
+
+        # 处理最后一页
+        if carry_tags:
+            result_pages.append(CommonPage([carry_tags]))
+
+    def export_pages(self) -> PageSequence:
+        """
+        导出所有页
+        """
+        result = []
+        for page in self._pages:
+            result.append(CommonPage(page))
+        return result
+
+
+def standard_pager(
+    ctx: PagerContext,
+    *,
+    allow_space_wrap_line: bool = True,
+):
+    """
+    测试分页器
+    """
+
+    while True:
+        if (not ctx.has_current_segment()) and (not ctx.next_segment()):
+            # 没有当前段落的情况下尝试获取下一个段落
+            # 如果无法获取下一个段落(即遍历完所有段落), 则退出循环
+            break
+        if not isinstance(ctx.current_segment, StandardTextSegment):
+            # 非标准段落, 直接添加
+            ctx.add_current_segment()
+            continue
+
+        # 遍历标准段落内字符
+        for char, char_width, char_idx in ctx.iter_current_segment():
+            if char == "\n":
+                # 换行符导致的换行, 在换行符后分割段落
+                former, latter = ctx.current_segment.half(char_idx + 1, ctx.is_cross_page())
+                ctx.add_segment(former)
+                ctx.new_line()
+                ctx.current_segment = None if latter and latter.is_empty() else latter  # 可能为空
+                break
+            if ctx.test_full_line(char_width) and (not ctx.has_last_space_status() or not allow_space_wrap_line):
+                # 满行导致的换行, 并且无空格或未开启空格折行功能. 当前字符前分割
+                former, latter = ctx.current_segment.half(char_idx, ctx.is_cross_page())
+                ctx.add_segment(former)
+                ctx.new_line()
+                ctx.current_segment = latter
+                break
+            if ctx.test_full_line(char_width) and ctx.has_last_space_status() and allow_space_wrap_line:
+                # 满行导致的换行, 有空格且开启空格折行功能. 空格后分割
+                segment_pos, char_pos, pre_space_width = ctx.last_space_status
+                latter_width = ctx._current_line_width - pre_space_width
+                if segment_pos == len(ctx.current_line):
+                    # 空格在当前 segment 中
+                    former, latter = ctx.current_segment.half(char_pos + 1, ctx.is_cross_page())
+                    ctx.add_segment(former)
+                    ctx.new_line()
+                    ctx.current_segment = latter
+                    # 无法利用宽度信息, 分割并回溯到空格后.
                     break
                 else:
                     # 空格在之前的 segment 中
-                    space_segment = line[segment_pos]
+                    space_segment = ctx.current_line[segment_pos]
                     assert isinstance(space_segment, StandardTextSegment)
-                    is_cross_page = len(page_lines) + 1 >= page_line
-                    former_seg, latter_seg = space_segment.half(char_pos + 1, is_cross_page)
-                    former_line = line[:segment_pos] + [former_seg]
-                    latter_line = line[segment_pos + 1 :]
-                    assert latter_seg is not None  # 不可能为None, 即使为空也必须插入
-                    latter_line.insert(0, latter_seg)
-                    line = former_line
-                    save_line()
-                    line = latter_line
-                    # 没更新 current_segment, 只是换了一行, 继续遍历当前 segment.
-                    line_width = latter_width + char_width
-                    if char == " ":
-                        last_space_status = (len(line), 0, line_width)
-                    continue
-            else:
-                line_width += char_width
-                if char == " ":
-                    # 变量段落无法控制
-                    last_space_status = (len(line), i, line_width)
+                    former, latter = space_segment.half(char_pos + 1, ctx.is_cross_page())
+                    former_line = list(ctx.current_line[:segment_pos])
+                    former_line.append(former)
+                    latter_line = list(ctx.current_line[segment_pos + 1 :])
+                    if latter is not None:
+                        latter_line.insert(0, latter)
+                    ctx.add_line(former_line)
+                    ctx.update_current_line(latter_line, latter_width)
+                    # 可利用宽度信息, 继续遍历当前 segment.
+            if char == " ":
+                # 更新空格状态
+                ctx.last_space_status = (len(ctx.current_line), char_idx, ctx._current_line_width)
+            ctx.add_width(char_width)
+
         else:
-            # 遍历完一个 Segment 了, 开始处理下一个 Segment.
-            add_segment(current_segment)
-            current_segment = None
+            # 遍历完了段落内所有字符, 没有换行, 直接添加
+            ctx.add_current_segment()
 
-    # 处理最后一页
-    if line:
-        # 保存最后一行
-        save_line()
-    if line:
-        # 跨页并且行尾有开标签时, 保存当前页后 line 不为空
-        save_line()
-    if page_lines:
-        # 保存最后一页
-        pages.append(CommonPage(page_lines))
-
-    return pages
+    # 处理最后一行与最后一页
+    ctx.save_last()
+    # 处理页尾标签
+    ctx.process_tags()
+    # 导出所有页
+    return ctx.export_pages()
