@@ -4,12 +4,12 @@
 适用于标准段落实现的分页器
 """
 
-from typing import Callable, Iterator, Optional
 from dataclasses import dataclass
+from typing import Callable, Iterator, Optional
 
+from writtenbookeditor.core.interface.text import PageSequence, SegmentSequence, TextSegment
 
-from ..interface.text import TextSegment, SegmentSequence, PageSequence
-from .text import StandardTextSegment, CommonPage, TagTextSegment
+from .text import CommonPage, StandardTextSegment, TagTextSegment
 
 
 @dataclass
@@ -270,7 +270,7 @@ def standard_pager(
     allow_space_wrap_line: bool = True,
 ):
     """
-    测试分页器
+    标准分页器
     """
 
     while True:
@@ -308,7 +308,7 @@ def standard_pager(
                     former, latter = ctx.current_segment.half(char_pos + 1, ctx.is_cross_page())
                     ctx.add_segment(former)
                     ctx.new_line()
-                    ctx.current_segment = latter
+                    ctx.current_segment = latter  # 不可能为空
                     # 无法利用宽度信息, 分割并回溯到空格后.
                     break
                 else:

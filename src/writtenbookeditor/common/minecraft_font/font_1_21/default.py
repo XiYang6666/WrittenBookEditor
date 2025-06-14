@@ -1,12 +1,11 @@
-from typing import Optional
 import json
+from typing import Optional
 
 import numpy as np
 from PIL import Image
 
-from ..util import calc_bitmap_side, is_bitmap
 from ..types import Bitmap
-
+from ..util import calc_bitmap_side, is_bitmap
 
 nonlatin_european_font_img = Image.open("./data/textures/nonlatin_european.png").convert("RGBA")
 accented_font_img = Image.open("./data/textures/accented.png").convert("RGBA")

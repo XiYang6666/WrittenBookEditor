@@ -1,12 +1,12 @@
 from pathlib import Path
 
+from writtenbookeditor.core.standard.pager import PagerContext, standard_pager
+from writtenbookeditor.core.standard.text import CommonPage, CommonTextSegment, StandardTextSegment
+from writtenbookeditor.core.utils.text import empty_escaper
+
 # import sys
 
 # sys.path.insert(0, "./src")
-
-from writtenbookeditor.core.utils.text import empty_escaper
-from writtenbookeditor.core.standard.pager import PagerContext, standard_pager
-from writtenbookeditor.core.standard.text import CommonTextSegment, CommonPage, StandardTextSegment
 
 
 def test_pager():
@@ -14,8 +14,8 @@ def test_pager():
     测试分页逻辑
     """
 
-    page_line = 10
-    page_width = 10
+    page_line = 15
+    page_width = 20
 
     def width_getter(char: str) -> int:
         if char == "\n":

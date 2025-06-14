@@ -9,10 +9,20 @@ dependencies = [
     "numpy>=2.1.1",
     "nbtlib>=2.0.4",
     "chardet>=5.2.0",
+    "loguru>=0.7.3",
 ]
 requires-python = "<3.13,>=3.12"
 readme = "README.md"
 license = { text = "MIT" }
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.3",
+    "pyinstaller>=6.10.0",
+    "ruff>=0.11.13",
+    "isort>=6.0.1",
+    "black>=25.1.0",
+]
 
 [tool.pdm.scripts]
 generate_ui = "python scripts/generate_ui.py"
@@ -21,8 +31,6 @@ test = "pytest ."
 dev = "python -m src.writtenbookeditor"
 build = "pyinstaller ./main.spec -y"
 
-[tool.pdm.dev-dependencies]
-dev = ["pytest>=8.3.3", "pyinstaller>=6.10.0"]
 [tool.pdm]
 distribution = false
 
@@ -32,3 +40,9 @@ line-length = 130
 [tool.ruff]
 line-length = 130
 exclude = ["src/writtenbookeditor/gui/ui_*.py"]
+
+[tool.isort]
+line_length = 130
+
+[tool.ruff.lint]
+extend-select = ["I"]

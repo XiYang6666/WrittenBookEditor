@@ -1,9 +1,14 @@
 # -*- mode: python ; coding: utf-8 -*-
 
+from typing import TYPE_CHECKING
+
+if TYPE_CHECKING:
+    from PyInstaller.building.build_main import Analysis
+    from PyInstaller.building.api import PYZ, EXE, COLLECT
 
 a = Analysis(
     ["main.py"],
-    pathex=["./src", "./.venv/Lib/site-packages", ".venv/lib/python3.11/site-packages"],
+    pathex=["./src", ".venv/Lib/site-packages", ".venv/lib/python3.12/site-packages"],
     binaries=[],
     datas=[("./data", "./data"), ("./README.md", "."), ("./LICENSE", ".")],
     hiddenimports=[],

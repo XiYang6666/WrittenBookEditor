@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Callable
-import numpy as np
 
+import numpy as np
 
 type Bitmap = np.ndarray[np._2D, np.dtype[np.bool]]
 

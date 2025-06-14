@@ -1,10 +1,10 @@
-from typing import Optional, Any
 import json
+from typing import Any, Optional
 
 import numpy as np
 
-from ..util import calc_bitmap_side, is_bitmap
 from ..types import Bitmap
+from ..util import calc_bitmap_side, is_bitmap
 
 unifont_map: dict[str, Bitmap] = {}
 unifont_jp_map: dict[str, Bitmap] = {}

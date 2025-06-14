@@ -6,9 +6,10 @@ from abc import abstractmethod
 from functools import cache
 from typing import Iterator, Optional, Sequence, override
 
-from ..utils.debug import assert_while_debugging
-from ..interface.text import Stylesheet, Escaper, TextSegment, SegmentSequence, Page
-from ..utils.text import escape_text, map_escaped_pos_to_bare
+from writtenbookeditor.core.interface.text import Escaper, Page, SegmentSequence, Stylesheet, TextSegment
+from writtenbookeditor.core.types.string_view import StringView
+from writtenbookeditor.core.utils.debug import assert_while_debugging
+from writtenbookeditor.core.utils.text import escape_text, map_escaped_pos_to_bare
 
 __all__ = [
     "CorrespondingTextSegment",
@@ -52,6 +53,12 @@ class CorrespondingTextSegment(TextSegment):
 
     def __eq__(self, other) -> bool:
         return type(other) is self.__class__ and self._origin == other._origin and self._position == other._position
+
+    def to_string_view(self) -> StringView:
+        """
+        获取原始文本的 StringView
+        """
+        return StringView(self._origin, self._position[0], self._position[1])
 
 
 class StandardTextSegment(TextSegment):
@@ -169,7 +176,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @override
     def half(self, pos, is_cross_page=False):
         assert_while_debugging(lambda: pos >= 0 and pos <= len(self.text))
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         (o_pos,) = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
         first_half = CommonTextSegment(
             self._style,
@@ -251,7 +258,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @override
     def half(self, pos, is_cross_page=False):
         assert_while_debugging(lambda: pos >= 0 and pos <= len(self.text))
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         (o_pos,) = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
         first_half = MarkTextSegment(
             self._style,
@@ -287,7 +294,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @override
     def __iter__(self) -> Iterator[str]:
         """优化迭代器"""
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         yield from (e for o, e in self._escaper(bare_text))
 
     @override

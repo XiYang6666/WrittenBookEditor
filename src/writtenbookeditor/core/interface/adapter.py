@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from PIL import Image
 
-from .text import SegmentSequence, PageSequence
+from .text import PageSequence, SegmentSequence
 
 
 class Adapter(ABC):

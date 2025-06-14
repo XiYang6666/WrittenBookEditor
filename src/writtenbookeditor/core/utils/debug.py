@@ -4,7 +4,7 @@
 
 from typing import Callable, Optional
 
-from ..config import get_core_config
+from writtenbookeditor.core.config import get_core_config
 
 
 def run_while_debugging(func: Callable):

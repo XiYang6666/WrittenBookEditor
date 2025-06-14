@@ -1,15 +1,18 @@
-from typing import Any, Mapping, Optional, Type
+"""
+配置注入器
+"""
 
-from .types import OptionConfigMeta
-from .interface.option import BaseOption
+from typing import Any, Mapping, Type
+
+from writtenbookeditor.core.interface.option import ConfigData, OptionField, OptionTableMeta
 
 
-def get_option_meta(cls: Type, name: Optional[str] = None) -> OptionConfigMeta:
+def get_option_table_info(cls: Type[Any]) -> tuple[Mapping[str, OptionField], Mapping[str, OptionTableMeta]]:
     """
-    获取配置项元数据
+    从类中读取配置表信息
     """
     options = {}
-    tables = {}
+    sub_tables = {}
 
     # 遍历属性
     for attr_name, attr_value in cls.__dict__.items():
@@ -17,29 +20,50 @@ def get_option_meta(cls: Type, name: Optional[str] = None) -> OptionConfigMeta:
             # 跳过私有属性
             continue
 
-        if isinstance(attr_value, BaseOption):
+        if isinstance(attr_value, OptionField):
             options[attr_name] = attr_value
 
-        if isinstance(attr_value, OptionConfigMeta):
-            tables[attr_name] = attr_value
+        if isinstance(attr_value, OptionTableMeta):
+            sub_tables[attr_name] = attr_value
 
-    return OptionConfigMeta(name, cls, options, tables)
+    return options, sub_tables
 
 
-def inject_options[T](obj: T, meta: OptionConfigMeta, config: Mapping[str, Any], prefix: Optional[str] = None) -> T:
+def expand_option_field(meta: OptionTableMeta[Any]) -> Mapping[str, OptionField]:
     """
-    注入配置项
+    从配置表元数据中展开配置字段
     """
+    config = {}
+    for name, option in meta.option_fields.items():
+        config[f"{meta.name}:{name}"] = option
+    for name, table_meta in meta.sub_tables.items():
+        sub_config = expand_option_field(table_meta)
+        config.update(sub_config)
+    return config
+
+
+def create_object[T](
+    meta: OptionTableMeta[T],
+    config: ConfigData,
+) -> T:
+    """
+    根据配置表元数据和配置数据创建对象
+    """
+    # 创建对象
+    try:
+        obj = meta.type()
+    except TypeError:
+        info = f"Failed to create object of type {meta.type.__name__}, please make sure it has a default constructor."
+        raise RuntimeError(info)
     # 注入配置
-    for origin_name, _ in meta.options.items() if meta.options else {}:
-        name = f"{prefix}:{origin_name}" if prefix else origin_name
+    for origin_name, _ in meta.option_fields.items() if meta.option_fields else {}:
+        name = f"{meta.name}:{origin_name}"
         assert name in config, f"Option {name} is not in config"
         setattr(obj, origin_name, config[name])
 
     # 注入配置表
-    for name, table in meta.tables.items() if meta.tables else {}:
-        table_instance = table.creater()
-        inject_options(table_instance, table, config, table.name)
-        setattr(obj, name, table_instance)
+    for name, table_meta in meta.sub_tables.items() if meta.sub_tables else {}:
+        table = create_object(table_meta, config)
+        setattr(obj, name, table)
 
     return obj

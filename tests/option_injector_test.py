@@ -1,6 +1,7 @@
-from writtenbookeditor.core.registry import register_option_table
-from writtenbookeditor.core.options import option
-from writtenbookeditor.core.injector import get_option_meta, inject_options
+from writtenbookeditor.core.injector import create_object, get_option_table_info
+from writtenbookeditor.core.interface.option import OptionTableMeta
+from writtenbookeditor.core.plugin.options import option
+from writtenbookeditor.core.plugin.registry import register_option_table
 
 
 @register_option_table("table_a")
@@ -35,29 +36,26 @@ def test_option_injector():
     """
     测试配置项注入
     """
-    meta = get_option_meta(TestClass)
-    instant = TestClass()
-    instant = inject_options(
-        instant,
-        meta,
-        {
-            "a": 1,
-            "b": "2",
-            "c": 3.0,
-            "d": True,
-            "e": "test",
-            "table_b:a": 2,
-            "table_b:b": "3",
-            "table_b:c": 4.0,
-            "table_b:d": False,
-            "table_b:e": "test_b",
-            "table_a:a": 5,
-            "table_a:b": "6",
-            "table_a:c": 7.0,
-            "table_a:d": True,
-            "table_a:e": "test_a",
-        },
-    )
+    config = {
+        "test:a": 1,
+        "test:b": "2",
+        "test:c": 3.0,
+        "test:d": True,
+        "test:e": "test",
+        "table_b:a": 2,
+        "table_b:b": "3",
+        "table_b:c": 4.0,
+        "table_b:d": False,
+        "table_b:e": "test_b",
+        "table_a:a": 5,
+        "table_a:b": "6",
+        "table_a:c": 7.0,
+        "table_a:d": True,
+        "table_a:e": "test_a",
+    }
+    options, sub_tables = get_option_table_info(TestClass)
+    meta = OptionTableMeta("test", TestClass, options, sub_tables)
+    instant = create_object(meta, config)
     assert instant.a == 1
     assert instant.b == "2"
     assert instant.c == 3.0

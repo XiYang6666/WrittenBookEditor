@@ -1,17 +1,20 @@
 from typing import override
 
-
-from ..core.interface.formatter import Formatter
-from ..core.registry import register_formatter
-from ..core.standard.text import SegmentSequence, CommonTextSegment
-from ..core.utils.text import create_escaper
+from ...core.interface.formatter import Formatter
+from ...core.registry import register_formatter
+from ...core.standard.text import CommonTextSegment, SegmentSequence
+from ...core.utils.text import empty_escaper
 
 
 @register_formatter("plain_text", features=["segment:standard"])
 class PlainTextFormatter(Formatter):
+    """
+    纯文本格式化器
+    """
+
     @override
     def format(self, text: str) -> SegmentSequence:
-        return [CommonTextSegment({}, text, 0, len(text), create_escaper({}))]
+        return [CommonTextSegment({}, text, 0, len(text), empty_escaper)]
 
 
 # TIP:

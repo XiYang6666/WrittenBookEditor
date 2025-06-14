@@ -1,10 +1,34 @@
-from typing import Any, Callable, Mapping, Sequence, Type, Optional
+"""
+注册器
+
+使用元数据注册适配器和格式化器.
+"""
+
+from dataclasses import dataclass
+from typing import Mapping, Sequence, Type
+
+from writtenbookeditor.core.interface.adapter import Adapter
+from writtenbookeditor.core.interface.formatter import Formatter
+from writtenbookeditor.core.interface.option import OptionField, OptionTableMeta
 
 
-from .interface.adapter import Adapter
-from .interface.formatter import Formatter
-from .types import AdapterMeta, FormatterMeta, OptionConfigMeta
-from .injector import get_option_meta, inject_options
+@dataclass(frozen=True)
+class AdapterMeta(OptionTableMeta[Adapter]):
+    """
+    适配器元数据
+    """
+
+    features: Sequence[str]
+
+
+@dataclass(frozen=True)
+class FormatterMeta(OptionTableMeta[Formatter]):
+    """
+    格式化器元数据
+    """
+
+    features: Sequence[str]
+
 
 adapters: dict[str, AdapterMeta] = {}
 formatters: dict[str, FormatterMeta] = {}
@@ -12,78 +36,23 @@ formatters: dict[str, FormatterMeta] = {}
 
 def add_adapter(
     name: str,
-    creater: Callable[[Mapping], Adapter],
-    features: Optional[Sequence[str]] = None,
-    options: Optional[OptionConfigMeta] = None,
+    type: Type[Adapter],
+    option_fields: Mapping[str, OptionField],
+    sub_tables: Mapping[str, OptionTableMeta],
+    features: Sequence[str],
 ) -> AdapterMeta:
-    meta = AdapterMeta(name, creater, features or [], options)
+    meta = AdapterMeta(name, type, option_fields, sub_tables, features)
     adapters[name] = meta
     return meta
 
 
 def add_formatter(
     name: str,
-    creater: Callable[[Mapping], Formatter],
-    features: Optional[Sequence[str]] = None,
-    options: Optional[OptionConfigMeta] = None,
+    type: Type[Formatter],
+    option_fields: Mapping[str, OptionField],
+    sub_tables: Mapping[str, OptionTableMeta],
+    features: Sequence[str],
 ) -> FormatterMeta:
-    meta = FormatterMeta(name, creater, features or [], options)
+    meta = FormatterMeta(name, type, option_fields, sub_tables, features)
     formatters[name] = meta
     return meta
-
-
-def register_adapter[T: Adapter](
-    name: str,
-    *,
-    features: Optional[list[str]] = None,
-) -> Callable[[Type[T]], Type[T]]:
-    """
-    注册适配器
-    """
-
-    def decorator(cls: Type[T]):
-        option_meta = get_option_meta(cls, name)
-
-        def creater(config: Mapping[str, Any]):
-            instance = cls()
-            return inject_options(instance, option_meta, config)
-
-        add_adapter(name, creater, features)
-        return cls
-
-    return decorator
-
-
-def register_formatter[T: Formatter](
-    name: str,
-    *,
-    features: Optional[list[str]] = None,
-) -> Callable[[Type[T]], Type[T]]:
-    """
-    注册格式器
-    """
-
-    def decorator(cls: Type[T]):
-        option_meta = get_option_meta(cls, name)
-
-        def creater(config: Mapping[str, Any]):
-            instance = cls()
-            return inject_options(instance, option_meta, config)
-
-        add_formatter(name, creater, features)
-        return cls
-
-    return decorator
-
-
-def register_option_table[T](name: str) -> Callable[[Type[T]], Type[T]]:
-    """
-    注册配置表
-    """
-
-    def decorator(cls: Type[T]) -> Type[T]:
-        meta = get_option_meta(cls, name)
-        setattr(cls, "__option_meta__", meta)
-        return cls
-
-    return decorator

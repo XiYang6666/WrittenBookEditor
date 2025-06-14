@@ -2,12 +2,11 @@ from functools import cache
 
 import numpy as np
 
-
-from .space import get_char_space_width
-from .default import get_char_default_bitmap_and_offset
-from .unifont import get_char_unifont_bitmap
-from ..types import CharInfo, FontConf
 from ..constants import MISSING_FONT
+from ..types import CharInfo, FontConf
+from .default import get_char_default_bitmap_and_offset
+from .space import get_char_space_width
+from .unifont import get_char_unifont_bitmap
 
 
 @cache

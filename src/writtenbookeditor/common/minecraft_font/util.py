@@ -1,4 +1,5 @@
 from typing import Any, TypeGuard
+
 import numpy as np
 
 from .types import Bitmap

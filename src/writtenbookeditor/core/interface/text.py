@@ -3,13 +3,12 @@ Text核心接口
 """
 
 from abc import ABC, abstractmethod
-from typing import Callable, Sequence, Optional, Iterator, Any
+from typing import Any, Callable, Iterator, Optional, Sequence
 
+from writtenbookeditor.core.types.string_view import StringView
 
 type Stylesheet = dict[str, Any]
-
-
-type Escaper = Callable[[str], Iterator[tuple[str, str]]]
+type Escaper = Callable[[str | StringView], Iterator[tuple[str, str]]]
 
 
 class TextSegment(ABC):

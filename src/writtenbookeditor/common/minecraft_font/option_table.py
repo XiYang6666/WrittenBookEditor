@@ -1,5 +1,5 @@
-from ...core.options import option
-from ...core.registry import register_option_table
+from ...core.plugin.options import option
+from ...core.plugin.registry import register_option_table
 
 
 @register_option_table("minecraft_font")

@@ -1,8 +1,28 @@
 import re
-from typing import Callable, Iterator, Mapping
+import sys
+from typing import Callable, Iterator, Mapping, Optional
+
+from writtenbookeditor.core.interface.text import Escaper
+from writtenbookeditor.core.types.string_view import StringView
+
+# 注: 该模块使用试验中的 StringView
 
 
-from ..interface.text import Escaper
+def match_text(
+    patten: re.Pattern,
+    text: str | StringView,
+    pos: int = 0,
+    endpos: Optional[int] = None,
+) -> Optional[re.Match[str]]:
+    """
+    同时支持 str 和 StringView 的匹配
+    """
+    if isinstance(text, str):
+        return patten.match(text, pos, endpos or sys.maxsize)
+    else:
+        (start,) = text.calc_offset(pos)
+        end = text.calc_offset(endpos)[0] if endpos else sys.maxsize
+        return patten.match(text.source, start, end)
 
 
 def create_escaper(
@@ -14,7 +34,7 @@ def create_escaper(
     输入一个映射表，返回一个转义器函数
     """
 
-    def escaper(text: str) -> Iterator[tuple[str, str]]:
+    def escaper(text: str | StringView) -> Iterator[tuple[str, str]]:
         ptr = 0
         length = len(text)
 
@@ -26,7 +46,7 @@ def create_escaper(
                     ptr += len(key)
                     break
                 elif isinstance(key, re.Pattern):
-                    if not (match := key.match(text, ptr)):
+                    if not (match := match_text(key, text, ptr)):
                         continue
                     s = match.group()
                     escaped = replacement(s) if callable(replacement) else replacement
@@ -41,7 +61,7 @@ def create_escaper(
     return escaper
 
 
-def empty_escaper(text: str) -> Iterator[tuple[str, str]]:
+def empty_escaper(text: str | StringView) -> Iterator[tuple[str, str]]:
     """
     空转义器
 
@@ -50,7 +70,7 @@ def empty_escaper(text: str) -> Iterator[tuple[str, str]]:
     yield from ((c, c) for c in text)
 
 
-def escape_text(bare_text: str, escaper: Escaper) -> str:
+def escape_text(bare_text: str | StringView, escaper: Escaper) -> str:
     """
     转义文本
 
@@ -59,7 +79,7 @@ def escape_text(bare_text: str, escaper: Escaper) -> str:
     return "".join(t[1] for t in escaper(bare_text))
 
 
-def map_escaped_pos_to_bare(bare_text: str, escaper: Escaper, *pos: int) -> tuple[int, ...]:
+def map_escaped_pos_to_bare(bare_text: str | StringView, escaper: Escaper, *pos: int) -> tuple[int, ...]:
     """
     将转义后的位置映射到原文本的位置
     """
