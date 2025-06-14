@@ -6,8 +6,13 @@
 
 from typing import Any, Literal, Optional, Type, overload
 
-from writtenbookeditor.core.interface.option import (BoolOptionField, ChoiceOptionField, FloatOptionField, IntOptionField,
-                                                     StringOptionField)
+from writtenbookeditor.core.interface.option import (
+    BoolOptionField,
+    ChoiceOptionField,
+    FloatOptionField,
+    IntOptionField,
+    StringOptionField,
+)
 
 # 注: 这里返回值都是为了骗过类型检查的假类型
 # 实际上返回的都是 BaseOption 或 OptionConfigMeta[T] (

@@ -1,5 +1,4 @@
 import sys
-from json import load
 
 from loguru import logger
 

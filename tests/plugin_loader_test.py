@@ -3,7 +3,7 @@ import sys
 if __name__ == "__main__":
     sys.path.insert(0, "./src")
 
-from writtenbookeditor.core.loader import load_builtin_plugins, load_plugin_dirs, load_plugins
+from writtenbookeditor.core.loader import load_builtin_plugins, load_plugin_dirs
 
 
 def test_plugin_loader():

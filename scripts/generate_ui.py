@@ -1,5 +1,5 @@
-from pathlib import Path
 from os import system
+from pathlib import Path
 
 path = Path("src/writtenbookeditor/gui")
 for file in path.glob("*.ui"):

@@ -1,6 +1,6 @@
-import tomllib
 import json
 import sys
+import tomllib
 
 with open("./pyproject.toml", "rb") as f:
     pyproject_data = tomllib.load(f)
