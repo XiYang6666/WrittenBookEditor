@@ -34,11 +34,9 @@ def test():
     standard_pager(ctx)
 
 
-print(f"text length: {len(text)}")
-print()
 start_time = time.time()
 cProfile.run("test()")
 end_time = time.time()
-print()
-print(f"time elapsed: {end_time - start_time}s")
+print(f"text length: {len(text)}")
+print(f"time elapsed: {end_time - start_time:.2f}s")
 print(f"about {len(text) / (end_time - start_time) / 1000:.0f}k chars per second.")
