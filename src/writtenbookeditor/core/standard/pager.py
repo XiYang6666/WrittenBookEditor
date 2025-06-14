@@ -65,7 +65,7 @@ class PagerContext:
         返回 (char, width, char_idx)
         """
         assert isinstance(self.current_segment, StandardTextSegment), "current segment must be StandardTextSegment"
-        for i, char in enumerate(self.current_segment.__iter__()):
+        for i, char in enumerate(self.current_segment):
             yield char, self.width_getter(char), i
 
     # current_line

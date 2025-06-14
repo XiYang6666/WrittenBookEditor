@@ -6,6 +6,7 @@
 
 import cProfile
 import sys
+import time
 from pathlib import Path
 
 sys.path.insert(0, str(Path("./src").absolute()))
@@ -34,4 +35,10 @@ def test():
 
 
 print(f"text length: {len(text)}")
+print()
+start_time = time.time()
 cProfile.run("test()")
+end_time = time.time()
+print()
+print(f"time elapsed: {end_time - start_time}s")
+print(f"about {len(text) / (end_time - start_time) / 1000:.0f}k chars per second.")

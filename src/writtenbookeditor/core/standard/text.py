@@ -170,7 +170,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
         """
         **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
         """
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         return escape_text(bare_text, self._escaper)
 
     @override
@@ -212,7 +212,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
     @override
     def __iter__(self) -> Iterator[str]:
         """优化迭代器"""
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         yield from (e for o, e in self._escaper(bare_text))
 
     @override
@@ -252,7 +252,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
         """
         **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
         """
-        bare_text = self._origin[self._position[0] : self._position[1]]
+        bare_text = self.to_string_view()
         return escape_text(bare_text, self._escaper)
 
     @override
