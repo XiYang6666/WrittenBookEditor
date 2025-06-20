@@ -3,12 +3,12 @@
 """
 
 from abc import abstractmethod
-from functools import cache
 from typing import Iterator, Optional, Sequence, override
 
 from writtenbookeditor.core.interface.text import Escaper, Page, SegmentSequence, Stylesheet, TextSegment
 from writtenbookeditor.core.types.string_view import StringView
 from writtenbookeditor.core.utils.debug import assert_while_debugging
+from writtenbookeditor.core.utils.function import instance_method_cache
 from writtenbookeditor.core.utils.text import escape_text, map_escaped_pos_to_bare
 
 __all__ = [
@@ -165,7 +165,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
 
     @property
     @override
-    @cache
+    @instance_method_cache
     def text(self) -> str:
         """
         **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
@@ -247,7 +247,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
 
     @property
     @override
-    @cache
+    @instance_method_cache
     def text(self) -> str:
         """
         **注意: 该方法会转义所有文本, 引起性能严重下降, 请谨慎使用**
@@ -421,9 +421,7 @@ class TagTextSegment(CorrespondingTextSegment):
 
     def is_prefer_header(self) -> bool:
         """
-        标签在页尾时的行为.
-
-        用于确定标签应被放在页首还是页尾.
+        是否应被放在页首
         """
         return self._is_prefer_header
 

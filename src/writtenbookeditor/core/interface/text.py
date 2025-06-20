@@ -7,22 +7,15 @@ from typing import Any, Callable, Iterator, Optional, Sequence
 
 from writtenbookeditor.core.types.string_view import StringView
 
+type StringLike = str | StringView
 type Stylesheet = dict[str, Any]
-type Escaper = Callable[[str | StringView], Iterator[tuple[str, str]]]
+type Escaper = Callable[[StringLike], Iterator[tuple[str, str]]]
 
 
 class TextSegment(ABC):
     """
     文本段落接口
     """
-
-    # TODO: nmlgb, 就不该加这个
-    # @property
-    # @abstractmethod
-    # def text(self) -> Optional[str]:
-    #     """
-    #     返回段落对应字符串
-    #     """
 
     @property
     @abstractmethod
