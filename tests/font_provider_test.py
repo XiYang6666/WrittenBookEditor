@@ -13,7 +13,7 @@ context = FontContext(Path("./data/test/font/"), Path("./data/test/font/textures
 def test_bitmap_provider():
     bitmap_provider = BitmapGlyphProvider(
         context,
-        file="ascii.png",
+        file="minecraft:font/ascii.png",
         chars=[
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",
             "\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000",

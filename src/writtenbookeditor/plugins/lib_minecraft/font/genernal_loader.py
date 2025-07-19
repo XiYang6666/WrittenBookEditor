@@ -32,15 +32,15 @@ class FontContext:
 
     def get_provider_path(self, id: str) -> Path:
         # 我为什么要 tmd 考虑minecraft 以外的命名空间?
-        real_filename = id.removesuffix("minecraft:") + ".json"
+        real_filename = id.removeprefix("minecraft:") + ".json"
         return self.font_path / real_filename
 
     def get_font_path(self, file: str) -> Path:
-        real_filename = file.removesuffix("minecraft:")
+        real_filename = file.removeprefix("minecraft:")
         return self.font_path / real_filename
 
     def get_texture_path(self, file: str) -> Path:
-        real_relative_path = Path(file.removesuffix("minecraft:")).relative_to("font/")
+        real_relative_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
         return self.font_texture_path / real_relative_path
 
     def create_reference_provider(self, id: str) -> "ReferenceGlyphProvider":

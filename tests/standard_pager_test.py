@@ -22,7 +22,7 @@ def test_pager():
             return 0
         return 1
 
-    text = Path("data/test/romeo_and_juliet.txt").read_text(encoding="utf-8")[:1000]
+    text = Path("data/test/text/romeo_and_juliet.txt").read_text(encoding="utf-8")[:1000]
     segments = [CommonTextSegment({}, text, 0, len(text), empty_escaper)]
     ctx = PagerContext(segments, width_getter, page_line_count=page_line, page_width=page_width)
     pages = standard_pager(ctx)
