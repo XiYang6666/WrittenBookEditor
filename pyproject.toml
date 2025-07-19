@@ -1,6 +1,6 @@
 [project]
 name = "WrittenBookEditor"
-version = "0.1.2"
+version = "2.0.0"
 description = "Default template for PDM package"
 authors = [{ name = "XiYang6666", email = "1782356858@qq.com" }]
 dependencies = [
