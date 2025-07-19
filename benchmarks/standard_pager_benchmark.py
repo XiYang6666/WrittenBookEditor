@@ -25,7 +25,7 @@ def width_getter(char: str) -> int:
     return 1
 
 
-text = Path("data/test/romeo_and_juliet.txt").read_text(encoding="utf-8") * 5
+text = Path("data/test/text/romeo_and_juliet.txt").read_text(encoding="utf-8") * 5
 segments = [CommonTextSegment({}, text, 0, len(text), empty_escaper)]
 ctx = PagerContext(segments, width_getter, page_line_count=page_line, page_width=page_width)
 

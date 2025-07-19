@@ -1,12 +1,12 @@
+import sys
 from pathlib import Path
+
+if __name__ == "__main__":
+    sys.path.insert(0, "./src")
 
 from writtenbookeditor.core.standard.pager import PagerContext, standard_pager
 from writtenbookeditor.core.standard.text import CommonPage, CommonTextSegment, StandardTextSegment
 from writtenbookeditor.core.utils.text import empty_escaper
-
-# import sys
-
-# sys.path.insert(0, "./src")
 
 
 def test_pager():
@@ -37,3 +37,7 @@ def test_pager():
                 width += sum(width_getter(c) for c in seg.text or "")
                 print(len(seg.text or ""))
             assert width <= page_width, f"page {i} line {j} width {width} > page width {page_width}"
+
+
+if __name__ == "__main__":
+    test_pager()

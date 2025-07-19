@@ -1,3 +1,8 @@
+import sys
+
+if __name__ == "__main__":
+    sys.path.insert(0, "./src")
+
 from writtenbookeditor.core.injector import create_object, get_option_table_info
 from writtenbookeditor.core.interface.option import OptionTableMeta
 from writtenbookeditor.core.plugin.options import option
@@ -73,3 +78,7 @@ def test_option_injector():
     assert instant.f.f.c == 7.0
     assert instant.f.f.d == True  # noqa: E712
     assert instant.f.f.e == "test_a"
+
+
+if __name__ == "__main__":
+    test_option_injector()
