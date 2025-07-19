@@ -3,8 +3,8 @@
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from PyInstaller.building.api import COLLECT, EXE, PYZ
     from PyInstaller.building.build_main import Analysis
-    from PyInstaller.building.api import PYZ, EXE, COLLECT
 
 a = Analysis(
     ["main.py"],
