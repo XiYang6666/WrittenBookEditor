@@ -1,7 +1,7 @@
 from typing import override
 
 from ...core.interface.formatter import Formatter
-from ...core.registry import register_formatter
+from ...core.plugin.registry import register_formatter
 from ...core.standard.text import CommonTextSegment, SegmentSequence
 from ...core.utils.text import empty_escaper
 
