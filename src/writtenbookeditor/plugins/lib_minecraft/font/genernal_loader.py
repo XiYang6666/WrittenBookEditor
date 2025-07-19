@@ -1,6 +1,6 @@
 import json
 import zipfile
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Optional, cast
 
@@ -28,7 +28,7 @@ from writtenbookeditor.plugins.lib_minecraft.font.utils import as_glyph_provider
 class FontContext:
     font_path: Path
     font_texture_path: Path
-    loaded: dict[str, "ReferenceGlyphProvider"] = dict()
+    loaded: dict[str, "ReferenceGlyphProvider"] = field(default_factory=dict)
 
     def get_provider_path(self, id: str) -> Path:
         # 我为什么要 tmd 考虑minecraft 以外的命名空间?
