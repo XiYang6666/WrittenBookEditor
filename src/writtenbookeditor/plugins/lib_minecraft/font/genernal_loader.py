@@ -33,32 +33,32 @@ class FontContext:
     font_texture_path: list[Path]
     loaded: dict[str, "ReferenceGlyphProvider"] = field(default_factory=dict)
 
-    def get_font_path(self, file: str | Path) -> Path:
+    def get_font_path(self, file: str | Path) -> Optional[Path]:
         for path in self.font_path:
             if (path / file).exists():
                 return path / file
-        raise FileNotFoundError(f"font file not found: {file}")
+        return None
 
-    def get_texture_path(self, file: str | Path) -> Path:
+    def get_texture_path(self, file: str | Path) -> Optional[Path]:
         for path in self.font_texture_path:
             if (path / file).exists():
                 return path / file
-        raise FileNotFoundError(f"texture file not found: {file}")
+        return None
 
-    def format_provider_path(self, id: str) -> Path:
+    def format_provider_path(self, id: str) -> Optional[Path]:
         # 我为什么要 tmd 考虑minecraft 以外的命名空间?
         real_filename = id.removeprefix("minecraft:") + ".json"
         return self.get_font_path(real_filename)
 
-    def format_font_path(self, file: str) -> Path:
+    def format_font_path(self, file: str) -> Optional[Path]:
         real_filename = file.removeprefix("minecraft:")
         return self.get_font_path(real_filename)
 
-    def format_texture_path(self, file: str) -> Path:
+    def format_texture_path(self, file: str) -> Optional[Path]:
         real_rel_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
         return self.get_texture_path(real_rel_path)
 
-    def format_assets_path(self, file: str) -> Path:
+    def format_assets_path(self, file: str) -> Optional[Path]:
         real_rel_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
         return self.get_font_path(real_rel_path)
 
@@ -85,9 +85,10 @@ class BitmapGlyphProvider(RawGlyphProvider):
         self.ascent = ascent
         # preload
         bitmap_path = context.format_texture_path(file)
+        assert bitmap_path is not None, f"bitmap file not found: {file}"
         self.bitmap = np.array(Image.open(bitmap_path).convert("RGBA").getchannel("A")) > 0
         assert self.chars, "chars is empty"
-        line_char_count = len(self.chars[0])
+        line_char_count = max(len(i) for i in self.chars)
         assert self.bitmap.shape[1] % line_char_count == 0, "bitmap width is not divisible by char width"
         self.width = self.bitmap.shape[1] // line_char_count
 
@@ -120,6 +121,7 @@ class ReferenceGlyphProvider(GlyphProvider):
         id: str,
     ):
         file_path = context.format_provider_path(id)
+        assert file_path is not None, f"provider file not found: {id}"
         data: FontProviderFileJson = json.loads(file_path.read_text())
         self.providers: list[GlyphProvider] = [self.load_provider(context, provider_json) for provider_json in data["providers"]]
 
@@ -170,6 +172,7 @@ class ReferenceGlyphProvider(GlyphProvider):
                 sizes=provider_json["sizes"],
                 template=provider_json["template"],
             )
+            return as_glyph_provider(filter)(provider)
         else:
             raise ValueError(f"unknown provider type: {provider_json['type']}")
 
@@ -231,6 +234,7 @@ class UnihexGlyphProvider(RawGlyphProvider):
         self.size_overrides = size_overrides if size_overrides is not None else []
         self.mapping: dict[str, Glyph] = {}
         hex_zip_path = context.format_assets_path(hex_file)
+        assert hex_zip_path is not None, f"hex file not found: {hex_file}"
 
         for line in self.read_hex_data(hex_zip_path):
             char_hex, bitmap_hex = line.split(":")
@@ -265,12 +269,18 @@ class UnihexGlyphProvider(RawGlyphProvider):
 
 class LegcyUnicodeGlyphProvider(RawGlyphProvider):
     def __init__(self, context: FontContext, *, sizes: str, template: str):
-        self.sizes_data = context.format_assets_path(sizes).read_bytes()
-        self.template = str(context.format_assets_path(template))
+        sizes_path = context.format_assets_path(sizes)
+        assert sizes_path is not None, f"sizes file not found: {sizes}"
+        self.sizes_data = sizes_path.read_bytes()
+        self.page_mapping: dict[str, Path] = {
+            f"{i:02x}": path
+            for i in range(0x100)
+            if (path := context.format_texture_path(template.replace("%s", f"{i:02x}"))) is not None
+        }
 
     @instance_method_cache
     def get_page(self, char_code_hex: str) -> Annotated[npt.NDArray[np.bool_], Literal[256, 256]]:
-        page_path = Path(self.template.replace("%s", char_code_hex[:2]))
+        page_path = self.page_mapping[char_code_hex[:2]]
         return np.array(Image.open(page_path).convert("RGBA").getchannel("A")) > 0
 
     def __call__(self, char: str) -> Optional[Glyph]:
