@@ -2,46 +2,65 @@ import json
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Optional, cast
+from typing import Annotated, Literal, Optional, cast
 
 import numpy as np
+import numpy.typing as npt
 from PIL import Image, ImageFont
 
+from writtenbookeditor.core.utils.function import instance_method_cache
 from writtenbookeditor.plugins.lib_minecraft.font.types import (
     BaseGlyphProviderJson,
     BitmapGlyphProviderJson,
     FontProviderFileJson,
     Glyph,
     GlyphProvider,
+    LegcyUnicodeGlyphProviderJson,
     ProviderFilter,
     RawGlyphProvider,
     ReferenceGlyphProviderJson,
     SpaceGlyphProviderJson,
     TTFGlyphProviderJson,
+    UnihexGlyphProviderJson,
     UnihexGlyphProviderSizeoverrideJson,
-    UnihexProviderJson,
 )
 from writtenbookeditor.plugins.lib_minecraft.font.utils import as_glyph_provider, check_filter, trim_bitmap_margins
 
 
 @dataclass
 class FontContext:
-    font_path: Path
-    font_texture_path: Path
+    font_path: list[Path]
+    font_texture_path: list[Path]
     loaded: dict[str, "ReferenceGlyphProvider"] = field(default_factory=dict)
 
-    def get_provider_path(self, id: str) -> Path:
+    def get_font_path(self, file: str | Path) -> Path:
+        for path in self.font_path:
+            if (path / file).exists():
+                return path / file
+        raise FileNotFoundError(f"font file not found: {file}")
+
+    def get_texture_path(self, file: str | Path) -> Path:
+        for path in self.font_texture_path:
+            if (path / file).exists():
+                return path / file
+        raise FileNotFoundError(f"texture file not found: {file}")
+
+    def format_provider_path(self, id: str) -> Path:
         # 我为什么要 tmd 考虑minecraft 以外的命名空间?
         real_filename = id.removeprefix("minecraft:") + ".json"
-        return self.font_path / real_filename
+        return self.get_font_path(real_filename)
 
-    def get_font_path(self, file: str) -> Path:
+    def format_font_path(self, file: str) -> Path:
         real_filename = file.removeprefix("minecraft:")
-        return self.font_path / real_filename
+        return self.get_font_path(real_filename)
 
-    def get_texture_path(self, file: str) -> Path:
-        real_relative_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
-        return self.font_texture_path / real_relative_path
+    def format_texture_path(self, file: str) -> Path:
+        real_rel_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
+        return self.get_texture_path(real_rel_path)
+
+    def format_assets_path(self, file: str) -> Path:
+        real_rel_path = Path(file.removeprefix("minecraft:")).relative_to("font/")
+        return self.get_font_path(real_rel_path)
 
     def create_reference_provider(self, id: str) -> "ReferenceGlyphProvider":
         if id in self.loaded:
@@ -65,7 +84,7 @@ class BitmapGlyphProvider(RawGlyphProvider):
         self.height = height if height is not None else 8
         self.ascent = ascent
         # preload
-        bitmap_path = context.get_texture_path(file)
+        bitmap_path = context.format_texture_path(file)
         self.bitmap = np.array(Image.open(bitmap_path).convert("RGBA").getchannel("A")) > 0
         assert self.chars, "chars is empty"
         line_char_count = len(self.chars[0])
@@ -100,7 +119,7 @@ class ReferenceGlyphProvider(GlyphProvider):
         *,
         id: str,
     ):
-        file_path = context.get_provider_path(id)
+        file_path = context.format_provider_path(id)
         data: FontProviderFileJson = json.loads(file_path.read_text())
         self.providers: list[GlyphProvider] = [self.load_provider(context, provider_json) for provider_json in data["providers"]]
 
@@ -137,13 +156,20 @@ class ReferenceGlyphProvider(GlyphProvider):
             )
             return as_glyph_provider(filter)(provider)
         elif provider_json["type"] == "unihex":
-            provider_json = cast(UnihexProviderJson, provider_json)
+            provider_json = cast(UnihexGlyphProviderJson, provider_json)
             provider = UnihexGlyphProvider(
                 context,
                 hex_file=provider_json["hex_file"],
                 size_overrides=provider_json.get("size_overrides"),
             )
             return as_glyph_provider(filter)(provider)
+        elif provider_json["type"] == "legacy_unicode":
+            provider_json = cast(LegcyUnicodeGlyphProviderJson, provider_json)
+            provider = LegcyUnicodeGlyphProvider(
+                context,
+                sizes=provider_json["sizes"],
+                template=provider_json["template"],
+            )
         else:
             raise ValueError(f"unknown provider type: {provider_json['type']}")
 
@@ -164,7 +190,7 @@ class SpaceGlyphProvider(RawGlyphProvider):
 
 class TTFGlyphProvider(RawGlyphProvider):
     """
-    注: 懒得写了, 让 AI 写了半天每一个能用的...
+    注: 懒得写了, 让 AI 写了半天没一个能用的...
     """
 
     def __init__(
@@ -185,7 +211,7 @@ class TTFGlyphProvider(RawGlyphProvider):
         skip = skip if skip is not None else ""
         self.skip = set(skip) if isinstance(skip, str) else set("".join(skip))
         # preload
-        ttf_path = context.get_font_path(file)
+        ttf_path = context.format_font_path(file)
         self.font = ImageFont.truetype(str(ttf_path), int(self.size * self.oversample))
 
     def __call__(self, char: str) -> Optional[Glyph]:
@@ -204,7 +230,7 @@ class UnihexGlyphProvider(RawGlyphProvider):
     ):
         self.size_overrides = size_overrides if size_overrides is not None else []
         self.mapping: dict[str, Glyph] = {}
-        hex_zip_path = context.get_font_path(hex_file)
+        hex_zip_path = context.format_assets_path(hex_file)
 
         for line in self.read_hex_data(hex_zip_path):
             char_hex, bitmap_hex = line.split(":")
@@ -217,7 +243,7 @@ class UnihexGlyphProvider(RawGlyphProvider):
             bitmap = bits.reshape((16, width)).astype(np.bool_)
 
             for override in self.size_overrides:
-                if override["from"] <= ord(char) <= override["to"]:
+                if ord(override["from"]) <= ord(char) <= ord(override["to"]):
                     bitmap = bitmap[:, override["left"] : override["right"]]
                     break
             else:
@@ -235,6 +261,35 @@ class UnihexGlyphProvider(RawGlyphProvider):
 
     def __call__(self, char: str) -> Optional[Glyph]:
         return self.mapping.get(char)
+
+
+class LegcyUnicodeGlyphProvider(RawGlyphProvider):
+    def __init__(self, context: FontContext, *, sizes: str, template: str):
+        self.sizes_data = context.format_assets_path(sizes).read_bytes()
+        self.template = str(context.format_assets_path(template))
+
+    @instance_method_cache
+    def get_page(self, char_code_hex: str) -> Annotated[npt.NDArray[np.bool_], Literal[256, 256]]:
+        page_path = Path(self.template.replace("%s", char_code_hex[:2]))
+        return np.array(Image.open(page_path).convert("RGBA").getchannel("A")) > 0
+
+    def __call__(self, char: str) -> Optional[Glyph]:
+        char_code = ord(char)
+        assert 0 <= char_code <= 0xFFFF, "char code must be in range [0, 0xffff]"
+        char_code_hex = f"{char_code:04x}"
+        page = self.get_page(char_code_hex)
+        # clip bitmap
+        pos = int(char_code_hex[2:], 16)
+        x, y = pos % 16, pos // 16
+        left = x * 16
+        upper = y * 16
+        right = left + 16
+        lower = upper + 16
+        bitmap = trim_bitmap_margins(page[upper:lower, left:right])
+        # process size
+        size_data = self.sizes_data[char_code]
+        left, right = size_data >> 4 & 0x0F, size_data & 0x0F
+        return Glyph(char, bitmap[:, left:right], -2)
 
 
 def load_provider(context: FontContext, id: str):

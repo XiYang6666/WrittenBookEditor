@@ -22,6 +22,7 @@ dev = [
     "ruff>=0.11.13",
     "isort>=6.0.1",
     "black>=25.1.0",
+    "psutil>=7.0.0",
 ]
 
 [tool.pdm.scripts]

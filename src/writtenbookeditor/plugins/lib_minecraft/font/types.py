@@ -39,6 +39,10 @@ class ProviderFilter:
     def empty(cls):
         return cls(jp=None, unifont=None)
 
+    @classmethod
+    def default(cls):
+        return cls(jp=False, unifont=False)
+
 
 class ProviderFilterJson(TypedDict):
     jp: NotRequired[bool]
@@ -73,12 +77,19 @@ class TTFGlyphProviderJson(BaseGlyphProviderJson):
     skip: NotRequired[str | list[str]]
 
 
-UnihexGlyphProviderSizeoverrideJson = TypedDict("UnihexGlyphProviderSizeoverrideJson", {"from": int, "to": int, "left": int, "right": int})
+UnihexGlyphProviderSizeoverrideJson = TypedDict(
+    "UnihexGlyphProviderSizeoverrideJson", {"from": str, "to": str, "left": int, "right": int}
+)
 
 
-class UnihexProviderJson(BaseGlyphProviderJson):
+class UnihexGlyphProviderJson(BaseGlyphProviderJson):
     hex_file: str
     size_overrides: NotRequired[list[UnihexGlyphProviderSizeoverrideJson]]
+
+
+class LegcyUnicodeGlyphProviderJson(BaseGlyphProviderJson):
+    sizes: str
+    template: str
 
 
 class FontProviderFileJson(TypedDict):
