@@ -4,8 +4,6 @@ import shutil
 from pathlib import Path
 from typing import TypedDict
 
-from isort import file
-
 VERSIONS = [
     ("1.6.2", "legacy"),
     ("1.7.3", "1.7.3"),
