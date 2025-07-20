@@ -4,21 +4,40 @@
 包装 core.registry, 从类中获取元数据后注册.
 """
 
-from typing import Callable, Optional, Type
+from typing import Callable, Collection, Optional, Type
 
 from writtenbookeditor.core.injector import get_option_table_info
 from writtenbookeditor.core.interface.adapter import Adapter
+from writtenbookeditor.core.interface.exporter import Exporter
 from writtenbookeditor.core.interface.formatter import Formatter
 from writtenbookeditor.core.interface.option import OptionTableMeta
-from writtenbookeditor.core.registry import add_adapter, add_formatter
+from writtenbookeditor.core.registry import add_adapter, add_exporter, add_formatter
 
 __all__ = ["register_adapter", "register_formatter", "register_option_table"]
+
+
+def register_formatter[T: Formatter](
+    name: str,
+    *,
+    producted_features: Optional[list[str]] = None,
+) -> Callable[[Type[T]], Type[T]]:
+    """
+    注册格式化器
+    """
+
+    def decorator(cls: Type[T]):
+        options, sub_tables = get_option_table_info(cls)
+        add_formatter(name, cls, options, sub_tables, producted_features or [])
+        return cls
+
+    return decorator
 
 
 def register_adapter[T: Adapter](
     name: str,
     *,
-    features: Optional[list[str]] = None,
+    required_features: Optional[Collection[str]] = None,
+    producted_features: Optional[Collection[str]] = None,
 ) -> Callable[[Type[T]], Type[T]]:
     """
     注册适配器
@@ -26,24 +45,26 @@ def register_adapter[T: Adapter](
 
     def decorator(cls: Type[T]):
         options, sub_tables = get_option_table_info(cls)
-        add_adapter(name, cls, options, sub_tables, features or [])
+
+        add_adapter(name, cls, options, sub_tables, required_features or [], producted_features or [])
         return cls
 
     return decorator
 
 
-def register_formatter[T: Formatter](
+def register_exporter[T: Exporter](
     name: str,
     *,
-    features: Optional[list[str]] = None,
+    required_features: Optional[Collection[str]] = None,
 ) -> Callable[[Type[T]], Type[T]]:
     """
-    注册格式器
+    注册导出器
     """
 
     def decorator(cls: Type[T]):
         options, sub_tables = get_option_table_info(cls)
-        add_formatter(name, cls, options, sub_tables, features or [])
+
+        add_exporter(name, cls, options, sub_tables, required_features or [])
         return cls
 
     return decorator

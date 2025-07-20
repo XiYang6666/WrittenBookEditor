@@ -89,8 +89,8 @@ class BitmapGlyphProvider(RawGlyphProvider):
         upper = y * self.height
         right = left + self.width
         lower = upper + self.height
-        cropped = self.bitmap[upper:lower, left:right]
-        return Glyph(char, cropped, self.ascent)
+        bitmap = trim_bitmap_margins(self.bitmap[upper:lower, left:right])
+        return Glyph(char, bitmap, self.ascent)
 
 
 class ReferenceGlyphProvider(GlyphProvider):
