@@ -25,28 +25,28 @@ class GlyphProvider(Protocol):
 @dataclass(frozen=True)
 class ProviderFilter:
     jp: Optional[bool] = None
-    unifont: Optional[bool] = None
+    uniform: Optional[bool] = None
 
     def match(self, other: "ProviderFilter"):
-        assert other.jp is not None and other.unifont is not None
+        assert other.jp is not None and other.uniform is not None
         if self.jp is not None and self.jp != other.jp:
             return False
-        if self.unifont is not None and self.unifont != other.unifont:
+        if self.uniform is not None and self.uniform != other.uniform:
             return False
         return True
 
     @classmethod
     def empty(cls):
-        return cls(jp=None, unifont=None)
+        return cls(jp=None, uniform=None)
 
     @classmethod
     def default(cls):
-        return cls(jp=False, unifont=False)
+        return cls(jp=False, uniform=False)
 
 
 class ProviderFilterJson(TypedDict):
     jp: NotRequired[bool]
-    unifont: NotRequired[bool]
+    uniform: NotRequired[bool]
 
 
 class BaseGlyphProviderJson(TypedDict):

@@ -125,7 +125,7 @@ class ReferenceGlyphProvider(GlyphProvider):
 
     def load_provider(self, context: FontContext, provider_json: BaseGlyphProviderJson) -> GlyphProvider:
         filter_json = provider_json.get("filter", {})
-        filter = ProviderFilter(jp=filter_json.get("jp", None), unifont=filter_json.get("unifont", None))
+        filter = ProviderFilter(jp=filter_json.get("jp"), uniform=filter_json.get("uniform"))
         if provider_json["type"] == "bitmap":
             provider_json = cast(BitmapGlyphProviderJson, provider_json)
             provider = BitmapGlyphProvider(
