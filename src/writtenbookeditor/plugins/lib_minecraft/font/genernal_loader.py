@@ -249,7 +249,7 @@ class UnihexGlyphProvider(RawGlyphProvider):
             else:
                 bitmap = trim_bitmap_margins(bitmap)
 
-            self.mapping[char] = Glyph(char, bitmap, -2)
+            self.mapping[char] = Glyph(char, bitmap, 14)
 
     @staticmethod
     def read_hex_data(hex_zip_path: Path):
@@ -289,7 +289,7 @@ class LegcyUnicodeGlyphProvider(RawGlyphProvider):
         # process size
         size_data = self.sizes_data[char_code]
         left, right = size_data >> 4 & 0x0F, size_data & 0x0F
-        return Glyph(char, bitmap[:, left:right], -2)
+        return Glyph(char, bitmap[:, left:right], 14)
 
 
 def load_provider(context: FontContext, id: str):
