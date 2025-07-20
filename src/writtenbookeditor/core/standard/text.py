@@ -177,7 +177,7 @@ class CommonTextSegment(StandardTextSegment, CorrespondingTextSegment):
     def half(self, pos, is_cross_page=False):
         assert_while_debugging(lambda: pos >= 0 and pos <= len(self.text))
         bare_text = self.to_string_view()
-        (o_pos,) = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
+        o_pos = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
         first_half = CommonTextSegment(
             self._style,
             self._origin,
@@ -259,7 +259,7 @@ class MarkTextSegment(StandardTextSegment, CorrespondingTextSegment):
     def half(self, pos, is_cross_page=False):
         assert_while_debugging(lambda: pos >= 0 and pos <= len(self.text))
         bare_text = self.to_string_view()
-        (o_pos,) = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
+        o_pos = map_escaped_pos_to_bare(bare_text, self._escaper, pos)
         first_half = MarkTextSegment(
             self._style,
             self._origin,

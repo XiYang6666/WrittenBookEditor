@@ -76,7 +76,7 @@ def escape_text(bare_text: StringLike, escaper: Escaper) -> str:
     return "".join(t[1] for t in escaper(bare_text))
 
 
-def map_escaped_pos_to_bare(bare_text: StringLike, escaper: Escaper, *pos: int) -> tuple[int, ...]:
+def map_escaped_poses_to_bare(bare_text: StringLike, escaper: Escaper, *pos: int) -> tuple[int, ...]:
     """
     将转义后的位置映射到原文本的位置
     """
@@ -95,3 +95,19 @@ def map_escaped_pos_to_bare(bare_text: StringLike, escaper: Escaper, *pos: int) 
             break
     assert None not in result
     return tuple(result)  # type: ignore
+
+
+def map_escaped_pos_to_bare(bare_text: StringLike, escaper: Escaper, pos: int) -> int:
+    """
+    将转义后的单个位置映射到原文本的位置
+    """
+    if pos == 0:
+        return 0
+    o_ptr = 0
+    e_ptr = 0
+    for o, e in escaper(bare_text):
+        o_ptr += len(o)
+        e_ptr += len(e)
+        if e_ptr == pos:
+            return o_ptr
+    raise ValueError(f"Position {pos} is not in the escaped text")
