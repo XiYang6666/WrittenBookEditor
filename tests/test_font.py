@@ -7,7 +7,8 @@ import pytest
 if __name__ == "__main__":
     sys.path.insert(0, "./src")
 
-from writtenbookeditor.plugins.lib_minecraft.font.genernal_loader import FontContext
+from writtenbookeditor.plugins.lib_minecraft.font import VERSIONS
+from writtenbookeditor.plugins.lib_minecraft.font.loader import FontContext
 from writtenbookeditor.plugins.lib_minecraft.font.types import ProviderFilter
 
 
@@ -25,25 +26,10 @@ def test_provider():
         assert glyph is not None
 
 
-VERSIONS = [
-    "1.6.2",
-    "1.7.3",
-    "1.9",
-    "1.13",
-    "1.16",
-    "1.20",
-    "1.20.3",
-    "1.20.5",
-    "1.21",
-    "1.21.4",
-    "1.21.6",
-]
-
-
 @pytest.mark.parametrize("version_string", VERSIONS)
 def test_version_providers(version_string: str):
     print(f"Testing {version_string}")
-    version = tuple(int(j) for j in version_string.split("."))
+    version = tuple(map(int, version_string.split(".")))
     i = VERSIONS.index(version_string)
     font_paths = [Path(f"./data/font/minecraft_{p}") for p in reversed(VERSIONS[: i + 1])]
     texture_paths = [p / "textures" for p in font_paths]

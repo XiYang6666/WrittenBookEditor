@@ -6,7 +6,7 @@ from ...core.standard.text import CommonTextSegment, SegmentSequence
 from ...core.utils.text import empty_escaper
 
 
-@register_formatter("plain_text", features=["segment:standard"])
+@register_formatter("plain_text", producted_features=["segment:standard"])
 class PlainTextFormatter(Formatter):
     """
     纯文本格式化器

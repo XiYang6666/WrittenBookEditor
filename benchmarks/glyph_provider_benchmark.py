@@ -13,7 +13,7 @@ import psutil
 
 sys.path.insert(0, str(Path("./src").absolute()))
 
-from writtenbookeditor.plugins.lib_minecraft.font.genernal_loader import FontContext
+from writtenbookeditor.plugins.lib_minecraft.font.loader import FontContext
 from writtenbookeditor.plugins.lib_minecraft.font.types import ProviderFilter
 
 context = FontContext([Path("./data/test/font/")], [Path("./data/test/font/textures/")])

@@ -5,6 +5,16 @@ import numpy as np
 
 from .types import Bitmap, GlyphProvider, ProviderFilter, RawGlyphProvider
 
+__all__ = [
+    "calc_bitmap_margins",
+    "trim_bitmap_margins",
+    "view_bitmap",
+    "print_bitmap",
+    "get_resource_by_paths",
+    "as_glyph_provider",
+    "check_filter",
+]
+
 
 def calc_bitmap_margins(bitmap: Bitmap) -> tuple[int, int]:
     col_mask = np.any(bitmap, axis=0)
